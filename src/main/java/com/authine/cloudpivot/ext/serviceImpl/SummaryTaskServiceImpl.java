@@ -1,10 +1,11 @@
-package com.authine.cloudpivot.web.api.Impl;
+package com.authine.cloudpivot.ext.serviceImpl;
 
-import com.authine.cloudpivot.web.api.mapper.SummaryTaskMapper;
-import com.authine.cloudpivot.web.api.service.SummaryTaskService;
+import com.authine.cloudpivot.ext.mapper.SummaryTaskMapper;
+import com.authine.cloudpivot.ext.service.SummaryTaskService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+@Service
 public class SummaryTaskServiceImpl implements SummaryTaskService {
 
     @Autowired

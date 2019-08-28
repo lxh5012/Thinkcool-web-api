@@ -1,4 +1,4 @@
-package com.authine.cloudpivot.web.api.service;
+package com.authine.cloudpivot.ext.service;
 
 
 

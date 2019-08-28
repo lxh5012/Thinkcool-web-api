@@ -1,4 +1,4 @@
-package com.authine.cloudpivot.web.api.entity;
+package com.authine.cloudpivot.ext.vo;
 
 
 import lombok.Getter;
