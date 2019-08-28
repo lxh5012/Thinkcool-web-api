@@ -1,13 +1,12 @@
-package com.authine.cloudpivot.ext.vo;
+package com.authine.cloudpivot.ext.queryVo;
 
 
 import lombok.Getter;
 import lombok.Setter;
 
-
 @Setter
 @Getter
-public class ClientContractVO {
+public class QueryClientContract {
 
     //项目代码
     private String jobcode;
@@ -25,17 +24,22 @@ public class ClientContractVO {
     private String clientContractCode;
 
     //客户合同开始时间
-    private String clientContractStarttime;
+    private String starttimeStart;
+    //客户合同开始时间
+    private String starttimeEnd;
 
     //客户合同结束时间
-    private String clientContractEndtime;
+    private String endtimeStart;
+    //客户合同结束时间
+    private String endtimeEnd;
 
     //客户合同状态
     private String clientContractStatus;
 
     //合同金额
-    private Long contractValue;
-
+    private Long contractValue1;
+    //合同金额
+    private Long contractValue2;
 
 
 }
