@@ -13,10 +13,10 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2;
  * @author longhai
  */
 @SpringBootApplication(
-        scanBasePackages = {"com.authine.cloudpivot.web.api", "com.authine.cloudpivot.web.sso", "com.authine.cloudpivot.ext.controller"}
+        scanBasePackages = {"com.authine.cloudpivot.web.api", "com.authine.cloudpivot.web.sso", "com.authine.cloudpivot.ext"}
 )
 @EnableSwagger2
-@MapperScan(basePackages = "com.authine.cloudpivot.web.api")
+@MapperScan(basePackages = "com.authine.cloudpivot.ext")
 public class WebApiBootStartupApplication extends SpringBootServletInitializer {
 
     public static void main(String[] args) {
