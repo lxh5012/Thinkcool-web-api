@@ -1,4 +1,4 @@
-package com.authine.cloudpivot.web.api.controller;
+package com.authine.cloudpivot.ext.controller;
 
 import com.alibaba.dubbo.common.utils.CollectionUtils;
 import com.alibaba.fastjson.JSON;
@@ -14,10 +14,8 @@ import com.authine.cloudpivot.engine.enums.status.SequenceStatus;
 import com.authine.cloudpivot.engine.enums.type.BizObjectType;
 import com.authine.cloudpivot.engine.enums.type.BizPropertyType;
 import com.authine.cloudpivot.engine.enums.type.DefaultPropertyType;
+import com.authine.cloudpivot.ext.service.SummaryTaskService;
 import com.authine.cloudpivot.web.api.controller.base.BaseQueryRuntimeController;
-import com.authine.cloudpivot.web.api.entity.SummaryTaskModel;
-import com.authine.cloudpivot.web.api.mapper.SummaryTaskMapper;
-import com.authine.cloudpivot.web.api.service.SummaryTaskService;
 import com.authine.cloudpivot.web.api.view.PageVO;
 import com.authine.cloudpivot.web.api.view.ResponseResult;
 import com.authine.cloudpivot.web.api.view.runtime.FilterVO;
@@ -44,12 +42,12 @@ public class ThinkCoolFormList extends BaseQueryRuntimeController {
 
 
     @Autowired
-    private SummaryTaskMapper summaryTaskMapper;
+    private SummaryTaskService summaryTaskService;
 
     @ApiOperation(value = "查询数据接口")
     @GetMapping("/count")
     public Integer count() {
-        return summaryTaskMapper.getcount();
+        return summaryTaskService.getcount();
     }
 
     @ApiOperation(value = "查询数据接口")
@@ -135,7 +133,7 @@ public class ThinkCoolFormList extends BaseQueryRuntimeController {
         //project summary可派工 列表查询
         if("Deliverable".equals(queryData.getSchemaCode())  ){
             //回传到 project summary可派工 页面的model为UnFinishTaskModel
-            List<SummaryTaskModel> unFinishTaskModelList = new ArrayList<>();
+           // List<SummaryTaskModel> unFinishTaskModelList = new ArrayList<>();
 
 
             StringBuffer jobCodeSb = new StringBuffer();

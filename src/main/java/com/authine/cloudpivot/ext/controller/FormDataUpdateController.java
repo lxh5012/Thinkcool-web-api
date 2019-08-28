@@ -1,4 +1,4 @@
-package com.authine.cloudpivot.web.api.controller;
+package com.authine.cloudpivot.ext.controller;
 
 
 import com.authine.cloudpivot.engine.api.model.application.AppFunctionModel;

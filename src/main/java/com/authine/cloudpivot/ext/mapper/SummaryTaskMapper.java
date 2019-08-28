@@ -1,4 +1,4 @@
-package com.authine.cloudpivot.web.api.mapper;
+package com.authine.cloudpivot.ext.mapper;
 
 
 import org.springframework.stereotype.Repository;
