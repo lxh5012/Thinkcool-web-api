@@ -1,5 +1,5 @@
 server:
-  port: 8080
+  port: 8081
   address: 0.0.0.0
   compression:
     enabled: true
@@ -9,6 +9,12 @@ server:
     protocol-header: x-forwarded-proto
   servlet:
     context-path: /
+
+
+
+mybatis:
+  mapper-locations: classpath:mapping/*Mapper.xml
+  type-aliases-package: com.authine.cloudpivot
 
 management:
   endpoints:
@@ -26,6 +32,13 @@ spring:
     admin:
       client:
         url: http://127.0.0.1:9999
+  datasource:
+    type: com.alibaba.druid.pool.DruidDataSource
+    druid:
+      driver-class-name: com.mysql.jdbc.Driver
+      url: jdbc:mysql://rm-uf6nq3e72186fs6h5go.mysql.rds.aliyuncs.com:3306/oa_dev_test
+      username: oa_user
+      password: za8WQ&JkP6tippE
 
   profiles:
     active: local
