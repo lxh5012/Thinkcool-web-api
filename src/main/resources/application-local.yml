@@ -22,7 +22,7 @@ spring:
   redis:
     host: 127.0.0.1
     database: 1
-    password: foobared
+    password: H3yuncom
     port: 6379
 
   mvc:
@@ -67,7 +67,7 @@ dubbo:
     qos-enable: false
   registry:
     protocol: zookeeper
-    address: 120.79.187.180
+    address: 127.0.0.1
     #    address: 192.168.8.182
     port: 2181
     timeout: 3000
