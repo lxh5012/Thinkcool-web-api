@@ -39,7 +39,9 @@ spring:
       url: jdbc:mysql://rm-uf6nq3e72186fs6h5go.mysql.rds.aliyuncs.com:3306/oa_dev_test
       username: oa_user
       password: za8WQ&JkP6tippE
-
+  mybatis:
+    mapper-locations: classpath*:/mapping/*.xml
+    typeAliasesPackage: com.authine.cloudpivot.ext.vo.*vo
   profiles:
     active: dev
 
