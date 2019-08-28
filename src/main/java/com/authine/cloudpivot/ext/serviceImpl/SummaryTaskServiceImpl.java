@@ -23,16 +23,13 @@ public class SummaryTaskServiceImpl implements SummaryTaskService {
     @Autowired
     private SummaryTaskMapper summaryTaskMapper;
 
-
     @Override
     public PageResult queryProjectTask(SummaryTaskModel summaryTaskModel) {
         int pageNum =summaryTaskModel.getPage();
         int pageSize = summaryTaskModel.getPageSize();
         PageHelper.startPage(pageNum, pageSize);
         List<SummaryTaskModel> summaryList = summaryTaskMapper.queryProjectTask(summaryTaskModel);
-        PageInfo<SummaryTaskModel> summaryPage = new PageInfo<SummaryTaskModel>(summaryList);
+        PageInfo<SummaryTaskModel> summaryPage = new PageInfo<>(summaryList);
         return PageUtils.getPageResult(summaryPage);
     }
-
-
 }
