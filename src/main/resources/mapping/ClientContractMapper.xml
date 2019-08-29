@@ -8,6 +8,7 @@
 			  p.Jobcode jobcode,
 			  c.ProjectName projectName,
 			  c.ContractType contractType,
+			  c.clientName clientName,
 			  c.ClientContractVersion clientContractVersion,
 			  c.ClientContractCode clientContractCode,
 			  c.ClientContractPeriodStart clientContractStarttime,

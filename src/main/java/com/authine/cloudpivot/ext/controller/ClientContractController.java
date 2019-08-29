@@ -14,7 +14,7 @@ import java.util.List;
 
 
 @Controller
-@RequestMapping("/ClientContractController")
+@RequestMapping("/clientContractController")
 public class ClientContractController extends BaseController {
     @Autowired
     private ClientContractService clientContractService;

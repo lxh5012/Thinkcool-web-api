@@ -14,6 +14,9 @@ public class ClientContractVO {
     //合同类型
     private String contractType;
 
+    //客户名称
+    private String clientName;
+
     //客户合同版本
     private String clientContractVersion;
 
@@ -55,6 +58,14 @@ public class ClientContractVO {
 
     public void setContractType(String contractType) {
         this.contractType = contractType;
+    }
+
+    public String getClientName() {
+        return clientName;
+    }
+
+    public void setClientName(String clientName) {
+        this.clientName = clientName;
     }
 
     public String getClientContractVersion() {
