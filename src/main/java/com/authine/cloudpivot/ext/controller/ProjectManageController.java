@@ -2,6 +2,8 @@ package com.authine.cloudpivot.ext.controller;
 
 import com.authine.cloudpivot.ext.service.IProjectSummaryService;
 import com.authine.cloudpivot.ext.utils.DateUtils;
+import com.authine.cloudpivot.ext.vo.PageResult;
+import com.authine.cloudpivot.ext.vo.ProjectSummaryParam;
 import com.authine.cloudpivot.ext.vo.ProjectSummaryVO;
 import com.authine.cloudpivot.ext.vo.UserVO;
 import com.authine.cloudpivot.web.api.controller.base.BaseController;
@@ -13,9 +15,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.Date;
 import java.util.List;
@@ -40,26 +40,9 @@ public class ProjectManageController  extends BaseController {
    }
 
    @ApiOperation(value = "查询projectsummary",notes = "查询projectsummary")
-   @GetMapping("/queryProjectSummary")
-   public ResponseResult< List<ProjectSummaryVO>>  queryProjectSummary(){
-
-      List<ProjectSummaryVO> projectSummaryVOList = projectSummaryServiceImpl.queryProjectSummary();
-      for(ProjectSummaryVO projectSummaryVO:projectSummaryVOList){
-
-         Date projectEndDate = DateUtils.getStringToDate( projectSummaryVO.getProjectEndDate());
-         String projectEndDateStr = DateUtils.getDateToString(projectEndDate,DateUtils.XG_DATE_FORMAT);
-         projectSummaryVO.setProjectEndDate(projectEndDateStr);
-         Date projectStartDate = DateUtils.getStringToDate(projectSummaryVO.getProjectStartDate());
-         String projectStartDateStr = DateUtils.getDateToString(projectStartDate,DateUtils.XG_DATE_FORMAT);
-         projectSummaryVO.setProjectStartDate(projectStartDateStr);
-
-         if(StringUtils.isNotBlank(projectSummaryVO.getJobCode())){
-            projectSummaryVO.setCommercialFlag(Boolean.TRUE);
-            projectSummaryVO.setClientContractFlag(Boolean.TRUE);
-            projectSummaryVO.setVendorContractFlag(Boolean.TRUE);
-         }
-
-      }
-      return getOkResponseResult( projectSummaryVOList,"查询成功");
+   @PostMapping("/queryProjectSummary")
+   public ResponseResult<PageResult>  queryProjectSummary(@RequestBody ProjectSummaryParam projectSummaryParam){
+      PageResult pageResult = projectSummaryServiceImpl.queryProjectSummaryPage(projectSummaryParam);
+      return getOkResponseResult( pageResult,"查询成功");
    }
 }

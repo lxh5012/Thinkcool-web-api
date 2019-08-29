@@ -36,7 +36,49 @@
     </select>
 
     <select id="queryProjectSummary" resultType="com.authine.cloudpivot.ext.vo.ProjectSummaryVO">
-           SELECT * from i_project_summary limit 1,10;
+           SELECT
+            id,
+            ContractLegalEntity,
+            BU,
+            ClientGroup,
+            ClientBrand,
+            ProjectType,
+            date_format(t.ProjectStartDate,'%Y/%m/%d') ProjectStartDate,
+            date_format(t.ProjectEndDate,'%Y/%m/%d') ProjectEndDate ,
+            JobCode,
+            ProjectName,
+            Remark,
+            ApprovalOpinion,
+            MarginAttachment,
+            ProjectExpectedMargin,
+            ProjectMargin,
+            ProjectBudget
+           from i_project_summary t
+           where 1=1
+            <if test="bu != null ">
+                AND  t.bu = #{bu, jdbcType=VARCHAR}
+            </if>
+            <if test="contractLegalEntity != null ">
+                AND  t.ContractLegalEntity = #{contractLegalEntity, jdbcType=VARCHAR}
+            </if>
+            <if test="clientGroup != null ">
+                AND  t.ClientGroup = #{clientGroup, jdbcType=VARCHAR}
+            </if>
+            <if test="clientBrand != null ">
+                AND  t.ClientBrand = #{clientBrand, jdbcType=VARCHAR}
+            </if>
+            <if test="jobCode != null ">
+                AND  t.Jobcode = #{jobCode, jdbcType=VARCHAR}
+            </if>
+            <if test="projectName != null ">
+                AND  t.ProjectName = #{projectName, jdbcType=VARCHAR}
+            </if>
+            <if test="projectStartDate != null">
+                AND  t.ProjectStartDate <![CDATA[>=]]>  #{projectName, jdbcType=DATE}
+            </if>
+            <if test="projectEndDate != null">
+                AND  t.ProjectEndDate <![CDATA[>=]]>  #{projectEndDate, jdbcType=DATE}
+            </if>
     </select>
 
 
