@@ -1,9 +1,14 @@
 package com.authine.cloudpivot.ext.serviceImpl;
 
+import com.authine.cloudpivot.ext.PageUtils;
 import com.authine.cloudpivot.ext.mapper.ClientContractMapper;
 import com.authine.cloudpivot.ext.queryVo.QueryClientContract;
 import com.authine.cloudpivot.ext.service.ClientContractService;
 import com.authine.cloudpivot.ext.vo.ClientContractVO;
+import com.authine.cloudpivot.ext.vo.PageResult;
+import com.authine.cloudpivot.ext.vo.SummaryTaskModel;
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 import io.swagger.annotations.Authorization;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,7 +25,13 @@ public class ClientContractServiceImpl implements ClientContractService {
 
 
     @Override
-    public List<ClientContractVO> getClientContractList(@Param("queryClientContract") QueryClientContract queryClientContract) {
-        return clientContractMapper.getClientContractList(queryClientContract);
+    public PageResult getClientContractList(@Param("queryClientContract") QueryClientContract queryClientContract) {
+        int pageNum =queryClientContract.getPage();
+        int pageSize = queryClientContract.getPageSize();
+        PageHelper.startPage(pageNum, pageSize);
+        List<ClientContractVO> clientContractList = clientContractMapper.getClientContractList(queryClientContract);
+        PageInfo<ClientContractVO> clientContractVOPageInfo = new PageInfo<>(clientContractList);
+        return PageUtils.getPageResult(clientContractVOPageInfo);
+
     }
 }

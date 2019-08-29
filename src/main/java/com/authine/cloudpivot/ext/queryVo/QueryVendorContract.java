@@ -1,8 +1,6 @@
 package com.authine.cloudpivot.ext.queryVo;
 
 
-import javax.xml.crypto.Data;
-
 public class QueryVendorContract {
 
     //项目代码
@@ -46,6 +44,12 @@ public class QueryVendorContract {
 
     //供应商合同最大金额
     private Double contractValue2;
+
+    //当前页码
+    private Integer page;
+
+    //当前页面数据量
+    private Integer pageSize;
 
 
 
@@ -170,4 +174,19 @@ public class QueryVendorContract {
     }
 
 
+    public Integer getPage() {
+        return page;
+    }
+
+    public void setPage(Integer page) {
+        this.page = page;
+    }
+
+    public Integer getPageSize() {
+        return pageSize;
+    }
+
+    public void setPageSize(Integer pageSize) {
+        this.pageSize = pageSize;
+    }
 }
