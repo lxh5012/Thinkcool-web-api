@@ -1,12 +1,8 @@
 package com.authine.cloudpivot.ext.vo;
 
 
-import lombok.Getter;
-import lombok.Setter;
+import javax.xml.crypto.Data;
 
-
-@Setter
-@Getter
 public class VendorContractVO {
 
     //项目代码
@@ -35,6 +31,102 @@ public class VendorContractVO {
 
     //供应商合同签订日期
     private String venderContracgtSigningDate;
+
+    //供应商合同状态
+    private String vendorContractStatus;
+
+    //供应商合同金额
+    private Double contractValue;
+
+
+
+    public String getJobcode() {
+        return jobcode;
+    }
+
+    public void setJobcode(String jobcode) {
+        this.jobcode = jobcode;
+    }
+
+    public String getProjectName() {
+        return projectName;
+    }
+
+    public void setProjectName(String projectName) {
+        this.projectName = projectName;
+    }
+
+    public String getContractType() {
+        return contractType;
+    }
+
+    public void setContractType(String contractType) {
+        this.contractType = contractType;
+    }
+
+    public String getVendorName() {
+        return vendorName;
+    }
+
+    public void setVendorName(String vendorName) {
+        this.vendorName = vendorName;
+    }
+
+    public String getVendorContractVersion() {
+        return vendorContractVersion;
+    }
+
+    public void setVendorContractVersion(String vendorContractVersion) {
+        this.vendorContractVersion = vendorContractVersion;
+    }
+
+    public String getVendorContractCode() {
+        return vendorContractCode;
+    }
+
+    public void setVendorContractCode(String vendorContractCode) {
+        this.vendorContractCode = vendorContractCode;
+    }
+
+    public String getVendorContractStarttime() {
+        return vendorContractStarttime;
+    }
+
+    public void setVendorContractStarttime(String vendorContractStarttime) {
+        this.vendorContractStarttime = vendorContractStarttime;
+    }
+
+    public String getVendorContractEndtime() {
+        return vendorContractEndtime;
+    }
+
+    public void setVendorContractEndtime(String vendorContractEndtime) {
+        this.vendorContractEndtime = vendorContractEndtime;
+    }
+
+    public String getVenderContracgtSigningDate() {
+        return venderContracgtSigningDate;
+    }
+
+    public void setVenderContracgtSigningDate(String venderContracgtSigningDate) {
+        this.venderContracgtSigningDate = venderContracgtSigningDate;
+    }
+
+    public String getVendorContractStatus() {
+        return vendorContractStatus;
+    }
+
+    public void setVendorContractStatus(String vendorContractStatus) {
+        this.vendorContractStatus = vendorContractStatus;
+    }
+
+    public Double getContractValue() {
+        return contractValue;
+    }
+
+    public void setContractValue(Double contractValue) {
+        this.contractValue = contractValue;
+    }
 
 
 

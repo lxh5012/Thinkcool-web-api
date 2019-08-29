@@ -3,19 +3,43 @@
 <mapper namespace="com.authine.cloudpivot.ext.mapper.ClientContractMapper" >
 
 
-	<select id="getClientContractList"  resultType="java.lang.Long">
-		  SELECT
-			  Jobcode,
-			  ProjectName,
-			  ContractType,
-			  ClientContractVersion,
-			  ClientContractCode,
-			  ClientContractPeriodStart,
-			  ClientContractPeriodEndtime,
-			  ClientContractStatus,
-			  ContractAmount
-		  FROM
-			  i_clientcontract
+	<select id="getClientContractList"  resultType="com.authine.cloudpivot.ext.vo.ClientContractVO">
+		SELECT
+			  p.Jobcode jobcode,
+			  c.ProjectName projectName,
+			  c.ContractType contractType,
+			  c.clientName clientName,
+			  c.ClientContractVersion clientContractVersion,
+			  c.ClientContractCode clientContractCode,
+			  c.ClientContractPeriodStart clientContractStarttime,
+			  c.ClientContractPeriodEndtime clientContractEndtime,
+			  c.ClientContractStatus clientContractStatus,
+			  c.ContractAmount contractValue
+		FROM
+			  i_clientcontract c,
+			  i_project_summary p
+		WHERE  c.Jobcode = p.id and
+
+			<if test="queryClientContract.clientContractStatus !=null and queryClientContract.clientContractStatus!='' ">
+				c.clientContractStatus = #{queryClientContract.clientContractStatus}  and
+			</if>
+
+			<if test="queryClientContract.starttimeStart !=null and queryClientContract.starttimeStart !='' ">
+				c.ClientContractPeriodStart &gt;= STR_TO_DATE(#{queryClientContract.starttimeStart},'%Y-%m-%d')  and
+			</if>
+
+			<if test="queryClientContract.starttimeEnd !=null and queryClientContract.starttimeEnd !=''">
+				c.ClientContractPeriodStart &lt;= STR_TO_DATE(#{queryClientContract.starttimeEnd},'%Y-%m-%d')  and
+			</if>
+
+			<if test="queryClientContract.contractValue1 !=null and queryClientContract.contractValue1 !='' ">
+				c.ContractAmount &gt;= #{queryClientContract.contractValue1}  and
+			</if>
+
+			<if test="queryClientContract.contractValue2 !=null and queryClientContract.contractValue2 !='' ">
+				c.ContractAmount &lt;= #{queryClientContract.contractValue2}  and
+			</if>
+			1=1
 	</select>
 
 
