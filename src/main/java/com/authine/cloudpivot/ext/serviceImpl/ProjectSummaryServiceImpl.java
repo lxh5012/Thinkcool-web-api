@@ -6,6 +6,7 @@ import com.authine.cloudpivot.ext.service.IProjectSummaryService;
 import com.authine.cloudpivot.ext.vo.*;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
+import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -31,6 +32,13 @@ public class ProjectSummaryServiceImpl implements IProjectSummaryService {
         int pageSize = projectSummaryParam.getPageSize();
         PageHelper.startPage(pageNum, pageSize);
         List<ProjectSummaryVO> projectSummaryVOList = projectSummaryMapper.queryProjectSummary(projectSummaryParam);
+        for(ProjectSummaryVO projectSummaryVO:projectSummaryVOList){
+            if(StringUtils.isNotBlank(projectSummaryVO.getJobCode())){
+                projectSummaryVO.setCommercialFlag(Boolean.TRUE);
+                projectSummaryVO.setVendorContractFlag(Boolean.TRUE);
+                projectSummaryVO.setClientContractFlag(Boolean.TRUE);
+            }
+        }
         PageInfo<ProjectSummaryVO> projectSummaryVOPageInfo = new PageInfo<>(projectSummaryVOList);
         return PageUtils.getPageResult(projectSummaryVOPageInfo);
     }

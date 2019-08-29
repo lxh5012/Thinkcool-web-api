@@ -48,8 +48,6 @@
             JobCode,
             ProjectName,
             Remark,
-            ApprovalOpinion,
-            MarginAttachment,
             ProjectExpectedMargin,
             ProjectMargin,
             ProjectBudget
@@ -57,9 +55,6 @@
            where 1=1
             <if test="bu != null ">
                 AND  t.bu = #{bu, jdbcType=VARCHAR}
-            </if>
-            <if test="contractLegalEntity != null ">
-                AND  t.ContractLegalEntity = #{contractLegalEntity, jdbcType=VARCHAR}
             </if>
             <if test="clientGroup != null ">
                 AND  t.ClientGroup = #{clientGroup, jdbcType=VARCHAR}
@@ -73,14 +68,12 @@
             <if test="projectName != null ">
                 AND  t.ProjectName = #{projectName, jdbcType=VARCHAR}
             </if>
-            <if test="projectStartDate != null">
+            <if test="projectStartDate != null and projectStartDate!=''">
                 AND  t.ProjectStartDate <![CDATA[>=]]>  #{projectName, jdbcType=DATE}
             </if>
-            <if test="projectEndDate != null">
+            <if test="projectEndDate != null and projectEndDate!=''">
                 AND  t.ProjectEndDate <![CDATA[>=]]>  #{projectEndDate, jdbcType=DATE}
             </if>
+
     </select>
-
-
-
 </mapper>

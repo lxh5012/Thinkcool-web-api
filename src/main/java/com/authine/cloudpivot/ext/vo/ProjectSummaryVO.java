@@ -31,34 +31,26 @@ public class ProjectSummaryVO {
     @ApiModelProperty("项目开始日期/Project start date")
     private String ProjectStartDate;
 
-
     @ApiModelProperty("项目结束日期/Project end date")
     private String ProjectEndDate;
-
 
     @ApiModelProperty("项目代码/Jobcode")
     private String JobCode;
 
-
     @ApiModelProperty("项目名称/Project name")
     private String ProjectName;
-
 
     @ApiModelProperty("备注")
     private String Remark;
 
-
     @ApiModelProperty("审批意见")
     private String ApprovalOpinion;
-
 
     @ApiModelProperty("上传扫描文件")
     private String MarginAttachment;
 
-
     @ApiModelProperty("项目预期利润/Project expected margin")
     private BigDecimal ProjectExpectedMargin;
-
 
     @ApiModelProperty("项目利润/Project Margin")
     private BigDecimal ProjectMargin;
