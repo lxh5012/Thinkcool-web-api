@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="com.authine.cloudpivot.ext.mapper.ClientContractMapper" >
+<mapper namespace="com.authine.cloudpivot.ext.mapper.VendorContractMapper" >
 
 
-	<select id="getClientContractList"  resultType="com.authine.cloudpivot.ext.vo.VendorContractVO">
+	<select id="getVendorContractList"  resultType="com.authine.cloudpivot.ext.vo.VendorContractVO">
 		SELECT
 			p.Jobcode jobcode,
 			v.ProjectName projectName,

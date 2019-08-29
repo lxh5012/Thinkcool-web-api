@@ -12,7 +12,7 @@ import java.util.List;
 
 
 @Service
-public class ClientContractImpl implements ClientContractService {
+public class ClientContractServiceImpl implements ClientContractService {
 
     @Autowired
     private ClientContractMapper clientContractMapper;

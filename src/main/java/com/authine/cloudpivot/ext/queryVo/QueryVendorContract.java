@@ -1,11 +1,8 @@
 package com.authine.cloudpivot.ext.queryVo;
 
 
-import lombok.Getter;
-import lombok.Setter;
+import javax.xml.crypto.Data;
 
-@Setter
-@Getter
 public class QueryVendorContract {
 
     //项目代码
@@ -27,20 +24,113 @@ public class QueryVendorContract {
     private String vendorContractCode;
 
     //供应商合同开始时间
-    private String starttimeStart;
+    private Data starttimeStart;
     //供应商合同开始时间
-    private String starttimeEnd;
+    private Data starttimeEnd;
 
     //供应商合同结束时间
-    private String endtimeStart;
+    private Data endtimeStart;
     //供应商合同结束时间
-    private String endtimeEnd;
+    private Data endtimeEnd;
 
     //供应商合同签订日期
-    private String startSigningDate;
+    private Data startSigningDate;
     //供应商合同签订日期
-    private String endSigningDate;
+    private Data endSigningDate;
 
+    public String getJobcode() {
+        return jobcode;
+    }
 
+    public void setJobcode(String jobcode) {
+        this.jobcode = jobcode;
+    }
 
+    public String getProjectName() {
+        return projectName;
+    }
+
+    public void setProjectName(String projectName) {
+        this.projectName = projectName;
+    }
+
+    public String getContractType() {
+        return contractType;
+    }
+
+    public void setContractType(String contractType) {
+        this.contractType = contractType;
+    }
+
+    public String getVendorName() {
+        return vendorName;
+    }
+
+    public void setVendorName(String vendorName) {
+        this.vendorName = vendorName;
+    }
+
+    public String getVendorContractVersion() {
+        return vendorContractVersion;
+    }
+
+    public void setVendorContractVersion(String vendorContractVersion) {
+        this.vendorContractVersion = vendorContractVersion;
+    }
+
+    public String getVendorContractCode() {
+        return vendorContractCode;
+    }
+
+    public void setVendorContractCode(String vendorContractCode) {
+        this.vendorContractCode = vendorContractCode;
+    }
+
+    public Data getStarttimeStart() {
+        return starttimeStart;
+    }
+
+    public void setStarttimeStart(Data starttimeStart) {
+        this.starttimeStart = starttimeStart;
+    }
+
+    public Data getStarttimeEnd() {
+        return starttimeEnd;
+    }
+
+    public void setStarttimeEnd(Data starttimeEnd) {
+        this.starttimeEnd = starttimeEnd;
+    }
+
+    public Data getEndtimeStart() {
+        return endtimeStart;
+    }
+
+    public void setEndtimeStart(Data endtimeStart) {
+        this.endtimeStart = endtimeStart;
+    }
+
+    public Data getEndtimeEnd() {
+        return endtimeEnd;
+    }
+
+    public void setEndtimeEnd(Data endtimeEnd) {
+        this.endtimeEnd = endtimeEnd;
+    }
+
+    public Data getStartSigningDate() {
+        return startSigningDate;
+    }
+
+    public void setStartSigningDate(Data startSigningDate) {
+        this.startSigningDate = startSigningDate;
+    }
+
+    public Data getEndSigningDate() {
+        return endSigningDate;
+    }
+
+    public void setEndSigningDate(Data endSigningDate) {
+        this.endSigningDate = endSigningDate;
+    }
 }

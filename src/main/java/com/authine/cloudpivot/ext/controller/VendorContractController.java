@@ -4,6 +4,7 @@ import com.authine.cloudpivot.ext.queryVo.QueryVendorContract;
 import com.authine.cloudpivot.ext.service.VendorContractService;
 import com.authine.cloudpivot.ext.vo.VendorContractVO;
 import com.authine.cloudpivot.web.api.controller.base.BaseController;
+import com.authine.cloudpivot.web.api.view.ResponseResult;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -13,7 +14,7 @@ import java.util.List;
 
 
 @Controller
-@RequestMapping("/VendorContractController")
+@RequestMapping("/vendorContractController")
 public class VendorContractController extends BaseController {
 
     @Autowired
@@ -21,7 +22,9 @@ public class VendorContractController extends BaseController {
 
     @PostMapping("/getVendorContractList")
     @ResponseBody
-    public List<VendorContractVO> getVendorContractList(@Param("queryVendorContract") QueryVendorContract queryVendorContract) {
-        return vendorContractService.getVendorContractList(queryVendorContract);
+    public ResponseResult<List<VendorContractVO>> getVendorContractList(@Param("queryVendorContract") QueryVendorContract queryVendorContract) {
+        List<VendorContractVO> list = vendorContractService.getVendorContractList(queryVendorContract);
+        return getOkResponseResult(list,"查询成功");
     }
+
 }

@@ -15,8 +15,9 @@
 			  c.ClientContractStatus clientContractStatus,
 			  c.ContractAmount contractValue
 		FROM
-			  i_clientcontract c,i_project_summary p
-		WHERE c.Jobcode = p.id and
+			  i_clientcontract c,
+			  i_project_summary p
+		WHERE  c.Jobcode = p.id and
 			<if test="queryClientContract.jobcode !=null and queryClientContract.jobcode!='' ">
 				jobcode like '%#{queryClientContract.jobcode}%'  and
 			</if>
@@ -64,9 +65,7 @@
 			<if test="queryClientContract.contractValue2 !=null and queryClientContract.contractValue2 !='' ">
 				contractValue &lt;= #{queryClientContract.contractValue2}  and
 			</if>
-
 			1=1
-
 	</select>
 
 

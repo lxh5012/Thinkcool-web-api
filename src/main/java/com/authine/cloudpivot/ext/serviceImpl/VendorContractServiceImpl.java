@@ -11,7 +11,7 @@ import java.util.List;
 
 
 @Service
-public class VendorContractImpl implements VendorContractService {
+public class VendorContractServiceImpl implements VendorContractService {
 
     @Autowired
     private VendorContractMapper vendorContractMapper;
