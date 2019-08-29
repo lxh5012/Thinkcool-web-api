@@ -7,6 +7,7 @@ import com.authine.cloudpivot.ext.service.SummaryTaskService;
 import com.authine.cloudpivot.ext.vo.DeliverableTaskVO;
 import com.authine.cloudpivot.ext.vo.PageResult;
 import com.authine.cloudpivot.ext.vo.SummaryTaskModel;
+import com.authine.cloudpivot.ext.vo.TaskDetialVO;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import org.apache.ibatis.annotations.Param;
@@ -42,5 +43,15 @@ public class SummaryTaskServiceImpl implements SummaryTaskService {
         List<DeliverableTaskVO> deliverableTaskList = summaryTaskMapper.queryDeliverableTask(deliverableTaskVO);
         PageInfo<DeliverableTaskVO> deliverableTaskPage = new PageInfo<>(deliverableTaskList);
         return PageUtils.getPageResult(deliverableTaskPage);
+    }
+
+    @Override
+    public PageResult queryTaskDetial(TaskDetialVO taskDetialVO) {
+        int pageNum =taskDetialVO.getPage();
+        int pageSize = taskDetialVO.getPageSize();
+        PageHelper.startPage(pageNum, pageSize);
+        List<TaskDetialVO> taskDetialList = summaryTaskMapper.queryTaskDetial(taskDetialVO);
+        PageInfo<TaskDetialVO> taskDetialPage = new PageInfo<>(taskDetialList);
+        return PageUtils.getPageResult(taskDetialPage);
     }
 }

@@ -10,6 +10,9 @@ import java.util.Date;
 @Getter
 public class DeliverableTaskVO {
 
+    //后台原来保存jobCode对应的ID
+    private String jobId;
+
     //项目代码
     private String jobCode;
 
@@ -32,7 +35,7 @@ public class DeliverableTaskVO {
     private Integer unfinishNumber;
 
     //交付时间
-    private Date deadline;
+    private String deadline;
 
     //当前登陆用户id
     private String userId;

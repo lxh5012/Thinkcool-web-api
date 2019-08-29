@@ -48,7 +48,7 @@ spring:
     mapper-locations: classpath*:/mapping/*.xml
     typeAliasesPackage: com.authine.cloudpivot.ext.vo.*vo
   profiles:
-    active: dev
+    active: local
 
   jackson:
     date-format: yyyy-MM-dd HH:mm:ss
