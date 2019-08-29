@@ -24,19 +24,30 @@ public class QueryVendorContract {
     private String vendorContractCode;
 
     //供应商合同开始时间
-    private Data starttimeStart;
+    private String starttimeStart;
     //供应商合同开始时间
-    private Data starttimeEnd;
+    private String starttimeEnd;
 
     //供应商合同结束时间
-    private Data endtimeStart;
+    private String endtimeStart;
     //供应商合同结束时间
-    private Data endtimeEnd;
+    private String endtimeEnd;
 
     //供应商合同签订日期
-    private Data startSigningDate;
+    private String startSigningDate;
     //供应商合同签订日期
-    private Data endSigningDate;
+    private String endSigningDate;
+
+    //供应商合同状态
+    private String vendorContractStatus;
+
+    //供应商合同最小金额
+    private Double contractValue1;
+
+    //供应商合同最大金额
+    private Double contractValue2;
+
+
 
     public String getJobcode() {
         return jobcode;
@@ -86,51 +97,77 @@ public class QueryVendorContract {
         this.vendorContractCode = vendorContractCode;
     }
 
-    public Data getStarttimeStart() {
+    public String getStarttimeStart() {
         return starttimeStart;
     }
 
-    public void setStarttimeStart(Data starttimeStart) {
+    public void setStarttimeStart(String starttimeStart) {
         this.starttimeStart = starttimeStart;
     }
 
-    public Data getStarttimeEnd() {
+    public String getStarttimeEnd() {
         return starttimeEnd;
     }
 
-    public void setStarttimeEnd(Data starttimeEnd) {
+    public void setStarttimeEnd(String starttimeEnd) {
         this.starttimeEnd = starttimeEnd;
     }
 
-    public Data getEndtimeStart() {
+    public String getEndtimeStart() {
         return endtimeStart;
     }
 
-    public void setEndtimeStart(Data endtimeStart) {
+    public void setEndtimeStart(String endtimeStart) {
         this.endtimeStart = endtimeStart;
     }
 
-    public Data getEndtimeEnd() {
+    public String getEndtimeEnd() {
         return endtimeEnd;
     }
 
-    public void setEndtimeEnd(Data endtimeEnd) {
+    public void setEndtimeEnd(String endtimeEnd) {
         this.endtimeEnd = endtimeEnd;
     }
 
-    public Data getStartSigningDate() {
+    public String getStartSigningDate() {
         return startSigningDate;
     }
 
-    public void setStartSigningDate(Data startSigningDate) {
+    public void setStartSigningDate(String startSigningDate) {
         this.startSigningDate = startSigningDate;
     }
 
-    public Data getEndSigningDate() {
+    public String getEndSigningDate() {
         return endSigningDate;
     }
 
-    public void setEndSigningDate(Data endSigningDate) {
+    public void setEndSigningDate(String endSigningDate) {
         this.endSigningDate = endSigningDate;
     }
+
+    public String getVendorContractStatus() {
+        return vendorContractStatus;
+    }
+
+    public void setVendorContractStatus(String vendorContractStatus) {
+        this.vendorContractStatus = vendorContractStatus;
+    }
+
+    public Double getContractValue1() {
+        return contractValue1;
+    }
+
+    public void setContractValue1(Double contractValue1) {
+        this.contractValue1 = contractValue1;
+    }
+
+    public Double getContractValue2() {
+        return contractValue2;
+    }
+
+    public void setContractValue2(Double contractValue2) {
+        this.contractValue2 = contractValue2;
+    }
+
+
 }

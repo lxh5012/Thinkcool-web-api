@@ -13,58 +13,32 @@
 			v.VendorContractCode vendorContractCode,
 			v.VendorContractStarttime vendorContractStarttime,
 			v.VendorContractEndtime vendorContractEndtime,
-			v.VenderContracgtSigningDate venderContracgtSigningDate
+			v.VenderContracgtSigningDate venderContracgtSigningDate,
+			v.VendorContractStatus vendorContractStatus,
+			v.ContractValue contractValue
 		FROM
 			i_vendorcontract v,
 			i_project_summary p
 		WHERE	v.Jobcode = p.id and
-			<if test="queryVendorContract.jobcode !=null and queryVendorContract.jobcode!='' ">
-				jobcode like '%#{queryVendorContract.jobcode}%'  and
-			</if>
 
-			<if test="queryVendorContract.projectName !=null and queryVendorContract.projectName!='' ">
-				projectName like '%#{queryVendorContract.projectName}%'  and
-			</if>
-
-			<if test="queryVendorContract.contractType !=null and queryVendorContract.contractType!='' ">
-				contractType like '%#{queryVendorContract.contractType}%'  and
-			</if>
-
-			<if test="queryVendorContract.vendorName !=null and queryVendorContract.vendorName!='' ">
-				vendorName like '%#{queryVendorContract.vendorName}%'  and
-			</if>
-
-			<if test="queryVendorContract.vendorContractVersion !=null and queryVendorContract.vendorContractVersion!='' ">
-				vendorContractVersion like '%#{queryVendorContract.vendorContractVersion}%'  and
-			</if>
-
-			<if test="queryVendorContract.vendorContractCode !=null and queryVendorContract.vendorContractCode!='' ">
-				vendorContractCode like '%#{queryVendorContract.vendorContractCode}%'  and
+			<if test="queryVendorContract.vendorContractStatus !=null and queryVendorContract.vendorContractStatus!='' ">
+				v.VendorContractStatus = #{queryVendorContract.vendorContractStatus}  and
 			</if>
 
 			<if test="queryVendorContract.starttimeStart !=null and queryVendorContract.starttimeStart !='' ">
-				vendorContractStarttime &gt;= to_date(#{queryVendorContract.starttimeStart},'yyyy-MM-dd')  and
+				v.VendorContractStarttime &gt;= STR_TO_DATE(#{queryVendorContract.starttimeStart},'%Y-%m-%d')  and
 			</if>
 
 			<if test="queryVendorContract.starttimeEnd !=null and queryVendorContract.starttimeEnd !=''">
-				vendorContractStarttime &lt;= to_date(#{queryVendorContract.starttimeEnd},'yyyy-MM-dd')  and
+				v.VendorContractStarttime &lt;= STR_TO_DATE(#{queryVendorContract.starttimeEnd},'%Y-%m-%d')  and
 			</if>
 
-			<if test="queryVendorContract.endtimeStart !=null and queryVendorContract.endtimeStart !='' ">
-				vendorContractEndtime &gt;= to_date(#{queryVendorContract.endtimeStart},'yyyy-MM-dd')  and
+			<if test="queryVendorContract.contractValue1 !=null and queryVendorContract.contractValue1 !='' ">
+				v.ContractValue &gt;= #{queryVendorContract.contractValue1}  and
 			</if>
 
-			<if test="queryVendorContract.endtimeEnd !=null and queryVendorContract.endtimeEnd !=''">
-				vendorContractEndtime &lt;= to_date(#{queryVendorContract.endtimeEnd},'yyyy-MM-dd')  and
-			</if>
-
-
-			<if test="queryVendorContract.startSigningDate !=null and queryVendorContract.startSigningDate !='' ">
-				vendorContractEndtime &gt;= to_date(#{queryVendorContract.startSigningDate},'yyyy-MM-dd')  and
-			</if>
-
-			<if test="queryVendorContract.endSigningDate !=null and queryVendorContract.endSigningDate !=''">
-				venderContracgtSigningDate &lt;= to_date(#{queryVendorContract.endSigningDate},'yyyy-MM-dd')  and
+			<if test="queryVendorContract.contractValue2 !=null and queryVendorContract.contractValue2 !='' ">
+				v.ContractValue &lt;= #{queryVendorContract.contractValue2}  and
 			</if>
 
 			1=1

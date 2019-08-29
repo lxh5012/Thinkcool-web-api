@@ -5,6 +5,7 @@ import com.authine.cloudpivot.ext.queryVo.QueryClientContract;
 import com.authine.cloudpivot.ext.service.ClientContractService;
 import com.authine.cloudpivot.ext.vo.ClientContractVO;
 import io.swagger.annotations.Authorization;
+import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -19,7 +20,7 @@ public class ClientContractServiceImpl implements ClientContractService {
 
 
     @Override
-    public List<ClientContractVO> getClientContractList(QueryClientContract queryClientContract) {
+    public List<ClientContractVO> getClientContractList(@Param("queryClientContract") QueryClientContract queryClientContract) {
         return clientContractMapper.getClientContractList(queryClientContract);
     }
 }

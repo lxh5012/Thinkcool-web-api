@@ -24,13 +24,21 @@ public class VendorContractVO {
     private String vendorContractCode;
 
     //供应商合同开始时间
-    private Data vendorContractStarttime;
+    private String vendorContractStarttime;
 
     //供应商合同结束时间
-    private Data vendorContractEndtime;
+    private String vendorContractEndtime;
 
     //供应商合同签订日期
-    private Data venderContracgtSigningDate;
+    private String venderContracgtSigningDate;
+
+    //供应商合同状态
+    private String vendorContractStatus;
+
+    //供应商合同金额
+    private Double contractValue;
+
+
 
     public String getJobcode() {
         return jobcode;
@@ -80,27 +88,47 @@ public class VendorContractVO {
         this.vendorContractCode = vendorContractCode;
     }
 
-    public Data getVendorContractStarttime() {
+    public String getVendorContractStarttime() {
         return vendorContractStarttime;
     }
 
-    public void setVendorContractStarttime(Data vendorContractStarttime) {
+    public void setVendorContractStarttime(String vendorContractStarttime) {
         this.vendorContractStarttime = vendorContractStarttime;
     }
 
-    public Data getVendorContractEndtime() {
+    public String getVendorContractEndtime() {
         return vendorContractEndtime;
     }
 
-    public void setVendorContractEndtime(Data vendorContractEndtime) {
+    public void setVendorContractEndtime(String vendorContractEndtime) {
         this.vendorContractEndtime = vendorContractEndtime;
     }
 
-    public Data getVenderContracgtSigningDate() {
+    public String getVenderContracgtSigningDate() {
         return venderContracgtSigningDate;
     }
 
-    public void setVenderContracgtSigningDate(Data venderContracgtSigningDate) {
+    public void setVenderContracgtSigningDate(String venderContracgtSigningDate) {
         this.venderContracgtSigningDate = venderContracgtSigningDate;
     }
+
+    public String getVendorContractStatus() {
+        return vendorContractStatus;
+    }
+
+    public void setVendorContractStatus(String vendorContractStatus) {
+        this.vendorContractStatus = vendorContractStatus;
+    }
+
+    public Double getContractValue() {
+        return contractValue;
+    }
+
+    public void setContractValue(Double contractValue) {
+        this.contractValue = contractValue;
+    }
+
+
+
+
 }

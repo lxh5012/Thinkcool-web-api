@@ -4,6 +4,7 @@ import com.authine.cloudpivot.ext.mapper.VendorContractMapper;
 import com.authine.cloudpivot.ext.queryVo.QueryVendorContract;
 import com.authine.cloudpivot.ext.service.VendorContractService;
 import com.authine.cloudpivot.ext.vo.VendorContractVO;
+import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -18,7 +19,7 @@ public class VendorContractServiceImpl implements VendorContractService {
 
 
     @Override
-    public List<VendorContractVO> getVendorContractList(QueryVendorContract queryVendorContract) {
+    public List<VendorContractVO> getVendorContractList(@Param("queryVendorContract")QueryVendorContract queryVendorContract) {
         return vendorContractMapper.getVendorContractList(queryVendorContract);
     }
 }

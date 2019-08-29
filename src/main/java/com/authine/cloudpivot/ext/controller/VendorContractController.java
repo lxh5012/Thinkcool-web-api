@@ -20,7 +20,7 @@ public class VendorContractController extends BaseController {
     @Autowired
     private VendorContractService vendorContractService;
 
-    @PostMapping("/getVendorContractList")
+    @RequestMapping("/getVendorContractList")
     @ResponseBody
     public ResponseResult<List<VendorContractVO>> getVendorContractList(@Param("queryVendorContract") QueryVendorContract queryVendorContract) {
         List<VendorContractVO> list = vendorContractService.getVendorContractList(queryVendorContract);

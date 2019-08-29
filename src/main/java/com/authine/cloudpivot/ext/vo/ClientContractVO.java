@@ -21,10 +21,10 @@ public class ClientContractVO {
     private String clientContractCode;
 
     //客户合同开始时间
-    private Data clientContractStarttime;
+    private String clientContractStarttime;
 
     //客户合同结束时间
-    private Data clientContractEndtime;
+    private String clientContractEndtime;
 
     //客户合同状态
     private String clientContractStatus;
@@ -73,19 +73,19 @@ public class ClientContractVO {
         this.clientContractCode = clientContractCode;
     }
 
-    public Data getClientContractStarttime() {
+    public String getClientContractStarttime() {
         return clientContractStarttime;
     }
 
-    public void setClientContractStarttime(Data clientContractStarttime) {
+    public void setClientContractStarttime(String clientContractStarttime) {
         this.clientContractStarttime = clientContractStarttime;
     }
 
-    public Data getClientContractEndtime() {
+    public String getClientContractEndtime() {
         return clientContractEndtime;
     }
 
-    public void setClientContractEndtime(Data clientContractEndtime) {
+    public void setClientContractEndtime(String clientContractEndtime) {
         this.clientContractEndtime = clientContractEndtime;
     }
 

@@ -21,14 +21,14 @@ public class QueryClientContract {
     private String clientContractCode;
 
     //客户合同开始时间
-    private Data starttimeStart;
+    private String starttimeStart;
     //客户合同开始时间
-    private Data starttimeEnd;
+    private String starttimeEnd;
 
     //客户合同结束时间
-    private Data endtimeStart;
+    private String endtimeStart;
     //客户合同结束时间
-    private Data endtimeEnd;
+    private String endtimeEnd;
 
     //客户合同状态
     private String clientContractStatus;
@@ -78,35 +78,35 @@ public class QueryClientContract {
         this.clientContractCode = clientContractCode;
     }
 
-    public Data getStarttimeStart() {
+    public String getStarttimeStart() {
         return starttimeStart;
     }
 
-    public void setStarttimeStart(Data starttimeStart) {
+    public void setStarttimeStart(String starttimeStart) {
         this.starttimeStart = starttimeStart;
     }
 
-    public Data getStarttimeEnd() {
+    public String getStarttimeEnd() {
         return starttimeEnd;
     }
 
-    public void setStarttimeEnd(Data starttimeEnd) {
+    public void setStarttimeEnd(String starttimeEnd) {
         this.starttimeEnd = starttimeEnd;
     }
 
-    public Data getEndtimeStart() {
+    public String getEndtimeStart() {
         return endtimeStart;
     }
 
-    public void setEndtimeStart(Data endtimeStart) {
+    public void setEndtimeStart(String endtimeStart) {
         this.endtimeStart = endtimeStart;
     }
 
-    public Data getEndtimeEnd() {
+    public String getEndtimeEnd() {
         return endtimeEnd;
     }
 
-    public void setEndtimeEnd(Data endtimeEnd) {
+    public void setEndtimeEnd(String endtimeEnd) {
         this.endtimeEnd = endtimeEnd;
     }
 

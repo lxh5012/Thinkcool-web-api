@@ -14,7 +14,7 @@ import java.util.List;
 
 
 @Controller
-@RequestMapping("/clientContractController")
+@RequestMapping("/ClientContractController")
 public class ClientContractController extends BaseController {
     @Autowired
     private ClientContractService clientContractService;
@@ -26,6 +26,7 @@ public class ClientContractController extends BaseController {
         List<ClientContractVO> list = clientContractService.getClientContractList(queryClientContract);
         return getOkResponseResult(list,"查询成功");
     }
+
 
 
 }

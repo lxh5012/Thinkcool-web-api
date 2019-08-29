@@ -18,52 +18,25 @@
 			  i_clientcontract c,
 			  i_project_summary p
 		WHERE  c.Jobcode = p.id and
-			<if test="queryClientContract.jobcode !=null and queryClientContract.jobcode!='' ">
-				jobcode like '%#{queryClientContract.jobcode}%'  and
-			</if>
 
-			<if test="queryClientContract.projectName !=null and queryClientContract.projectName!='' ">
-				projectName like '%#{queryClientContract.projectName}%'  and
-			</if>
-
-			<if test="queryClientContract.contractType !=null and queryClientContract.contractType!='' ">
-				contractType like '%#{queryClientContract.contractType}%'  and
-			</if>
-
-			<if test="queryClientContract.clientContractVersion !=null and queryClientContract.clientContractVersion!='' ">
-				clientContractVersion like '%#{queryClientContract.clientContractVersion}%'  and
-			</if>
-
-			<if test="queryClientContract.clientContractCode !=null and queryClientContract.clientContractCode!='' ">
-				clientContractCode like '%#{queryClientContract.clientContractCode}%'  and
+			<if test="queryClientContract.clientContractStatus !=null and queryClientContract.clientContractStatus!='' ">
+				c.clientContractStatus = #{queryClientContract.clientContractStatus}  and
 			</if>
 
 			<if test="queryClientContract.starttimeStart !=null and queryClientContract.starttimeStart !='' ">
-				clientContractStarttime &gt;= to_date(#{queryClientContract.starttimeStart},'yyyy-MM-dd')  and
+				c.ClientContractPeriodStart &gt;= STR_TO_DATE(#{queryClientContract.starttimeStart},'%Y-%m-%d')  and
 			</if>
 
 			<if test="queryClientContract.starttimeEnd !=null and queryClientContract.starttimeEnd !=''">
-				clientContractStarttime &lt;= to_date(#{queryClientContract.starttimeEnd},'yyyy-MM-dd')  and
-			</if>
-
-			<if test="queryClientContract.endtimeStart !=null and queryClientContract.endtimeStart !='' ">
-				clientContractEndtime &gt;= to_date(#{queryClientContract.endtimeStart},'yyyy-MM-dd')  and
-			</if>
-
-			<if test="queryClientContract.endtimeEnd !=null and queryClientContract.endtimeEnd !=''">
-				clientContractEndtime &lt;= to_date(#{queryClientContract.endtimeEnd},'yyyy-MM-dd')  and
-			</if>
-
-			<if test="queryClientContract.clientContractStatus !=null and queryClientContract.clientContractStatus!='' ">
-				clientContractStatus like '%#{queryClientContract.clientContractStatus}%'  and
+				c.ClientContractPeriodStart &lt;= STR_TO_DATE(#{queryClientContract.starttimeEnd},'%Y-%m-%d')  and
 			</if>
 
 			<if test="queryClientContract.contractValue1 !=null and queryClientContract.contractValue1 !='' ">
-				contractValue &gt;= #{queryClientContract.contractValue1}  and
+				c.ContractAmount &gt;= #{queryClientContract.contractValue1}  and
 			</if>
 
 			<if test="queryClientContract.contractValue2 !=null and queryClientContract.contractValue2 !='' ">
-				contractValue &lt;= #{queryClientContract.contractValue2}  and
+				c.ContractAmount &lt;= #{queryClientContract.contractValue2}  and
 			</if>
 			1=1
 	</select>
