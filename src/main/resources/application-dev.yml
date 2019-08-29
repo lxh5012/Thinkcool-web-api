@@ -103,7 +103,7 @@ cloudpivot:
 
   api:
     oauth:
-      enabled: true  # 是否开启权限校验
+      enabled: false  # 是否开启权限校验
       test:
         userid: 2c9280a26706a73a016706a93ccf002b  # 模拟测试用户ID，不能用于生产环境
     log:

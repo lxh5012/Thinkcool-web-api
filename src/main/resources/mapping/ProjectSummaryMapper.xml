@@ -2,8 +2,43 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.authine.cloudpivot.ext.mapper.ProjectSummaryMapper">
 
+    <resultMap id="BaseResultMap" type="com.authine.cloudpivot.ext.vo.ProjectSummaryVO">
+        <id column="id" property="id" jdbcType="VARCHAR"/>
+        <result column="ContractLegalEntity" property="ContractLegalEntity" jdbcType="VARCHAR"/>
+        <result column="BU" property="BU" jdbcType="VARCHAR"/>
+        <result column="ClientGroup" property="ClientGroup" jdbcType="VARCHAR"/>
+
+        <result column="ClientBrand" property="ClientBrand" jdbcType="VARCHAR"/>
+        <result column="ProjectType" property="ProjectType" jdbcType="VARCHAR"/>
+        <result column="ProjectStartDate" property="ProjectStartDate" jdbcType="VARCHAR"/>
+
+
+        <result column="ProjectEndDate" property="ProjectEndDate" jdbcType="VARCHAR"/>
+        <result column="JobCode" property="JobCode" jdbcType="VARCHAR"/>
+        <result column="ProjectName" property="ProjectName" jdbcType="VARCHAR"/>
+
+
+        <result column="Remark" property="Remark" jdbcType="VARCHAR"/>
+        <result column="ApprovalOpinion" property="ApprovalOpinion" jdbcType="VARCHAR"/>
+        <result column="MarginAttachment" property="MarginAttachment" jdbcType="VARCHAR"/>
+
+        <result column="ProjectExpectedMargin" property="ProjectExpectedMargin" jdbcType="DECIMAL"/>
+        <result column="ProjectMargin" property="ProjectMargin" jdbcType="DECIMAL"/>
+        <result column="ProjectBudget" property="ProjectBudget" jdbcType="DECIMAL"/>
+
+    </resultMap>
+    <sql id="Base_Column_List">
+        id,ContractLegalEntity,BU,ClientGroup,ClientBrand,ProjectType,ProjectStartDate,ProjectEndDate,JobCode,ProjectName,Remark,ApprovalOpinion,MarginAttachment,
+        ProjectExpectedMargin,ProjectMargin,ProjectBudget
+    </sql>
     <select id="getUserVo" resultType="com.authine.cloudpivot.ext.vo.UserVO">
            SELECT name, userId,username from h_org_user where   name='赖相鸿';
     </select>
+
+    <select id="queryProjectSummary" resultType="com.authine.cloudpivot.ext.vo.ProjectSummaryVO">
+           SELECT * from i_project_summary limit 1,10;
+    </select>
+
+
 
 </mapper>
