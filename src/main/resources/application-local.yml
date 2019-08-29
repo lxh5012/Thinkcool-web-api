@@ -82,7 +82,7 @@ cloudpivot:
     oauth:
       enabled: false  # 是否开启权限校验
       test:
-        userid: 2c9280a26706a73a016706a93ccf002b  # 模拟测试用户ID，不能用于生产环境
+        userid: 2c93208b6c9e0bc6016ca80e0e3a1e10  # 模拟测试用户ID，不能用于生产环境
     log:
       enabled: false #是否开启webapi请求记录生成
   dingtalk:
