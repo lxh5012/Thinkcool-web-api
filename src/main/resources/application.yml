@@ -10,10 +10,15 @@ server:
   servlet:
     context-path: /
 
-
+#分页插件
+pagehelper:
+  helperDialect: mysql
+  reasonable: true
+  supportMethodsArguments: true
+  params: count=countSql
 
 mybatis:
-  mapper-locations: classpath:mapping/*Mapper.xml
+  mapper-locations: classpath:mapping/*Mapping.xml
   type-aliases-package: com.authine.cloudpivot
 
 management:

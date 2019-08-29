@@ -1,15 +1,25 @@
 package com.authine.cloudpivot.ext.vo;
 
 
+import io.swagger.annotations.ApiModelProperty;
 import lombok.Getter;
 import lombok.Setter;
+
+import javax.xml.soap.SAAJResult;
 
 @Setter
 @Getter
 public class SummaryTaskModel {
 
+    //表单名称
+    private String formName;
+
+    //主键ID
+    private String summaryId;
     //项目组
-    private String BU;
+    private String bu;
+
+    private String userId;
 
     //签约主体
     private String contractLegalEntity;
@@ -21,16 +31,16 @@ public class SummaryTaskModel {
     private String clientBrand;
 
     //项目代码
-    private String Jobcode;
+    private String jobCode;
 
     //项目名称
     private String projectName;
 
     //项目开始日期
-    private String ProjectStartDate;
+    private String projectStartDate;
 
     //项目结束日期
-    private String ProjectEndDate;
+    private String projectEndDate;
 
 
     //Deliverable数量
@@ -42,8 +52,11 @@ public class SummaryTaskModel {
     //已完成总数量
     private Long finishedNum;
 
-    //project summary ID
-    private String summaryId;
 
+    //当前页码
+    private Integer page;
+
+    //当前页面数据量
+    private Integer pageSize;
 
 }
