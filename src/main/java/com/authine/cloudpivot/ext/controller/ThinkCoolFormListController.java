@@ -5,6 +5,7 @@ import com.authine.cloudpivot.ext.service.SummaryTaskService;
 import com.authine.cloudpivot.ext.vo.DeliverableTaskVO;
 import com.authine.cloudpivot.ext.vo.PageResult;
 import com.authine.cloudpivot.ext.vo.SummaryTaskModel;
+import com.authine.cloudpivot.ext.vo.TaskDetialVO;
 import com.authine.cloudpivot.web.api.controller.base.BaseQueryRuntimeController;
 import com.authine.cloudpivot.web.api.view.ResponseResult;
 import io.swagger.annotations.ApiOperation;
@@ -31,8 +32,7 @@ public class ThinkCoolFormListController extends BaseQueryRuntimeController {
             log.debug("summaryTaskParam 不能为null");
             return getErrResponseResult(null, ErrCode.ORG_USER_NONEXISTENT.getErrCode(), "summaryTaskParam 和 page 不能为null");
         }
-        if( Objects.isNull(summaryTaskParam.getFormName()) || Objects.isNull(summaryTaskParam.getPage())
-                    || Objects.isNull(summaryTaskParam.getPageSize()) || Objects.isNull(summaryTaskParam.getUserId())){
+        if(checkParam(summaryTaskParam.getFormName(), summaryTaskParam.getPage(), summaryTaskParam.getPageSize(), summaryTaskParam.getUserId()) ){
             log.debug("FormName不能为null");
             return getErrResponseResult(null, ErrCode.ORG_USER_NONEXISTENT.getErrCode(), "FormName不能为null");
         }
@@ -50,8 +50,8 @@ public class ThinkCoolFormListController extends BaseQueryRuntimeController {
             log.debug("deliverableTaskVO 不能为null");
             return getErrResponseResult(null, ErrCode.ORG_USER_NONEXISTENT.getErrCode(), "deliverableTaskVO 不能为null");
         }
-        if(Objects.isNull(deliverableTaskVO.getFormName()) || Objects.isNull(deliverableTaskVO.getPage())
-                || Objects.isNull(deliverableTaskVO.getPageSize()) || Objects.isNull(deliverableTaskVO.getUserId())){
+
+        if(checkParam(deliverableTaskVO.getFormName(), deliverableTaskVO.getPage(), deliverableTaskVO.getPageSize(), deliverableTaskVO.getUserId()) ){
             log.debug("FormName不能为null");
             return getErrResponseResult(null, ErrCode.ORG_USER_NONEXISTENT.getErrCode(), "FormName不能为null");
         }
@@ -62,6 +62,38 @@ public class ThinkCoolFormListController extends BaseQueryRuntimeController {
         return getErrResponseResult(null, ErrCode.ORG_USER_NONEXISTENT.getErrCode(), "FormName不是 Deliverable");
     }
 
+
+    @ApiOperation(value = "查看执行工单 数据接口")
+        @PostMapping("/queryTaskDetial/list")
+    public ResponseResult<PageResult> queryTaskDetial(@RequestBody TaskDetialVO taskDetialVO) {
+        if(Objects.isNull(taskDetialVO) ){
+            log.debug("deliverableTaskVO 不能为null");
+            return getErrResponseResult(null, ErrCode.ORG_USER_NONEXISTENT.getErrCode(), "deliverableTaskVO 不能为null");
+        }
+
+        if(checkParam(taskDetialVO.getFormName(), taskDetialVO.getPage(), taskDetialVO.getPageSize(), taskDetialVO.getUserId()) ){
+            log.debug("FormName不能为null");
+            return getErrResponseResult(null, ErrCode.ORG_USER_NONEXISTENT.getErrCode(), "FormName不能为null");
+        }
+        if("TaskDetial".equals(taskDetialVO.getFormName())){
+            PageResult res = summaryTaskService.queryTaskDetial(taskDetialVO);
+            return getOkResponseResult(res, "成功获取 查看执行工单 列表数据 ");
+        }
+        return getErrResponseResult(null, ErrCode.ORG_USER_NONEXISTENT.getErrCode(), "FormName不是 Deliverable");
+    }
+
+
+
+
+
+    private boolean checkParam(String formName, Integer page, Integer PageSize, String userId){
+        if(Objects.isNull(formName) || Objects.isNull(page)
+                || Objects.isNull(PageSize) || Objects.isNull(userId)){
+            log.debug("FormName不能为null");
+            return true;
+        }
+        return  false;
+    }
 
 
 }

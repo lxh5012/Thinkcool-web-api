@@ -14,8 +14,7 @@ public class SummaryTaskModel {
     //表单名称
     private String formName;
 
-    //主键ID
-    private String summaryId;
+
     //项目组
     private String bu;
 
@@ -29,6 +28,9 @@ public class SummaryTaskModel {
 
     //客户品牌
     private String clientBrand;
+
+    //后台原来保存jobCode对应的ID
+    private String jobId;
 
     //项目代码
     private String jobCode;
