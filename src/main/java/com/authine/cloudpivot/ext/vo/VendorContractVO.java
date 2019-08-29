@@ -1,49 +1,134 @@
 package com.authine.cloudpivot.ext.vo;
 
 
-import io.swagger.annotations.ApiModelProperty;
-import lombok.Getter;
-import lombok.Setter;
-
 import javax.xml.crypto.Data;
 
-
-@Getter
-@Setter
 public class VendorContractVO {
 
-    @ApiModelProperty("客户合同开始时间")
+    //项目代码
     private String jobcode;
 
-    @ApiModelProperty("客户合同开始时间")
+    //项目名称
     private String projectName;
 
-    @ApiModelProperty("客户合同开始时间")
+    //合同类型
     private String contractType;
 
-    @ApiModelProperty("客户合同开始时间")
+    //供应商名称
     private String vendorName;
 
-    @ApiModelProperty("客户合同开始时间")
+    //供应商合同版本
     private String vendorContractVersion;
 
-    @ApiModelProperty("客户合同开始时间")
+    //供应商合同编码
     private String vendorContractCode;
 
-    @ApiModelProperty("客户合同开始时间")
+    //供应商合同开始时间
     private String vendorContractStarttime;
 
-    @ApiModelProperty("客户合同开始时间")
+    //供应商合同结束时间
     private String vendorContractEndtime;
 
-    @ApiModelProperty("客户合同开始时间")
+    //供应商合同签订日期
     private String venderContracgtSigningDate;
 
-    @ApiModelProperty("客户合同开始时间")
+    //供应商合同状态
     private String vendorContractStatus;
 
-    @ApiModelProperty("客户合同开始时间")
+    //供应商合同金额
     private Double contractValue;
+
+
+
+    public String getJobcode() {
+        return jobcode;
+    }
+
+    public void setJobcode(String jobcode) {
+        this.jobcode = jobcode;
+    }
+
+    public String getProjectName() {
+        return projectName;
+    }
+
+    public void setProjectName(String projectName) {
+        this.projectName = projectName;
+    }
+
+    public String getContractType() {
+        return contractType;
+    }
+
+    public void setContractType(String contractType) {
+        this.contractType = contractType;
+    }
+
+    public String getVendorName() {
+        return vendorName;
+    }
+
+    public void setVendorName(String vendorName) {
+        this.vendorName = vendorName;
+    }
+
+    public String getVendorContractVersion() {
+        return vendorContractVersion;
+    }
+
+    public void setVendorContractVersion(String vendorContractVersion) {
+        this.vendorContractVersion = vendorContractVersion;
+    }
+
+    public String getVendorContractCode() {
+        return vendorContractCode;
+    }
+
+    public void setVendorContractCode(String vendorContractCode) {
+        this.vendorContractCode = vendorContractCode;
+    }
+
+    public String getVendorContractStarttime() {
+        return vendorContractStarttime;
+    }
+
+    public void setVendorContractStarttime(String vendorContractStarttime) {
+        this.vendorContractStarttime = vendorContractStarttime;
+    }
+
+    public String getVendorContractEndtime() {
+        return vendorContractEndtime;
+    }
+
+    public void setVendorContractEndtime(String vendorContractEndtime) {
+        this.vendorContractEndtime = vendorContractEndtime;
+    }
+
+    public String getVenderContracgtSigningDate() {
+        return venderContracgtSigningDate;
+    }
+
+    public void setVenderContracgtSigningDate(String venderContracgtSigningDate) {
+        this.venderContracgtSigningDate = venderContracgtSigningDate;
+    }
+
+    public String getVendorContractStatus() {
+        return vendorContractStatus;
+    }
+
+    public void setVendorContractStatus(String vendorContractStatus) {
+        this.vendorContractStatus = vendorContractStatus;
+    }
+
+    public Double getContractValue() {
+        return contractValue;
+    }
+
+    public void setContractValue(Double contractValue) {
+        this.contractValue = contractValue;
+    }
+
+
 
 
 }

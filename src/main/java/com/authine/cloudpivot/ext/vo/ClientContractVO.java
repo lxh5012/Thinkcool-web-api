@@ -1,47 +1,118 @@
 package com.authine.cloudpivot.ext.vo;
 
 
-import io.swagger.annotations.ApiModelProperty;
-import lombok.Getter;
-import lombok.Setter;
-
 import javax.xml.crypto.Data;
 
-
-@Getter
-@Setter
 public class ClientContractVO {
 
-    @ApiModelProperty("项目代码")
+    //项目代码
     private String jobcode;
 
-    @ApiModelProperty("项目名称")
+    //项目名称
     private String projectName;
 
-    @ApiModelProperty("合同类型")
+    //合同类型
     private String contractType;
 
-    @ApiModelProperty("客户名称")
+    //客户名称
     private String clientName;
 
-    @ApiModelProperty("客户合同版本")
+    //客户合同版本
     private String clientContractVersion;
 
-    @ApiModelProperty("客户合同编码")
+    //客户合同编码
     private String clientContractCode;
 
-    @ApiModelProperty("客户合同开始时间")
+    //客户合同开始时间
     private String clientContractStarttime;
 
-    @ApiModelProperty("客户合同结束时间")
+    //客户合同结束时间
     private String clientContractEndtime;
 
-    @ApiModelProperty("客户合同状态")
+    //客户合同状态
     private String clientContractStatus;
 
-    @ApiModelProperty("合同金额")
+    //合同金额
     private Double contractValue;
 
 
+    public String getJobcode() {
+        return jobcode;
+    }
 
+    public void setJobcode(String jobcode) {
+        this.jobcode = jobcode;
+    }
+
+    public String getProjectName() {
+        return projectName;
+    }
+
+    public void setProjectName(String projectName) {
+        this.projectName = projectName;
+    }
+
+    public String getContractType() {
+        return contractType;
+    }
+
+    public void setContractType(String contractType) {
+        this.contractType = contractType;
+    }
+
+    public String getClientName() {
+        return clientName;
+    }
+
+    public void setClientName(String clientName) {
+        this.clientName = clientName;
+    }
+
+    public String getClientContractVersion() {
+        return clientContractVersion;
+    }
+
+    public void setClientContractVersion(String clientContractVersion) {
+        this.clientContractVersion = clientContractVersion;
+    }
+
+    public String getClientContractCode() {
+        return clientContractCode;
+    }
+
+    public void setClientContractCode(String clientContractCode) {
+        this.clientContractCode = clientContractCode;
+    }
+
+    public String getClientContractStarttime() {
+        return clientContractStarttime;
+    }
+
+    public void setClientContractStarttime(String clientContractStarttime) {
+        this.clientContractStarttime = clientContractStarttime;
+    }
+
+    public String getClientContractEndtime() {
+        return clientContractEndtime;
+    }
+
+    public void setClientContractEndtime(String clientContractEndtime) {
+        this.clientContractEndtime = clientContractEndtime;
+    }
+
+    public String getClientContractStatus() {
+        return clientContractStatus;
+    }
+
+    public void setClientContractStatus(String clientContractStatus) {
+        this.clientContractStatus = clientContractStatus;
+    }
+
+    public Double getContractValue() {
+        return contractValue;
+    }
+
+    public void setContractValue(Double contractValue) {
+        this.contractValue = contractValue;
+    }
 }

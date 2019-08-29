@@ -1,62 +1,192 @@
 package com.authine.cloudpivot.ext.queryVo;
 
 
-import io.swagger.annotations.ApiModelProperty;
-import lombok.Getter;
-import lombok.Setter;
-
-
-@Getter
-@Setter
 public class QueryVendorContract {
 
-    @ApiModelProperty("项目代码")
+    //项目代码
     private String jobcode;
 
-    @ApiModelProperty("项目名称")
+    //项目名称
     private String projectName;
 
-    @ApiModelProperty("合同类型")
+    //合同类型
     private String contractType;
 
-    @ApiModelProperty("供应商名称")
+    //供应商名称
     private String vendorName;
 
-    @ApiModelProperty("供应商合同版本")
+    //供应商合同版本
     private String vendorContractVersion;
 
-    @ApiModelProperty("供应商合同编码")
+    //供应商合同编码
     private String vendorContractCode;
 
-    @ApiModelProperty("供应商合同开始时间")
+    //供应商合同开始时间
     private String starttimeStart;
-    @ApiModelProperty("供应商合同开始时间")
+    //供应商合同开始时间
     private String starttimeEnd;
 
-    @ApiModelProperty("供应商合同结束时间")
+    //供应商合同结束时间
     private String endtimeStart;
-    @ApiModelProperty("供应商合同结束时间")
+    //供应商合同结束时间
     private String endtimeEnd;
 
-    @ApiModelProperty("供应商合同签订日期")
+    //供应商合同签订日期
     private String startSigningDate;
-    @ApiModelProperty("供应商合同签订日期")
+    //供应商合同签订日期
     private String endSigningDate;
 
-    @ApiModelProperty("供应商合同状态")
+    //供应商合同状态
     private String vendorContractStatus;
 
-    @ApiModelProperty("供应商合同最小金额")
+    //供应商合同最小金额
     private Double contractValue1;
 
-    @ApiModelProperty("供应商合同最大金额")
+    //供应商合同最大金额
     private Double contractValue2;
 
-    @ApiModelProperty("当前页码")
+    //当前页码
     private Integer page;
 
-    @ApiModelProperty("当前页面数据量")
+    //当前页面数据量
     private Integer pageSize;
 
 
+
+    public String getJobcode() {
+        return jobcode;
+    }
+
+    public void setJobcode(String jobcode) {
+        this.jobcode = jobcode;
+    }
+
+    public String getProjectName() {
+        return projectName;
+    }
+
+    public void setProjectName(String projectName) {
+        this.projectName = projectName;
+    }
+
+    public String getContractType() {
+        return contractType;
+    }
+
+    public void setContractType(String contractType) {
+        this.contractType = contractType;
+    }
+
+    public String getVendorName() {
+        return vendorName;
+    }
+
+    public void setVendorName(String vendorName) {
+        this.vendorName = vendorName;
+    }
+
+    public String getVendorContractVersion() {
+        return vendorContractVersion;
+    }
+
+    public void setVendorContractVersion(String vendorContractVersion) {
+        this.vendorContractVersion = vendorContractVersion;
+    }
+
+    public String getVendorContractCode() {
+        return vendorContractCode;
+    }
+
+    public void setVendorContractCode(String vendorContractCode) {
+        this.vendorContractCode = vendorContractCode;
+    }
+
+    public String getStarttimeStart() {
+        return starttimeStart;
+    }
+
+    public void setStarttimeStart(String starttimeStart) {
+        this.starttimeStart = starttimeStart;
+    }
+
+    public String getStarttimeEnd() {
+        return starttimeEnd;
+    }
+
+    public void setStarttimeEnd(String starttimeEnd) {
+        this.starttimeEnd = starttimeEnd;
+    }
+
+    public String getEndtimeStart() {
+        return endtimeStart;
+    }
+
+    public void setEndtimeStart(String endtimeStart) {
+        this.endtimeStart = endtimeStart;
+    }
+
+    public String getEndtimeEnd() {
+        return endtimeEnd;
+    }
+
+    public void setEndtimeEnd(String endtimeEnd) {
+        this.endtimeEnd = endtimeEnd;
+    }
+
+    public String getStartSigningDate() {
+        return startSigningDate;
+    }
+
+    public void setStartSigningDate(String startSigningDate) {
+        this.startSigningDate = startSigningDate;
+    }
+
+    public String getEndSigningDate() {
+        return endSigningDate;
+    }
+
+    public void setEndSigningDate(String endSigningDate) {
+        this.endSigningDate = endSigningDate;
+    }
+
+    public String getVendorContractStatus() {
+        return vendorContractStatus;
+    }
+
+    public void setVendorContractStatus(String vendorContractStatus) {
+        this.vendorContractStatus = vendorContractStatus;
+    }
+
+    public Double getContractValue1() {
+        return contractValue1;
+    }
+
+    public void setContractValue1(Double contractValue1) {
+        this.contractValue1 = contractValue1;
+    }
+
+    public Double getContractValue2() {
+        return contractValue2;
+    }
+
+    public void setContractValue2(Double contractValue2) {
+        this.contractValue2 = contractValue2;
+    }
+
+
+    public Integer getPage() {
+        return page;
+    }
+
+    public void setPage(Integer page) {
+        this.page = page;
+    }
+
+    public Integer getPageSize() {
+        return pageSize;
+    }
+
+    public void setPageSize(Integer pageSize) {
+        this.pageSize = pageSize;
+    }
 }

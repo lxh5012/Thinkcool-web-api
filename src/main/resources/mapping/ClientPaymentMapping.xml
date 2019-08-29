@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.authine.cloudpivot.ext.mapper.ClientPaymentMapper">
+
+    <select id="getUserVo" resultType="com.authine.cloudpivot.ext.vo.ClientPaymentVO">
+           select a.Jobcode,a.ProjectName,b.InvoicingDateClient,b.ClientInvoice,b.amountBeforeTax,b.amountAfterTax,b.ClientPaymentAging,
+b.ClientaymentRemittanceDate,b.ClientPaymentOverDue from  i_clientpayment a join i_clientpaymentfin b on a.id=b.parentId and
+    <if test="queryClientPayment.Jobcode !=null and queryClientPayment.Jobcode!='' ">
+        jobcode like '%#{queryClientPayment.Jobcode}%'  and
+    </if>
+
+    <if test="queryClientPayment.ProjectName !=null and queryClientPayment.ProjectName!='' ">
+        projectName like '%#{queryClientPayment.ProjectName}%'  and
+    </if>
+
+    <if test="queryClientPayment.ClientInvoice !=null and queryClientPayment.ClientInvoice!='' ">
+        clientContractVersion like '%#{queryClientPayment.ClientInvoice}%'  and
+    </if>
+
+    1=1
+    </select>
+</mapper>
