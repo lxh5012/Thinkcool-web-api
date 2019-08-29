@@ -1,21 +1,27 @@
 package com.authine.cloudpivot.ext.controller;
 
+import com.authine.cloudpivot.ext.queryVo.QueryVendorContract;
+import com.authine.cloudpivot.ext.service.VendorContractService;
+import com.authine.cloudpivot.ext.vo.VendorContractVO;
 import com.authine.cloudpivot.web.api.controller.base.BaseController;
-import com.authine.cloudpivot.web.api.view.ResponseResult;
+import org.apache.ibatis.annotations.Param;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 
 @Controller
 @RequestMapping("/VendorContractController")
 public class VendorContractController extends BaseController {
 
-    @GetMapping("/testVendorContract/{id}")
+    @Autowired
+    private VendorContractService vendorContractService;
+
+    @PostMapping("/getVendorContractList")
     @ResponseBody
-    public ResponseResult<String> testVendorContract(@PathVariable("id") String id) {
-        return getOkResponseResult(id, "testVendorContract");
+    public List<VendorContractVO> getVendorContractList(@Param("queryVendorContract") QueryVendorContract queryVendorContract) {
+        return vendorContractService.getVendorContractList(queryVendorContract);
     }
 }

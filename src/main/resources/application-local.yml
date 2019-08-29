@@ -67,7 +67,7 @@ dubbo:
     qos-enable: false
   registry:
     protocol: zookeeper
-    address: 120.79.187.180
+    address: 127.0.0.1
     #    address: 192.168.8.182
     port: 2181
     timeout: 3000
@@ -80,7 +80,7 @@ dubbo:
 cloudpivot:
   api:
     oauth:
-      enabled: false  # 是否开启权限校验
+      enabled: true  # 是否开启权限校验
       test:
         userid: 2c9280a26706a73a016706a93ccf002b  # 模拟测试用户ID，不能用于生产环境
     log:
