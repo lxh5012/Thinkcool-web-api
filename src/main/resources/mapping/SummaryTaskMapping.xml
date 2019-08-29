@@ -13,7 +13,7 @@
     <select id="queryProjectTask"  parameterType="com.authine.cloudpivot.ext.vo.SummaryTaskModel" resultType="com.authine.cloudpivot.ext.vo.SummaryTaskModel">
             SELECT
                 t.id AS summaryId,
-                t.bu AS bu,
+               (SELECT b.`name` from i_ProjectTeamBU b where b.id = t.bu ) as bu,
                 t.ContractLegalEntity AS contractLegalEntity,
                 t.ClientGroup AS clientGroup,
                 t.ClientBrand AS clientBrand,
@@ -25,7 +25,7 @@
                 (SELECT COUNT(1) FROM  i_dispatchsheet dis  WHERE  dis.Jobcode = t.jobCode ) AS taskNum,
                 (SELECT	COUNT(1) FROM i_dispatchsheet dis WHERE dis.sequenceStatus = 'COMPLETED' AND dis.Jobcode = t.jobCode) AS finishedNum
             FROM	i_deliverable t
-            where   t.`owner` = #{userId, jdbcType=VARCHAR} or t.creater = #{userId, jdbcType=VARCHAR}
+            where   (t.owner = #{userId, jdbcType=VARCHAR} or t.creater = #{userId, jdbcType=VARCHAR})
                  <if test="bu != null ">
                         AND  t.bu = #{bu, jdbcType=VARCHAR}
                  </if>
@@ -44,8 +44,29 @@
                 <if test="projectName != null ">
                     AND  t.ProjectName = #{projectName, jdbcType=VARCHAR}
                 </if>
+                <if test="projectStartDate != null">
+                    AND  t.ProjectStartDate <![CDATA[>=]]>  #{projectName, jdbcType=DATE}
+                </if>
+                <if test="projectEndDate != null">
+                    AND  t.ProjectEndDate <![CDATA[>=]]>  #{projectEndDate, jdbcType=DATE}
+                </if>
             GROUP BY jobCode order by t.ProjectStartDate desc
     </select>
 
-
+    <select id="queryDeliverableTask"  parameterType="com.authine.cloudpivot.ext.vo.DeliverableTaskVO" resultType="com.authine.cloudpivot.ext.vo.DeliverableTaskVO">
+        SELECT
+            t.Jobcode AS jobCode,
+            t.ProjectName AS projectName,
+            (SELECT c.`name` from i_category c where c.id= t.DeliverableCategory ) AS deliverableCategory,
+            t.DeliverableDescription AS deliverableDescription,
+            (SELECT count(1) FROM i_DispatchSheet d WHERE d.Jobcode = t.Jobcode
+                AND d.DeliverableCategory = t.DeliverableCategory ) AS taskNumber,
+            ( SELECT count(1) FROM i_DispatchSheet d WHERE d.sequenceStatus = 'PROCESSING' and d.Jobcode = t.Jobcode AND d.DeliverableCategory = t.DeliverableCategory ) AS unfinishNumber,
+            ( SELECT count(1) FROM i_DispatchSheet d WHERE d.sequenceStatus = 'COMPLETED' and d.Jobcode = t.Jobcode AND d.DeliverableCategory = t.DeliverableCategory ) AS finishNumber,
+            ( SELECT date_format(max(d.Deadline), '%Y/%m/%d') FROM i_DispatchSheet d WHERE d.Jobcode = t.Jobcode AND d.DeliverableCategory = t.DeliverableCategory ) AS deadline
+        FROM	i_deliverable t
+        where  (t.owner = #{userId, jdbcType=VARCHAR} or t.creater = #{userId, jdbcType=VARCHAR})
+          and t.Jobcode= #{jobCode, jdbcType=VARCHAR}
+        GROUP BY t.DeliverableCategory order by t.createdTime desc
+    </select>
 </mapper>
