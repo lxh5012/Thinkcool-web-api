@@ -10,7 +10,7 @@ import lombok.Setter;
 @Setter
 public class QueryVendorContract {
 
-    @ApiModelProperty("项目代码")
+    /*@ApiModelProperty("项目代码")
     private String jobcode;
 
     @ApiModelProperty("项目名称")
@@ -26,14 +26,14 @@ public class QueryVendorContract {
     private String vendorContractVersion;
 
     @ApiModelProperty("供应商合同编码")
-    private String vendorContractCode;
+    private String vendorContractCode;*/
 
     @ApiModelProperty("供应商合同开始时间")
     private String starttimeStart;
     @ApiModelProperty("供应商合同开始时间")
     private String starttimeEnd;
 
-    @ApiModelProperty("供应商合同结束时间")
+    /*@ApiModelProperty("供应商合同结束时间")
     private String endtimeStart;
     @ApiModelProperty("供应商合同结束时间")
     private String endtimeEnd;
@@ -41,7 +41,7 @@ public class QueryVendorContract {
     @ApiModelProperty("供应商合同签订日期")
     private String startSigningDate;
     @ApiModelProperty("供应商合同签订日期")
-    private String endSigningDate;
+    private String endSigningDate;*/
 
     @ApiModelProperty("供应商合同状态")
     private String vendorContractStatus;

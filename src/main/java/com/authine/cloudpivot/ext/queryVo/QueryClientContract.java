@@ -10,7 +10,7 @@ import lombok.Setter;
 @Setter
 public class QueryClientContract {
 
-    @ApiModelProperty("项目代码")
+    /*@ApiModelProperty("项目代码")
     private String jobcode;
 
     @ApiModelProperty("项目名称")
@@ -26,17 +26,17 @@ public class QueryClientContract {
     private String clientContractVersion;
 
     @ApiModelProperty("客户合同编码")
-    private String clientContractCode;
+    private String clientContractCode;*/
 
     @ApiModelProperty("客户合同开始时间")
     private String starttimeStart;
     @ApiModelProperty("客户合同开始时间")
     private String starttimeEnd;
 
-    @ApiModelProperty("客户合同结束时间")
+    /*@ApiModelProperty("客户合同结束时间")
     private String endtimeStart;
     @ApiModelProperty("客户合同结束时间")
-    private String endtimeEnd;
+    private String endtimeEnd;*/
 
     @ApiModelProperty("客户合同状态")
     private String clientContractStatus;
