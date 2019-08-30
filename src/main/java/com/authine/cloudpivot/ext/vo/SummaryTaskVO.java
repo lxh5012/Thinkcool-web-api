@@ -9,7 +9,7 @@ import javax.xml.soap.SAAJResult;
 
 @Setter
 @Getter
-public class SummaryTaskModel {
+public class SummaryTaskVO {
 
     //表单名称
     private String formName;

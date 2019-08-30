@@ -2,7 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.authine.cloudpivot.ext.mapper.SummaryTaskMapper">
 
-    <!-- <resultMap id="BaseResultMap" type="com.authine.cloudpivot.web.api.entity.SummaryTaskModel">
+    <!-- <resultMap id="BaseResultMap" type="com.authine.cloudpivot.web.api.entity.SummaryTaskVO">
        <result column="id" jdbcType="INTEGER" property="id" />
         <result column="userName" jdbcType="VARCHAR" property="userName" />
         <result column="passWord" jdbcType="VARCHAR" property="passWord" />
@@ -10,7 +10,7 @@
     </resultMap>-->
 
 
-    <select id="queryProjectTask"  parameterType="com.authine.cloudpivot.ext.vo.SummaryTaskModel" resultType="com.authine.cloudpivot.ext.vo.SummaryTaskModel">
+    <select id="queryProjectTask" parameterType="com.authine.cloudpivot.ext.vo.SummaryTaskVO" resultType="com.authine.cloudpivot.ext.vo.SummaryTaskVO">
         SELECT
             t.Jobcode AS jobId,
             (SELECT b.`name` from i_ProjectTeamBU b where b.id = t.bu ) as bu,
@@ -27,7 +27,7 @@
         FROM	i_deliverable t
         where   (t.owner = #{userId, jdbcType=VARCHAR} or t.creater = #{userId, jdbcType=VARCHAR})
         <if test="bu != null ">
-            AND  t.bu = #{bu, jdbcType=VARCHAR}
+            AND  t.bu = (SELECT  b.id from i_ProjectTeamBU b where b.`name`= #{bu, jdbcType=VARCHAR} )
         </if>
         <if test="contractLegalEntity != null ">
             AND  t.ContractLegalEntity = #{contractLegalEntity, jdbcType=VARCHAR}
@@ -39,7 +39,7 @@
             AND  t.ClientBrand = #{clientBrand, jdbcType=VARCHAR}
         </if>
         <if test="jobCode != null ">
-            AND  t.Jobcode = #{jobCode, jdbcType=VARCHAR}
+            AND t.Jobcode = (select  p.id  from i_project_summary p where  p.JobCode = #{jobCode, jdbcType=VARCHAR})
         </if>
         <if test="projectName != null ">
             AND  t.ProjectName = #{projectName, jdbcType=VARCHAR}
@@ -48,7 +48,7 @@
             AND  t.ProjectStartDate <![CDATA[>=]]>  #{projectName, jdbcType=DATE}
         </if>
         <if test="projectEndDate != null">
-            AND  t.ProjectEndDate <![CDATA[>=]]>  #{projectEndDate, jdbcType=DATE}
+            AND  t.ProjectEndDate <![CDATA[=<]]>  #{projectEndDate, jdbcType=DATE}
         </if>
         GROUP BY jobCode order by t.ProjectStartDate desc
     </select>
