@@ -46,7 +46,7 @@ spring:
       password: za8WQ&JkP6tippE
   mybatis:
     mapper-locations: classpath*:/mapping/*.xml
-    typeAliasesPackage: com.authine.cloudpivot.ext.vo.*vo
+    typeAliasesPackage: com.authine.cloudpivot.ext.vo.*VO
   profiles:
     active: dev
 
