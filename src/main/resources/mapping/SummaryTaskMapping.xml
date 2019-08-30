@@ -2,13 +2,6 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.authine.cloudpivot.ext.mapper.SummaryTaskMapper">
 
-    <!-- <resultMap id="BaseResultMap" type="com.authine.cloudpivot.web.api.entity.SummaryTaskVO">
-       <result column="id" jdbcType="INTEGER" property="id" />
-        <result column="userName" jdbcType="VARCHAR" property="userName" />
-        <result column="passWord" jdbcType="VARCHAR" property="passWord" />
-        <result column="realName" jdbcType="VARCHAR" property="realName" />
-    </resultMap>-->
-
 
     <select id="queryProjectTask" parameterType="com.authine.cloudpivot.ext.vo.SummaryTaskVO" resultType="com.authine.cloudpivot.ext.vo.SummaryTaskVO">
         SELECT
@@ -26,31 +19,31 @@
             (SELECT	COUNT(1) FROM i_dispatchsheet dis WHERE dis.sequenceStatus = 'COMPLETED' AND dis.Jobcode = t.jobCode) AS finishedNum
         FROM	i_deliverable t
         where   (t.owner = #{userId, jdbcType=VARCHAR} or t.creater = #{userId, jdbcType=VARCHAR})
-        <if test="bu != null ">
+        <if test="bu != null and bu != ''">
             AND  t.bu = (SELECT  b.id from i_ProjectTeamBU b where b.`name`= #{bu, jdbcType=VARCHAR} )
         </if>
-        <if test="contractLegalEntity != null ">
+        <if test="contractLegalEntity != null and contractLegalEntity != ''">
             AND  t.ContractLegalEntity = #{contractLegalEntity, jdbcType=VARCHAR}
         </if>
-        <if test="clientGroup != null ">
+        <if test="clientGroup != null and clientGroup != ''">
             AND  t.ClientGroup = #{clientGroup, jdbcType=VARCHAR}
         </if>
-        <if test="clientBrand != null ">
+        <if test="clientBrand != null and clientBrand != ''">
             AND  t.ClientBrand = #{clientBrand, jdbcType=VARCHAR}
         </if>
-        <if test="jobCode != null ">
+        <if test="jobCode != null and jobCode != ''">
             AND t.Jobcode = (select  p.id  from i_project_summary p where  p.JobCode = #{jobCode, jdbcType=VARCHAR})
         </if>
-        <if test="projectName != null ">
+        <if test="projectName != null and projectName != ''">
             AND  t.ProjectName = #{projectName, jdbcType=VARCHAR}
         </if>
-        <if test="projectStartDate != null">
+        <if test="projectStartDate != null and projectStartDate != ''">
             AND  t.ProjectStartDate <![CDATA[>=]]>  #{projectName, jdbcType=DATE}
         </if>
-        <if test="projectEndDate != null">
+        <if test="projectEndDate != null and projectEndDate != ''">
             AND  t.ProjectEndDate <![CDATA[=<]]>  #{projectEndDate, jdbcType=DATE}
         </if>
-        GROUP BY jobCode order by t.ProjectStartDate desc
+        GROUP BY t.Jobcode order by t.ProjectStartDate desc
     </select>
 
     <select id="queryDeliverableTask"  parameterType="com.authine.cloudpivot.ext.vo.DeliverableTaskVO" resultType="com.authine.cloudpivot.ext.vo.DeliverableTaskVO">
@@ -60,8 +53,8 @@
             t.ProjectName AS projectName,
             (SELECT c.`name` from i_category c where c.id= t.DeliverableCategory ) AS deliverableCategory,
             t.DeliverableDescription AS deliverableDescription,
-            (SELECT count(1) FROM i_DispatchSheet d WHERE d.Jobcode = '78d04dc74d5b4a7aa3299685c48ff1fc'
-                AND d.DeliverableDescription = '38cbf82640424049ac41bdcbb426ee92' ) AS taskNumber,
+            (SELECT count(1) FROM i_DispatchSheet d WHERE d.Jobcode = t.Jobcode
+                AND d.DeliverableDescription = t.id ) AS taskNumber,
             ( SELECT count(1) FROM i_DispatchSheet d WHERE d.sequenceStatus = 'PROCESSING' and d.Jobcode = t.Jobcode AND d.DeliverableDescription = t.id ) AS unfinishNumber,
             ( SELECT count(1) FROM i_DispatchSheet d WHERE d.sequenceStatus = 'COMPLETED' and d.Jobcode = t.Jobcode AND d.DeliverableDescription = t.id ) AS finishNumber,
             ( SELECT date_format(max(d.Deadline), '%Y/%m/%d') FROM i_DispatchSheet d WHERE d.Jobcode = t.Jobcode AND d.DeliverableDescription = t.id ) AS deadline
@@ -77,8 +70,9 @@
 				 (select p.JobCode from i_project_summary p where p.id =  t.Jobcode) AS jobCode,
 				(SELECT c.`name` from i_category c where c.id= t.DeliverableCategory ) as deliverableDescription,
 				(select d.DeliverableDescription from i_deliverable d where d.id = t.DeliverableDescription) as deliverableDescription,
-				t.TaskDistributor,
-				t.Taskowner taskOwner
+				t.TaskDistributor as taskDistributor,
+				t.Taskowner  as taskOwner,
+                t.sequenceStatus as taskStatus
          from i_DispatchSheet t
         where t.Jobcode = #{jobCode, jdbcType=VARCHAR}
     </select>

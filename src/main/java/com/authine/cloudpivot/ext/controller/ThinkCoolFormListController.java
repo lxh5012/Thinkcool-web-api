@@ -27,8 +27,8 @@ public class ThinkCoolFormListController extends BaseQueryRuntimeController {
     @ApiOperation(value = "查询project summary可派工数据接口")
     @PostMapping("/summaryTask/list")
     public ResponseResult<PageResult> list(@RequestBody SummaryTaskVO summaryTaskParam) {
-        String userId = this.getUserId();
-        summaryTaskParam.setUserId(userId);
+        //String userId = this.getUserId();
+        //summaryTaskParam.setUserId(userId);
         if(checkParam(summaryTaskParam,summaryTaskParam.getFormName(), summaryTaskParam.getPage(), summaryTaskParam.getPageSize(), summaryTaskParam.getUserId()) ){
             log.debug("FormName/Page/PageSize/UserId不能为null");
             return getErrResponseResult(null, ErrCode.ORG_USER_NONEXISTENT.getErrCode(), "FormName/Page/PageSize/UserId不能为null");
@@ -43,8 +43,8 @@ public class ThinkCoolFormListController extends BaseQueryRuntimeController {
     @ApiOperation(value = "查询 Deliverable工单执行情况 数据接口")
     @PostMapping("/deliverableTask/list")
     public ResponseResult<PageResult> queryDeliverableTask(@RequestBody DeliverableTaskVO deliverableTaskVO) {
-        String userId = this.getUserId();
-        deliverableTaskVO.setUserId(userId);
+       // String userId = this.getUserId();
+        //deliverableTaskVO.setUserId(userId);
         if(checkParam(deliverableTaskVO, deliverableTaskVO.getFormName(), deliverableTaskVO.getPage(), deliverableTaskVO.getPageSize(), deliverableTaskVO.getUserId()) ){
             log.debug("FormName/Page/PageSize/UserId不能为null");
             return getErrResponseResult(null, ErrCode.ORG_USER_NONEXISTENT.getErrCode(), "FormName/Page/PageSize/UserId不能为null");
@@ -60,8 +60,8 @@ public class ThinkCoolFormListController extends BaseQueryRuntimeController {
     @ApiOperation(value = "查看执行工单 数据接口")
         @PostMapping("/queryTaskDetial/list")
     public ResponseResult<PageResult> queryTaskDetial(@RequestBody TaskDetialVO taskDetialVO) {
-        String userId = this.getUserId();
-        taskDetialVO.setUserId(userId);
+       // String userId = this.getUserId();
+        //taskDetialVO.setUserId(userId);
         if(checkParam(taskDetialVO, taskDetialVO.getFormName(), taskDetialVO.getPage(), taskDetialVO.getPageSize(), taskDetialVO.getUserId()) ){
             return getErrResponseResult(null, ErrCode.ORG_USER_NONEXISTENT.getErrCode(), "FormName/Page/PageSize/UserId不能为null");
         }
