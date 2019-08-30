@@ -36,4 +36,5 @@ public class ProjectSummaryParam extends PageInfo {
     @ApiModelProperty("项目结束时间")
     private String projectEndDate;
 
+
 }

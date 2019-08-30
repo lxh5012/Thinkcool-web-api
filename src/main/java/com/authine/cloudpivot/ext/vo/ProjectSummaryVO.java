@@ -73,4 +73,7 @@ public class ProjectSummaryVO {
     @ApiModelProperty("供应商付款 Vendor payment操作标记")
     private Boolean vendorPayFlag = Boolean.FALSE;
 
+    @ApiModelProperty("项目进行中")
+    private String projectStatus;
+
 }
