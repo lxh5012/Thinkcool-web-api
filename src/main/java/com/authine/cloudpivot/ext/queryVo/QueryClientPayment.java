@@ -1,11 +1,4 @@
 package com.authine.cloudpivot.ext.queryVo;
-
-
-import lombok.Getter;
-import lombok.Setter;
-
-import java.util.Date;
-
 public class QueryClientPayment {
 
     //项目代码
@@ -15,7 +8,9 @@ public class QueryClientPayment {
     private String ProjectName;
 
     //客户发票日
-    private Date InvoicingDateClient;
+    private String InvoicingDateClient;
+
+    private String ClientaymentRemittanceDate;
 
     //客户发票号码
     private String ClientInvoice;
@@ -28,12 +23,29 @@ public class QueryClientPayment {
 
     //客户付款账龄
     private String ClientPaymentAging;
-
-    //客户实际付款日
-    private Date ClientaymentRemittanceDate;
-
     //客户付款逾期日
     private Integer ClientPaymentOverDue;
+    //当前页码
+    private Integer page;
+
+    public Integer getPage() {
+        return page;
+    }
+
+    public void setPage(Integer page) {
+        this.page = page;
+    }
+
+    public Integer getPageSize() {
+        return pageSize;
+    }
+
+    public void setPageSize(Integer pageSize) {
+        this.pageSize = pageSize;
+    }
+
+    //当前页面数据量
+    private Integer pageSize;
 
     public String getJobcode() {
         return Jobcode;
@@ -51,11 +63,11 @@ public class QueryClientPayment {
         ProjectName = projectName;
     }
 
-    public Date getInvoicingDateClient() {
+    public String getInvoicingDateClient() {
         return InvoicingDateClient;
     }
 
-    public void setInvoicingDateClient(Date invoicingDateClient) {
+    public void setInvoicingDateClient(String invoicingDateClient) {
         InvoicingDateClient = invoicingDateClient;
     }
 
@@ -91,19 +103,18 @@ public class QueryClientPayment {
         ClientPaymentAging = clientPaymentAging;
     }
 
-    public Date getClientaymentRemittanceDate() {
-        return ClientaymentRemittanceDate;
-    }
-
-    public void setClientaymentRemittanceDate(Date clientaymentRemittanceDate) {
-        ClientaymentRemittanceDate = clientaymentRemittanceDate;
-    }
-
     public Integer getClientPaymentOverDue() {
         return ClientPaymentOverDue;
     }
 
     public void setClientPaymentOverDue(Integer clientPaymentOverDue) {
         ClientPaymentOverDue = clientPaymentOverDue;
+    }
+    public String getClientaymentRemittanceDate() {
+        return ClientaymentRemittanceDate;
+    }
+
+    public void setClientaymentRemittanceDate(String clientaymentRemittanceDate) {
+        ClientaymentRemittanceDate = clientaymentRemittanceDate;
     }
 }

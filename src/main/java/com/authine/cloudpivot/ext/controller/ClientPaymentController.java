@@ -4,6 +4,7 @@ import com.authine.cloudpivot.ext.queryVo.QueryClientContract;
 import com.authine.cloudpivot.ext.queryVo.QueryClientPayment;
 import com.authine.cloudpivot.ext.service.ClientPaymentService;
 import com.authine.cloudpivot.ext.vo.ClientPaymentVO;
+import com.authine.cloudpivot.ext.vo.PageResult;
 import com.authine.cloudpivot.web.api.controller.base.BaseController;
 import com.authine.cloudpivot.web.api.handler.CustomizedOrigin;
 import com.authine.cloudpivot.web.api.view.ResponseResult;
@@ -16,25 +17,26 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import javax.ws.rs.POST;
 import java.util.List;
 
 /**
- * 项目管理页面接口
+ * 供应商付款页面接口
  */
-@Api(value = " 客户付款页面接口", tags = "客户付款页面接口")
+@Api(value = " 供应商付款页面接口", tags = "供应商付款页面接口")
 @RestController
 @Validated
 @Slf4j
-@RequestMapping("/api/clientPayment")
+@RequestMapping("/clientPaymentController")
 @CustomizedOrigin(level = 0)
 public class ClientPaymentController extends BaseController {
    @Autowired
-   private ClientPaymentService clientPaymentServiceImpl;
+   private ClientPaymentService clientPaymentService;
    @ApiOperation(value = "查询clientPayment",notes = "查询clientPayment")
-   @GetMapping("/queryProject")
-   public ResponseResult<List<ClientPaymentVO>>  getClientPaymentList(@Valid @RequestBody QueryClientPayment queryClientPayment){
-      List<ClientPaymentVO> userVo = clientPaymentServiceImpl.getClientPaymentList(queryClientPayment);
-      return getOkResponseResult( userVo,"查询成功");
+   @PostMapping("/getclientPaymentList")
+   public ResponseResult<PageResult>  getClientPaymentList(@RequestBody QueryClientPayment queryClientPayment){
+      PageResult list = clientPaymentService.getClientPaymentList(queryClientPayment);
+      return getOkResponseResult( list,"查询成功");
    }
 
 }

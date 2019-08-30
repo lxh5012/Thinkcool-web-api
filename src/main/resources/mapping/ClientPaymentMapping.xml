@@ -2,21 +2,40 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.authine.cloudpivot.ext.mapper.ClientPaymentMapper">
 
-    <select id="getUserVo" resultType="com.authine.cloudpivot.ext.vo.ClientPaymentVO">
+    <select id="getClientPaymentList" resultType="com.authine.cloudpivot.ext.vo.ClientPaymentVO">
            select a.Jobcode,a.ProjectName,b.InvoicingDateClient,b.ClientInvoice,b.amountBeforeTax,b.amountAfterTax,b.ClientPaymentAging,
-b.ClientaymentRemittanceDate,b.ClientPaymentOverDue from  i_clientpayment a join i_clientpaymentfin b on a.id=b.parentId and
+        b.ClientaymentRemittanceDate,b.ClientPaymentCheckDate,b.ClientPaymentOverDue from  i_clientpayment a join i_clientpaymentfin b on a.id=b.parentId and
     <if test="queryClientPayment.Jobcode !=null and queryClientPayment.Jobcode!='' ">
-        jobcode like '%#{queryClientPayment.Jobcode}%'  and
+        a.jobcode like '%${queryClientPayment.Jobcode}%'  and
     </if>
-
     <if test="queryClientPayment.ProjectName !=null and queryClientPayment.ProjectName!='' ">
-        projectName like '%#{queryClientPayment.ProjectName}%'  and
+        a.ProjectName like '%${queryClientPayment.ProjectName}%'  and
     </if>
 
+    <if test="queryClientPayment.InvoicingDateClient !=null and queryClientPayment.InvoicingDateClient !='' ">
+        b.InvoicingDateClient >= STR_TO_DATE(#{queryClientPayment.InvoicingDateClient},'%Y-%m-%d')  and
+    </if>
     <if test="queryClientPayment.ClientInvoice !=null and queryClientPayment.ClientInvoice!='' ">
-        clientContractVersion like '%#{queryClientPayment.ClientInvoice}%'  and
+        b.ClientInvoice like '%${queryClientPayment.ClientInvoice}%'  and
     </if>
-
+    <if test="queryClientPayment.amountBeforeTax !=null and queryClientPayment.amountBeforeTax!='' ">
+        b.amountBeforeTax like '%${queryClientPayment.amountBeforeTax}%'  and
+    </if>
+    <if test="queryClientPayment.amountBeforeTax !=null and queryClientPayment.amountBeforeTax!='' ">
+        b.amountBeforeTax &gt;= ${queryClientPayment.amountBeforeTax}  and
+    </if>
+    <if test="queryClientPayment.amountAfterTax !=null and queryClientPayment.amountAfterTax!='' ">
+        b.amountAfterTax >= ${queryClientPayment.amountAfterTax}  and
+    </if>
+    <if test="queryClientPayment.ClientPaymentAging !=null and queryClientPayment.ClientPaymentAging!='' ">
+        b.ClientPaymentAging >= STR_TO_DATE(#{queryClientPayment.ClientPaymentAging},'%Y-%m-%d')  and
+    </if>
+    <if test="queryClientPayment.ClientaymentRemittanceDate !=null and queryClientPayment.ClientaymentRemittanceDate !='' ">
+        b.ClientaymentRemittanceDate >= STR_TO_DATE(#{queryClientPayment.ClientaymentRemittanceDate},'%Y-%m-%d')  and
+    </if>
+    <if test="queryClientPayment.ClientPaymentOverDue !=null and queryClientPayment.ClientPaymentOverDue!='' ">
+        b.ClientPaymentOverDue &gt;= ${queryClientPayment.ClientPaymentOverDue}  and
+    </if>
     1=1
     </select>
 </mapper>
