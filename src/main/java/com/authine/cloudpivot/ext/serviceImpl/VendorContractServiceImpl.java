@@ -4,7 +4,6 @@ import com.authine.cloudpivot.ext.PageUtils;
 import com.authine.cloudpivot.ext.mapper.VendorContractMapper;
 import com.authine.cloudpivot.ext.queryVo.QueryVendorContract;
 import com.authine.cloudpivot.ext.service.VendorContractService;
-import com.authine.cloudpivot.ext.vo.ClientContractVO;
 import com.authine.cloudpivot.ext.vo.PageResult;
 import com.authine.cloudpivot.ext.vo.VendorContractVO;
 import com.github.pagehelper.PageHelper;
@@ -24,7 +23,7 @@ public class VendorContractServiceImpl implements VendorContractService {
 
 
     @Override
-    public PageResult getVendorContractList(@Param("queryVendorContract")QueryVendorContract queryVendorContract) {
+    public PageResult getVendorContractList(@Param("queryVendorContract") QueryVendorContract queryVendorContract) {
         int pageNum =queryVendorContract.getPage();
         int pageSize = queryVendorContract.getPageSize();
         PageHelper.startPage(pageNum, pageSize);

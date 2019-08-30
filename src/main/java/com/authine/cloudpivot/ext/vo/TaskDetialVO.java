@@ -35,6 +35,8 @@ public class TaskDetialVO {
     //附件URL
     private String attachmengUrl;
 
+    //派工状态
+    private String taskStatus;
 
     //当前登陆用户id
     private String userId;
