@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.authine.cloudpivot.ext.mapper.VendorPaymentMapper">
+
+    <select id="getVendorPaymentList" resultType="com.authine.cloudpivot.ext.vo.VendorPaymentVO">
+           select a.Jobcode,a.ProjectName,b.vendorInvoicingDate,b.installment,b.PaymentVendorDate,b.index,b.PaymentCheckDate,b.ActualPaymentDate from  i_vendorpayment a join i_stagePaymentInfo b on a.id=b.parentId and
+    <if test="queryVendorPayment.Jobcode !=null and queryVendorPayment.Jobcode!='' ">
+        a.jobcode like '%${queryVendorPayment.Jobcode}%'  and
+    </if>
+    <if test="queryVendorPayment.ProjectName !=null and queryVendorPayment.ProjectName!='' ">
+        a.ProjectName like '%${queryVendorPayment.ProjectName}%'  and
+    </if>
+    <if test="queryVendorPayment.vendorInvoicingDate !=null and queryVendorPayment.vendorInvoicingDate !='' ">
+        b.vendorInvoicingDate >= STR_TO_DATE(#{queryVendorPayment.vendorInvoicingDate},'%Y-%m-%d')  and
+    </if>
+    <if test="queryVendorPayment.PaymentVendorDate !=null and queryVendorPayment.PaymentVendorDate !='' ">
+        b.PaymentVendorDate >= STR_TO_DATE(#{queryVendorPayment.PaymentVendorDate},'%Y-%m-%d')  and
+    </if>
+    <if test="queryVendorPayment.PaymentCheckDate !=null and queryVendorPayment.PaymentCheckDate !='' ">
+        b.PaymentCheckDate >= STR_TO_DATE(#{queryVendorPayment.PaymentCheckDate},'%Y-%m-%d')  and
+    </if>
+
+    <if test="queryVendorPayment.ActualPaymentDate !=null and queryVendorPayment.ActualPaymentDate !='' ">
+        b.ActualPaymentDate >= STR_TO_DATE(#{queryVendorPayment.ActualPaymentDate},'%Y-%m-%d')  and
+    </if>
+    1=1
+    </select>
+</mapper>
