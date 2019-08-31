@@ -2,10 +2,7 @@ package com.authine.cloudpivot.ext.controller;
 
 import com.authine.cloudpivot.engine.enums.ErrCode;
 import com.authine.cloudpivot.ext.service.SummaryTaskService;
-import com.authine.cloudpivot.ext.vo.DeliverableTaskVO;
-import com.authine.cloudpivot.ext.vo.PageResult;
-import com.authine.cloudpivot.ext.vo.SummaryTaskVO;
-import com.authine.cloudpivot.ext.vo.TaskDetialVO;
+import com.authine.cloudpivot.ext.vo.*;
 import com.authine.cloudpivot.web.api.controller.base.BaseQueryRuntimeController;
 import com.authine.cloudpivot.web.api.view.ResponseResult;
 import io.swagger.annotations.ApiOperation;
@@ -53,7 +50,7 @@ public class ThinkCoolFormListController extends BaseQueryRuntimeController {
             PageResult res = summaryTaskService.queryDeliverableTask(deliverableTaskVO);
             return getOkResponseResult(res, "成功获取 Deliverable工单执行情况 列表数据 ");
         }
-        return getErrResponseResult(null, ErrCode.ORG_USER_NONEXISTENT.getErrCode(), "FormName不是 Deliverable");
+        return getErrResponseResult(null, ErrCode.ORG_USER_NONEXISTENT.getErrCode(), "FormName不是 DeliverableTask");
     }
 
 
@@ -73,7 +70,20 @@ public class ThinkCoolFormListController extends BaseQueryRuntimeController {
     }
 
 
-
+    @ApiOperation(value = "查看 接单管理 数据接口")
+    @PostMapping("/queryacceptTask/list")
+    public ResponseResult<PageResult> acceptTaskList(@RequestBody AcceptTaskVO acceptTaskVO) {
+        // String userId = this.getUserId();
+        //taskDetialVO.setUserId(userId);
+        if(checkParam(acceptTaskVO, acceptTaskVO.getFormName(), acceptTaskVO.getPage(), acceptTaskVO.getPageSize(), acceptTaskVO.getUserId()) ){
+            return getErrResponseResult(null, ErrCode.ORG_USER_NONEXISTENT.getErrCode(), "FormName/Page/PageSize/UserId不能为null");
+        }
+        if("AcceptTask".equals(acceptTaskVO.getFormName())){
+            PageResult res = summaryTaskService.acceptTaskList(acceptTaskVO);
+            return getOkResponseResult(res, "成功获取 接单管理 列表数据 ");
+        }
+        return getErrResponseResult(null, ErrCode.ORG_USER_NONEXISTENT.getErrCode(), "FormName不是 AcceptTask");
+    }
 
 
     private boolean checkParam(Object obj, String formName, Integer page, Integer PageSize, String userId){

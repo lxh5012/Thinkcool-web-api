@@ -1,22 +1,22 @@
 package com.authine.cloudpivot.ext.vo;
 
+
+import io.swagger.annotations.ApiModelProperty;
+import lombok.Getter;
+import lombok.Setter;
+
+@Setter
+@Getter
 public class UserVO {
+
+
     private String name;
+
     private String userId;
 
-    public String getName() {
-        return name;
-    }
+    @ApiModelProperty("云枢选人控件后台返回userId")
+    private String id;
 
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getUserId() {
-        return userId;
-    }
-
-    public void setUserId(String userId) {
-        this.userId = userId;
-    }
+    @ApiModelProperty("云枢选人控件后台返回type")
+    private String type;
 }

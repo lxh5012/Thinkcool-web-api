@@ -1,10 +1,9 @@
 package com.authine.cloudpivot.ext.service;
 
 
-import com.authine.cloudpivot.ext.vo.DeliverableTaskVO;
-import com.authine.cloudpivot.ext.vo.PageResult;
-import com.authine.cloudpivot.ext.vo.SummaryTaskVO;
-import com.authine.cloudpivot.ext.vo.TaskDetialVO;
+import com.authine.cloudpivot.ext.vo.*;
+
+import java.util.List;
 
 public interface SummaryTaskService {
 
@@ -14,4 +13,6 @@ public interface SummaryTaskService {
     public PageResult queryDeliverableTask(DeliverableTaskVO deliverableTaskVO);
 
     public PageResult queryTaskDetial(TaskDetialVO taskDetialVO);
+
+    public PageResult acceptTaskList(AcceptTaskVO acceptTaskVO);
 }
