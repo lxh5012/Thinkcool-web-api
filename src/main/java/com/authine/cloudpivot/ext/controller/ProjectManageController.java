@@ -38,8 +38,16 @@ public class ProjectManageController  extends BaseController {
    @ApiOperation(value = "查询projectsummary",notes = "查询projectsummary")
    @PostMapping("/queryProjectSummary")
    public ResponseResult<PageResult>  queryProjectSummary(@RequestBody ProjectSummaryParam projectSummaryParam){
-      log.info("ProjectManageController|projectSummaryParam|");
+      log.info("ProjectManageController|projectSummaryParam|"+projectSummaryParam.toString());
       PageResult pageResult = projectSummaryServiceImpl.queryProjectSummaryPage(projectSummaryParam);
       return getOkResponseResult( pageResult,"查询成功");
+   }
+
+   @ApiOperation(value = "更新project状态",notes = "更新project状态")
+   @PostMapping("/updateProjectStatus")
+   public ResponseResult<Integer>  updateProjectStatus(@RequestBody ProjectSummaryParam projectSummaryParam){
+      log.info("ProjectManageController|updateProjectStatus|"+projectSummaryParam.toString());
+      int result = projectSummaryServiceImpl.updateProjectStatus(projectSummaryParam);
+      return getOkResponseResult( result,"更新项目状态成功");
    }
 }

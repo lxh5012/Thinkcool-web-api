@@ -28,11 +28,12 @@ public class ProjectSummaryServiceImpl implements IProjectSummaryService {
 
     @Override
     public PageResult queryProjectSummaryPage(ProjectSummaryParam projectSummaryParam) {
-        int pageNum = projectSummaryParam.getPageNum();
-        int pageSize = projectSummaryParam.getPageSize();
+        int pageNum = projectSummaryParam.getPageNum() == 0?1:projectSummaryParam.getPageNum();
+        int pageSize = projectSummaryParam.getPageSize() == 0?10:projectSummaryParam.getPageSize();
         PageHelper.startPage(pageNum, pageSize);
         List<ProjectSummaryVO> projectSummaryVOList = projectSummaryMapper.queryProjectSummary(projectSummaryParam);
-        for(ProjectSummaryVO projectSummaryVO:projectSummaryVOList){
+        for(int i=0;i<projectSummaryVOList.size();i++){
+            ProjectSummaryVO projectSummaryVO = projectSummaryVOList.get(i);
             if(StringUtils.isNotBlank(projectSummaryVO.getJobCode())){
                 projectSummaryVO.setCommercialFlag(Boolean.TRUE);
                 projectSummaryVO.setVendorContractFlag(Boolean.TRUE);
@@ -40,7 +41,13 @@ public class ProjectSummaryServiceImpl implements IProjectSummaryService {
             }
         }
         PageInfo<ProjectSummaryVO> projectSummaryVOPageInfo = new PageInfo<>(projectSummaryVOList);
-        return PageUtils.getPageResult(projectSummaryVOPageInfo);
+        PageResult pageResult = PageUtils.getPageResult(projectSummaryVOPageInfo);
+        return pageResult ;
+    }
+
+    @Override
+    public int updateProjectStatus(ProjectSummaryParam projectSummaryParam) {
+        return projectSummaryMapper.updateProjectStatus(projectSummaryParam);
     }
 
 }

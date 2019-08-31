@@ -13,4 +13,6 @@ public interface IProjectSummaryService {
     public List<ProjectSummaryVO> queryProjectSummary();
 
     public PageResult queryProjectSummaryPage(ProjectSummaryParam projectSummaryParam);
+
+    public int updateProjectStatus(ProjectSummaryParam projectSummaryParam);
 }

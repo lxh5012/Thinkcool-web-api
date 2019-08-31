@@ -14,49 +14,49 @@ public class ProjectSummaryVO {
     private String id;
 
     @ApiModelProperty("签约主体/Contract legal entity")
-    private String ContractLegalEntity;
+    private String contractLegalEntity;
 
     @ApiModelProperty("项目组/BU")
-    private String BU;
+    private String bu;
 
     @ApiModelProperty("客户集团/Client Group")
-    private String ClientGroup;
+    private String clientGroup;
 
     @ApiModelProperty("客户品牌/Client Brand")
-    private String ClientBrand;
+    private String clientBrand;
 
     @ApiModelProperty("项目类型/Project type")
-    private String ProjectType;
+    private String projectType;
 
     @ApiModelProperty("项目开始日期/Project start date")
-    private String ProjectStartDate;
+    private String projectStartDate;
 
     @ApiModelProperty("项目结束日期/Project end date")
-    private String ProjectEndDate;
+    private String projectEndDate;
 
     @ApiModelProperty("项目代码/Jobcode")
-    private String JobCode;
+    private String jobCode;
 
     @ApiModelProperty("项目名称/Project name")
-    private String ProjectName;
+    private String projectName;
 
     @ApiModelProperty("备注")
-    private String Remark;
+    private String remark;
 
     @ApiModelProperty("审批意见")
-    private String ApprovalOpinion;
+    private String approvalOpinion;
 
     @ApiModelProperty("上传扫描文件")
-    private String MarginAttachment;
+    private String marginAttachment;
 
     @ApiModelProperty("项目预期利润/Project expected margin")
-    private BigDecimal ProjectExpectedMargin;
+    private BigDecimal projectExpectedMargin;
 
     @ApiModelProperty("项目利润/Project Margin")
-    private BigDecimal ProjectMargin;
+    private BigDecimal projectMargin;
 
     @ApiModelProperty("项目预算/Project budget")
-    private BigDecimal ProjectBudget;
+    private BigDecimal projectBudget;
 
     @ApiModelProperty("项目利润 &商务信息 Project profit& commercial info 操作标记")
     private Boolean commercialFlag = Boolean.FALSE;
@@ -75,5 +75,7 @@ public class ProjectSummaryVO {
 
     @ApiModelProperty("项目进行中")
     private String projectStatus;
+
+
 
 }
