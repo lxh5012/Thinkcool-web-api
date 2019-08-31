@@ -6,59 +6,72 @@ import lombok.Getter;
 import lombok.Setter;
 
 import javax.xml.soap.SAAJResult;
+import java.sql.Date;
 
 @Setter
 @Getter
 public class SummaryTaskVO {
 
-    //表单名称
+    @ApiModelProperty("表单名称")
     private String formName;
 
-
-    //项目组
+    @ApiModelProperty("项目组")
     private String bu;
 
+    @ApiModelProperty("useriId")
     private String userId;
 
-    //签约主体
+    @ApiModelProperty("签约主体")
     private String contractLegalEntity;
 
-    //客户集团
+    @ApiModelProperty("客户集团")
     private  String clientGroup;
 
-    //客户品牌
+    @ApiModelProperty("客户品牌")
     private String clientBrand;
 
-    //后台原来保存jobCode对应的ID
+    @ApiModelProperty("后台原来保存jobCode对应的ID")
     private String jobId;
 
-    //项目代码
+    @ApiModelProperty("项目代码")
     private String jobCode;
 
-    //项目名称
+    @ApiModelProperty("项目名称")
     private String projectName;
 
-    //项目开始日期
+    @ApiModelProperty("项目开始日期")
     private String projectStartDate;
 
-    //项目结束日期
+    @ApiModelProperty("项目开始日期入参Begin")
+    private Date projectStartDateBegin;
+
+    @ApiModelProperty("项目开始日期入参Start")
+    private Date projectStartDateEnd;
+
+
+    @ApiModelProperty("项目结束日期")
     private String projectEndDate;
 
+    @ApiModelProperty("项目结束日期Begin")
+    private Date projectEndDateBegin;
 
-    //Deliverable数量
+    @ApiModelProperty("项目结束日期end")
+    private String projectEndDateEnd;
+
+    @ApiModelProperty("Deliverable数量")
     private Long deliverableNum;
 
-    //工单总数量
+    @ApiModelProperty("工单总数量")
     private Long taskNum;
 
-    //已完成总数量
+    @ApiModelProperty("已完成总数量")
     private Long finishedNum;
 
 
-    //当前页码
+    @ApiModelProperty("当前页码")
     private Integer page;
 
-    //当前页面数据量
+    @ApiModelProperty("当前页面数据量")
     private Integer pageSize;
 
 }

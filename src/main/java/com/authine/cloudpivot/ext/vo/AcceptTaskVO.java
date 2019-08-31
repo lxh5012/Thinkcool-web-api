@@ -5,20 +5,33 @@ import io.swagger.annotations.ApiModelProperty;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.util.Date;
 import java.util.List;
 
-@Setter
 @Getter
-public class TaskDetialVO {
+@Setter
+public class AcceptTaskVO {
+
+    @ApiModelProperty("项目BU")
+    private String bu;
+
+    @ApiModelProperty("项目代码")
+    private String jobCode;
 
     @ApiModelProperty("后台原来保存jobCode对应的ID")
     private String jobId;
 
-    @ApiModelProperty("表单名称")
-    private String jobCode;
+    @ApiModelProperty("项目名称")
+    private String projectName;
+
+    @ApiModelProperty("交付描述ID")
+    private String deliverableDescriptionId;
 
     @ApiModelProperty("交付描述")
     private String deliverableDescription;
+
+    @ApiModelProperty("交付品类ID")
+    private String deliverableCategoryId;
 
     @ApiModelProperty("交付品类")
     private String deliverableCategory;
@@ -26,34 +39,20 @@ public class TaskDetialVO {
     @ApiModelProperty("任务发起人")
     private String taskDistributors;
 
+    @ApiModelProperty("任务发起人Name")
+    private String taskDistributorNames;
 
-    //前端页面显示任务发起人，userName用","连接
-    @ApiModelProperty("任务发起人")
-    private String taskDistributorUserName;
-
-
-    @ApiModelProperty("接单人")
-    private String taskOwners;
-
-    //前端页面显示接单人，userName用","连接
-    @ApiModelProperty("前端页面显示接单人")
-    private String taskOwnerUserName;
-
-    @ApiModelProperty("是否最终交付   0-true, 1-false")
-    private Integer isFinalDeliver;
-
-    @ApiModelProperty("执行回合数")
-    private Integer excuteTime;
-
-    @ApiModelProperty("附件URL")
-    private String attachmentUrl;
-
-    @ApiModelProperty("派工状态")
-    private String taskStatus;
-
+    @ApiModelProperty("要求描述")
+    private String taskRequirement;
 
     @ApiModelProperty("交付数量")
     private Integer quantity;
+
+    @ApiModelProperty("交付时间")
+    private Date deadline;
+
+    @ApiModelProperty("交付时间")
+    private String deadlineShow;
 
     @ApiModelProperty("实例ID")
     private String workflowInstanceId;
@@ -61,8 +60,8 @@ public class TaskDetialVO {
     @ApiModelProperty("workItemId")
     private String workItemId;
 
-    @ApiModelProperty("审核工单URL")
-    private String approveUrl;
+    @ApiModelProperty("接单URL")
+    private String taskUrl;
 
     @ApiModelProperty("当前登陆用户id")
     private String userId;
@@ -75,4 +74,7 @@ public class TaskDetialVO {
 
     @ApiModelProperty("表单名称")
     private String formName;
+
+
+
 }
