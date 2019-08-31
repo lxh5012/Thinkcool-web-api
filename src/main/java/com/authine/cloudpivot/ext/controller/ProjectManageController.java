@@ -1,6 +1,8 @@
 package com.authine.cloudpivot.ext.controller;
 
 import com.authine.cloudpivot.ext.service.IProjectSummaryService;
+import com.authine.cloudpivot.ext.vo.PageResult;
+import com.authine.cloudpivot.ext.vo.ProjectSummaryParam;
 import com.authine.cloudpivot.ext.vo.UserVO;
 import com.authine.cloudpivot.web.api.controller.base.BaseController;
 import com.authine.cloudpivot.web.api.handler.CustomizedOrigin;
@@ -10,9 +12,9 @@ import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+
 
 /**
  * 项目管理页面接口
@@ -26,11 +28,26 @@ import org.springframework.web.bind.annotation.RestController;
 public class ProjectManageController  extends BaseController {
    @Autowired
    private IProjectSummaryService projectSummaryServiceImpl;
-   @ApiOperation(value = "查询projectsummary",notes = "查询projectsummary")
-   @GetMapping("/queryProject")
-   public ResponseResult<UserVO>  queryProject(){
+   @ApiOperation(value = "查询用户测试",notes = "查询用户测试")
+   @GetMapping("/queryUser")
+   public ResponseResult<UserVO>  queryUser(){
       UserVO userVo = projectSummaryServiceImpl.getUserVo();
       return getOkResponseResult( userVo,"查询成功");
    }
 
+   @ApiOperation(value = "查询projectsummary",notes = "查询projectsummary")
+   @PostMapping("/queryProjectSummary")
+   public ResponseResult<PageResult>  queryProjectSummary(@RequestBody ProjectSummaryParam projectSummaryParam){
+      log.info("ProjectManageController|projectSummaryParam|"+projectSummaryParam.toString());
+      PageResult pageResult = projectSummaryServiceImpl.queryProjectSummaryPage(projectSummaryParam);
+      return getOkResponseResult( pageResult,"查询成功");
+   }
+
+   @ApiOperation(value = "更新project状态",notes = "更新project状态")
+   @PostMapping("/updateProjectStatus")
+   public ResponseResult<Integer>  updateProjectStatus(@RequestBody ProjectSummaryParam projectSummaryParam){
+      log.info("ProjectManageController|updateProjectStatus|"+projectSummaryParam.toString());
+      int result = projectSummaryServiceImpl.updateProjectStatus(projectSummaryParam);
+      return getOkResponseResult( result,"更新项目状态成功");
+   }
 }

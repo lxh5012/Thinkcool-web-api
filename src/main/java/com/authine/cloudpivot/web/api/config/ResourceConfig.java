@@ -118,7 +118,12 @@ public class ResourceConfig extends ResourceServerConfigurerAdapter {
                     //test
                     .antMatchers("/api/licenseExt/**").permitAll()
                     .antMatchers("/api/aliyun/download").permitAll()
-                    .antMatchers("/api/projectmanage/**").permitAll()
+                    .antMatchers("/api/projectmanage/*").permitAll()
+                    .antMatchers("/formList/query/queryTaskDetial/list").permitAll()
+                    .antMatchers("/formList/query/deliverableTask/list").permitAll()
+                    .antMatchers("/formList/query/summaryTask/list").permitAll()
+
+                    //.antMatchers("/api/projectmanage/**").permitAll()
                     //客户端接口测试
                     .antMatchers("/api/client/**").hasAuthority("AUTH_SYSTEM_MANAGE")
                     //test

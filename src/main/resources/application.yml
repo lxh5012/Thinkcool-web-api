@@ -19,7 +19,7 @@ pagehelper:
 
 mybatis:
   mapper-locations: classpath:mapping/*Mapping.xml
-  type-aliases-package: com.authine.cloudpivot
+  type-aliases-package: com.authine.cloudpivot.ext
 
 management:
   endpoints:
@@ -44,11 +44,8 @@ spring:
       url: jdbc:mysql://rm-uf6nq3e72186fs6h5go.mysql.rds.aliyuncs.com:3306/oa_dev_test
       username: oa_user
       password: za8WQ&JkP6tippE
-  mybatis:
-    mapper-locations: classpath*:/mapping/*.xml
-    typeAliasesPackage: com.authine.cloudpivot.ext.vo.*VO
   profiles:
-    active: local
+    active: dev
 
   jackson:
     date-format: yyyy-MM-dd HH:mm:ss
