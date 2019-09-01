@@ -103,17 +103,12 @@ public class SummaryTaskServiceImpl implements SummaryTaskService {
                 String userNames = getUserNameById(res.getTaskOwners());
                 res.setTaskOwnerUserName(userNames);
             }
-
-
-
-            if(Objects.nonNull(res.getWorkItemId())){
-                //获取请求IP和端口号
-                String approveUrl = getUnfinshRequestUrl(res.getWorkItemId(), res.getWorkflowInstanceId());
-                res.setApproveUrl(approveUrl);
-                log.info("-------------派单代办URL   start---------------");
-                log.info(approveUrl.toString());
-                log.info("-------------派单代办URL   end---------------");
-            }
+            //获取请求IP和端口号
+            String approveUrl = getUnfinshRequestUrl(res.getWorkItemId(), res.getWorkflowInstanceId());
+            res.setApproveUrl(approveUrl);
+            log.info("-------------派单代办URL   start---------------");
+            log.info(approveUrl.toString());
+            log.info("-------------派单代办URL   end---------------");
         }
         PageInfo<TaskDetialVO> taskDetialPage = new PageInfo<>(taskDetialList);
         return PageUtils.getPageResult(taskDetialPage);

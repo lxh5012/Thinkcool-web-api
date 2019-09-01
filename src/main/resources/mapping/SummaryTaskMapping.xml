@@ -18,7 +18,7 @@
             (SELECT COUNT(1) FROM  i_dispatchsheet dis  WHERE  dis.Jobcode = t.jobCode ) AS taskNum,
             (SELECT	COUNT(1) FROM i_dispatchsheet dis WHERE dis.sequenceStatus = 'COMPLETED' AND dis.Jobcode = t.jobCode) AS finishedNum
         FROM	i_deliverable t
-        where   (t.owner = #{userId, jdbcType=VARCHAR} or t.creater = #{userId, jdbcType=VARCHAR})
+        where   1=1
         <if test="bu != null and bu != ''">
             AND  t.bu = (SELECT  b.id from i_ProjectTeamBU b where b.`name`= #{bu, jdbcType=VARCHAR} )
         </if>
@@ -66,8 +66,7 @@
             ( SELECT count(1) FROM i_DispatchSheet d WHERE d.sequenceStatus = 'COMPLETED' and d.Jobcode = t.Jobcode AND d.DeliverableDescription = t.id ) AS finishNumber,
             ( SELECT d.Deadline FROM i_DispatchSheet d WHERE d.Jobcode = t.Jobcode AND d.DeliverableDescription = t.id limit 1) AS deadline
         FROM	i_deliverable t
-        where  (t.owner = #{userId, jdbcType=VARCHAR} or t.creater = #{userId, jdbcType=VARCHAR})
-             and EXISTS
+        where   EXISTS
                 (select 1 from i_project_summary p where p.JobCode = #{jobCode, jdbcType=VARCHAR})
             <if test="deliverableDescription != null and deliverableDescription != ''">
                 and t.DeliverableDescription = #{deliverableDescription, jdbcType=VARCHAR}
@@ -103,12 +102,12 @@
                 t.Quantity as quantity,
                 t.sequenceStatus as taskStatus,
                 t.attachmentUrl as attachmentUrl,
-                (select w.id from biz_workitem w where w.instanceId = t.workflowInstanceId and w.activityCode ='Activity6') as workItemId,
+                w.id  as workItemId,
                 t.workflowInstanceId as workflowInstanceId
-         from i_DispatchSheet t
-        where  EXISTS
+         from i_DispatchSheet t, biz_workitem w
+        where w.instanceId = t.workflowInstanceId and w.activityCode ='Activity6'
+          and EXISTS
         (select 1 from i_project_summary p where p.JobCode = #{jobCode, jdbcType=VARCHAR})
-          and (t.owner = #{userId, jdbcType=VARCHAR} or t.creater = #{userId, jdbcType=VARCHAR})
           <if test="taskStatus != null and taskStatus != ''">
                 and t.sequenceStatus = #{taskStatus, jdbcType=VARCHAR}
           </if>
@@ -147,7 +146,7 @@
             w.id AS workItemId
         FROM i_DispatchSheet d, biz_workitem w
         WHERE d.workflowInstanceId = w.instanceId
-            AND w.activityCode = 'Activity3'  and (d.owner = #{userId, jdbcType=VARCHAR} or d.creater = #{userId, jdbcType=VARCHAR})
+            AND w.activityCode = 'Activity3'
             <if test="bu != null and bu != ''">
                 and d.ProjectTeamBU = #{bu, jdbcType=VARCHAR}
             </if>
