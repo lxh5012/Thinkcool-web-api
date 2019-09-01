@@ -9,6 +9,8 @@ import lombok.Setter;
 @Getter
 public class ProjectSummaryParam extends PageInfo {
 
+    @ApiModelProperty("id")
+    private String id;
     @ApiModelProperty("项目代码")
     private String jobCode;
 
@@ -38,6 +40,9 @@ public class ProjectSummaryParam extends PageInfo {
 
     @ApiModelProperty("签约主体")
     private String legalEntity;
+
+    @ApiModelProperty("供应商付款操作标记")
+    private Integer vendorPayFlag;
 
     public String toString(){
         StringBuilder sb = new StringBuilder("PageInfo{");

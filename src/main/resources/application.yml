@@ -137,7 +137,7 @@ cloudpivot:
     html2pdf: flyingsaucer #两种方式phantomjs 和 flyingsaucer
   api:
     oauth:
-      enabled: true   # 是否开启权限校验
+      enabled: false   # 是否开启权限校验
       test:
         userid: 124118672835755549      # 模拟测试用户ID，不能用于生产环境
     log:

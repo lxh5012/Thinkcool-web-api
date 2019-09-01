@@ -1,6 +1,7 @@
 package com.authine.cloudpivot.ext.controller;
 
 import com.authine.cloudpivot.ext.service.IProjectSummaryService;
+import com.authine.cloudpivot.ext.utils.NetworkUtil;
 import com.authine.cloudpivot.ext.vo.PageResult;
 import com.authine.cloudpivot.ext.vo.ProjectSummaryParam;
 import com.authine.cloudpivot.ext.vo.UserVO;
@@ -14,6 +15,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import java.io.UnsupportedEncodingException;
+import java.net.URLDecoder;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Objects;
 
 
 /**
@@ -37,7 +43,7 @@ public class ProjectManageController  extends BaseController {
 
    @ApiOperation(value = "查询projectsummary",notes = "查询projectsummary")
    @PostMapping("/queryProjectSummary")
-   public ResponseResult<PageResult>  queryProjectSummary(@RequestBody ProjectSummaryParam projectSummaryParam){
+   public ResponseResult<PageResult>  queryProjectSummary(@RequestBody ProjectSummaryParam projectSummaryParam)  {
       log.info("ProjectManageController|projectSummaryParam|"+projectSummaryParam.toString());
       PageResult pageResult = projectSummaryServiceImpl.queryProjectSummaryPage(projectSummaryParam);
       return getOkResponseResult( pageResult,"查询成功");
@@ -49,5 +55,34 @@ public class ProjectManageController  extends BaseController {
       log.info("ProjectManageController|updateProjectStatus|"+projectSummaryParam.toString());
       int result = projectSummaryServiceImpl.updateProjectStatus(projectSummaryParam);
       return getOkResponseResult( result,"更新项目状态成功");
+   }
+
+   @ApiOperation(value = "更新供应商付款操作标记",notes = "更新供应商付款操作标记")
+   @PostMapping("/updateVendorPayFlag")
+   public ResponseResult<Integer>  updateVendorPayFlag(@RequestBody ProjectSummaryParam projectSummaryParam){
+      log.info("ProjectManageController|updateVendorPayFlag|"+projectSummaryParam.toString());
+      int result = projectSummaryServiceImpl.updateVendorPayFlag(projectSummaryParam);
+      return getOkResponseResult( result,"更新供应商付款操作标记");
+   }
+
+   @ApiOperation(value = "获取projectSummary表单数据url",notes = "获取projectSummary表单数据url")
+   @PostMapping("/getProjectSummaryFormUrl")
+   public ResponseResult<Map<String,String>>  getProjectSummaryFormUrl(@RequestBody ProjectSummaryParam projectSummaryParam){
+      log.info("ProjectManageController|getProjectSummaryFormUrl|"+projectSummaryParam.toString());
+      String ip = "47.103.123.171";
+      StringBuffer fromUrl = new StringBuffer();
+      fromUrl.append("http://");
+      fromUrl.append(ip);
+      fromUrl.append("/form/detail?");
+      fromUrl.append("sheetCode=project_summary");
+      fromUrl.append("&objectId=").append(projectSummaryParam.getId());
+      fromUrl.append("&schemaCode=project_summary");
+      fromUrl.append("&return=/application/ProjectSummary/application-list/project_summary?parentId=2c93208b6c9e0bc6016c9e36d7ac0011");
+      fromUrl.append("&code=project_summary");
+      fromUrl.append("&openMode");
+      fromUrl.append("&pcUrl");
+      Map<String,String> resultMap = new HashMap<>();
+      resultMap.put("formUrl",fromUrl.toString());
+      return getOkResponseResult( resultMap,"获取表单url成功");
    }
 }
