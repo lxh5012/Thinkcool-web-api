@@ -64,18 +64,21 @@ public class SummaryTaskServiceImpl implements SummaryTaskService {
             maxDate = deliverableTaskList.get(0).getDeadline();
         }
         for (DeliverableTaskVO  deliverableTask: deliverableTaskList) {
-            if(Objects.nonNull(deliverableTask) && Objects.nonNull(deliverableTask.getDeadline()) && maxDate.before(deliverableTask.getDeadline())){
-                maxDate = deliverableTask.getDeadline();
+            if(Objects.nonNull(deliverableTask) && Objects.nonNull(deliverableTask.getDeadline()) ){
+                if(Objects.isNull(maxDate) || maxDate.before(deliverableTask.getDeadline())){
+                    maxDate = deliverableTask.getDeadline();
+                }
             }
         }
         //将日期转换为制定形式
         SimpleDateFormat format = new SimpleDateFormat("yyyy/MM/dd");
-        String resDate = format.format(maxDate);
+        String resDate = "";
+        if(Objects.nonNull(maxDate)){
+            resDate = format.format(maxDate);
+        }
         StringBuffer dispatchUrl = new StringBuffer();
         String ip = NetworkUtil.getIPAddress(request);
-        dispatchUrl.append("http://");
-        dispatchUrl.append(ip);
-        dispatchUrl.append("/form/detail?startWorkflowCode=DispatchSheet&return=%2Fworkflow-center%2Fstart-workflow");
+        dispatchUrl.append("http://47.103.123.171/form/detail?startWorkflowCode=DispatchSheet&return=%2Fworkflow-center%2Fstart-workflow");
         for (DeliverableTaskVO  deliverableTask: deliverableTaskList) {
             deliverableTask.setDeadlineShow(resDate);
             deliverableTask.setDispatchUrl(dispatchUrl.toString());
@@ -101,17 +104,12 @@ public class SummaryTaskServiceImpl implements SummaryTaskService {
                 String userNames = getUserNameById(res.getTaskOwners());
                 res.setTaskOwnerUserName(userNames);
             }
-
-
-
-            if(Objects.nonNull(res.getWorkItemId())){
-                //获取请求IP和端口号
-                String approveUrl = getUnfinshRequestUrl(res.getWorkItemId(), res.getWorkflowInstanceId());
-                res.setApproveUrl(approveUrl);
-                log.info("-------------派单代办URL   start---------------");
-                log.info(approveUrl.toString());
-                log.info("-------------派单代办URL   end---------------");
-            }
+            //获取请求IP和端口号
+            String approveUrl = getUnfinshRequestUrl(res.getWorkItemId(), res.getWorkflowInstanceId());
+            res.setApproveUrl(approveUrl);
+            log.info("-------------派单代办URL   start---------------");
+            log.info(approveUrl.toString());
+            log.info("-------------派单代办URL   end---------------");
         }
         PageInfo<TaskDetialVO> taskDetialPage = new PageInfo<>(taskDetialList);
         return PageUtils.getPageResult(taskDetialPage);
@@ -143,15 +141,20 @@ public class SummaryTaskServiceImpl implements SummaryTaskService {
                         log.info("-------------接单URL---------------");
                         log.info(approveUrl.toString());
                     }
-
-                    if(Objects.nonNull(res) && Objects.nonNull(res.getDeadline()) && maxDate.before(res.getDeadline())){
-                        maxDate = res.getDeadline();
+                    if(Objects.nonNull(res) && Objects.nonNull(res.getDeadline()) ){
+                        if(Objects.isNull(maxDate) || maxDate.before(res.getDeadline())){
+                            maxDate = res.getDeadline();
+                        }
                     }
                 }
             }
             //将日期转换为制定形式
             SimpleDateFormat format = new SimpleDateFormat("yyyy/MM/dd");
-            String resDate = format.format(maxDate);
+            String resDate = "";
+            if(Objects.nonNull(resDate)){
+                resDate = format.format(maxDate);
+            }
+
             for (AcceptTaskVO res: acceptTaskList) {
                 res.setDeadlineShow(resDate);
             }
@@ -165,8 +168,7 @@ public class SummaryTaskServiceImpl implements SummaryTaskService {
         String ip = NetworkUtil.getIPAddress(request);
         int port = request.getServerPort();
         StringBuffer approveUrl = new StringBuffer();
-        approveUrl.append("http://");
-        approveUrl.append(ip);
+        approveUrl.append("http://47.103.123.171");
         approveUrl.append("/form/detail?");
         if(Objects.nonNull(workflowInstanceId)){
             approveUrl.append("workflowInstanceId=" + workflowInstanceId);

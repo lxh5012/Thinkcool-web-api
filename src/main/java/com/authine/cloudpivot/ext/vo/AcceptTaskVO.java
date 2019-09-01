@@ -46,7 +46,7 @@ public class AcceptTaskVO {
     private String taskRequirement;
 
     @ApiModelProperty("交付数量")
-    private Integer quantity;
+    private Long quantity;
 
     @ApiModelProperty("交付时间")
     private Date deadline;

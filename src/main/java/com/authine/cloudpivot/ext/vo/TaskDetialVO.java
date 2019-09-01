@@ -53,7 +53,7 @@ public class TaskDetialVO {
 
 
     @ApiModelProperty("交付数量")
-    private Integer quantity;
+    private Long quantity;
 
     @ApiModelProperty("实例ID")
     private String workflowInstanceId;

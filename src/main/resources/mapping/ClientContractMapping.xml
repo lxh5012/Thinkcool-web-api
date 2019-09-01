@@ -5,20 +5,22 @@
 
 	<select id="getClientContractList"  resultType="com.authine.cloudpivot.ext.vo.ClientContractVO">
 		SELECT
-			  p.Jobcode jobcode,
-			  c.ProjectName projectName,
-			  c.ContractType contractType,
-			  c.clientName clientName,
-			  c.ClientContractVersion clientContractVersion,
-			  c.ClientContractCode clientContractCode,
-			  c.ClientContractPeriodStart clientContractStarttime,
-			  c.ClientContractPeriodEndtime clientContractEndtime,
-			  c.ClientContractStatus clientContractStatus,
-			  c.ContractAmount contractValue
+			c.id id,
+			p.Jobcode jobcode,
+			c.ProjectName projectName,
+			c.ContractType contractType,
+			c.clientName clientName,
+			c.ClientContractVersion clientContractVersion,
+			c.ClientContractCode clientContractCode,
+			c.ClientContractPeriodStart clientContractStarttime,
+			c.ClientContractPeriodEndtime clientContractEndtime,
+			c.ClientContractStatus clientContractStatus,
+			c.ContractAmount contractValue
 		FROM
-			  i_clientcontract c,
+			  i_clientcontract c
+		JOIN
 			  i_project_summary p
-		WHERE  c.Jobcode = p.id and
+		ON  c.Jobcode = p.id and
 
 			<if test="queryClientContract.clientContractStatus !=null and queryClientContract.clientContractStatus!='' ">
 				c.clientContractStatus = #{queryClientContract.clientContractStatus}  and
