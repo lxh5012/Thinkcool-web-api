@@ -72,7 +72,10 @@ public class SummaryTaskServiceImpl implements SummaryTaskService {
         }
         //将日期转换为制定形式
         SimpleDateFormat format = new SimpleDateFormat("yyyy/MM/dd");
-        String resDate = format.format(maxDate);
+        String resDate = "";
+        if(Objects.nonNull(maxDate)){
+            resDate = format.format(maxDate);
+        }
         StringBuffer dispatchUrl = new StringBuffer();
         String ip = NetworkUtil.getIPAddress(request);
         dispatchUrl.append("http://47.103.123.171/form/detail?startWorkflowCode=DispatchSheet&return=%2Fworkflow-center%2Fstart-workflow");
@@ -147,7 +150,11 @@ public class SummaryTaskServiceImpl implements SummaryTaskService {
             }
             //将日期转换为制定形式
             SimpleDateFormat format = new SimpleDateFormat("yyyy/MM/dd");
-            String resDate = format.format(maxDate);
+            String resDate = "";
+            if(Objects.nonNull(resDate)){
+                resDate = format.format(maxDate);
+            }
+
             for (AcceptTaskVO res: acceptTaskList) {
                 res.setDeadlineShow(resDate);
             }
