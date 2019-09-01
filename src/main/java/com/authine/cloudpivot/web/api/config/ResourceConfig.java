@@ -120,6 +120,10 @@ public class ResourceConfig extends ResourceServerConfigurerAdapter {
                     .antMatchers("/api/aliyun/download").permitAll()
                     .antMatchers("/api/projectmanage/*").permitAll()
                     .antMatchers("/formList/query/*").permitAll()
+                    .antMatchers("/clientContractController/*").permitAll()
+                    .antMatchers("/vendorContractController/*").permitAll()
+                    .antMatchers("/api/thinkCool/workflow").permitAll()
+
 
                     //.antMatchers("/api/projectmanage/**").permitAll()
                     //客户端接口测试

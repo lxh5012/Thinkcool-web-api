@@ -3,7 +3,7 @@ package com.authine.cloudpivot.ext.controller;
 import com.authine.cloudpivot.engine.enums.ErrCode;
 import com.authine.cloudpivot.ext.service.SummaryTaskService;
 import com.authine.cloudpivot.ext.vo.*;
-import com.authine.cloudpivot.web.api.controller.base.BaseQueryRuntimeController;
+import com.authine.cloudpivot.web.api.controller.base.BaseController;
 import com.authine.cloudpivot.web.api.view.ResponseResult;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
@@ -15,7 +15,7 @@ import java.util.*;
 @RequestMapping("/formList/query")
 @RestController
 @Slf4j
-public class ThinkCoolFormListController extends BaseQueryRuntimeController {
+public class ThinkCoolFormListController extends BaseController {
 
 
     @Autowired
