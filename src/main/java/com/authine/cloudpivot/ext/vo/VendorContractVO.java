@@ -52,6 +52,8 @@ public class VendorContractVO {
     @ApiModelProperty("供应商合同金额")
     private Double contractValue;
 
+    @ApiModelProperty("表单url")
+    private String formUrl;
 
 
 

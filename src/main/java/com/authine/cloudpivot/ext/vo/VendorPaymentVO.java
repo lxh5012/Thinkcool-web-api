@@ -1,6 +1,7 @@
 package com.authine.cloudpivot.ext.vo;
 
 
+import io.swagger.annotations.ApiModelProperty;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -10,6 +11,8 @@ import java.util.Date;
 @Setter
 @Getter
 public class VendorPaymentVO {
+    @ApiModelProperty("主键ID")
+    private String id;
     //项目代码
     private String Jobcode;
 
@@ -27,6 +30,8 @@ public class VendorPaymentVO {
     private String PaymentCheckDate;
     //实际付款日期
     private String ActualPaymentDate;
+
+    private String formUrl;
 
 
 

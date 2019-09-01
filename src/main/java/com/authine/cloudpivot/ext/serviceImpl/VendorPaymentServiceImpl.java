@@ -27,4 +27,5 @@ public class VendorPaymentServiceImpl implements VendorPaymentService {
         PageInfo<VendorPaymentVO> VendorPaymentVOVOPageInfo = new PageInfo<>(VendorPaymentList);
         return PageUtils.getPageResult(VendorPaymentVOVOPageInfo);
     }
+
 }

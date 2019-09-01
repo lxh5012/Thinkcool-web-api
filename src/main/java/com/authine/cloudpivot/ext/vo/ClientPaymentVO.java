@@ -38,6 +38,8 @@ public class ClientPaymentVO {
     //客户付款逾期日
     private Integer ClientPaymentOverDue;
 
+    private String id;
+
 
 
 }
