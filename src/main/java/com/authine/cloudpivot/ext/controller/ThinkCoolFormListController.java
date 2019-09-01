@@ -26,7 +26,7 @@ public class ThinkCoolFormListController extends BaseController {
     public ResponseResult<PageResult> list(@RequestBody SummaryTaskVO summaryTaskParam) {
         //  String userId = this.getUserId();
         //   summaryTaskParam.setUserId(userId);
-        if(checkParam(summaryTaskParam,summaryTaskParam.getFormName(), summaryTaskParam.getPage(), summaryTaskParam.getPageSize(), summaryTaskParam.getUserId()) ){
+        if(checkParam(summaryTaskParam,summaryTaskParam.getFormName(), summaryTaskParam.getPage(), summaryTaskParam.getPageSize()) ){
             log.debug("FormName/Page/PageSize/UserId不能为null");
             return getErrResponseResult(null, ErrCode.ORG_USER_NONEXISTENT.getErrCode(), "FormName/Page/PageSize/UserId不能为null");
         }
@@ -42,7 +42,7 @@ public class ThinkCoolFormListController extends BaseController {
     public ResponseResult<PageResult> queryDeliverableTask(@RequestBody DeliverableTaskVO deliverableTaskVO) {
        // String userId = this.getUserId();
         //deliverableTaskVO.setUserId(userId);
-        if(checkParam(deliverableTaskVO, deliverableTaskVO.getFormName(), deliverableTaskVO.getPage(), deliverableTaskVO.getPageSize(), deliverableTaskVO.getUserId()) ){
+        if(checkParam(deliverableTaskVO, deliverableTaskVO.getFormName(), deliverableTaskVO.getPage(), deliverableTaskVO.getPageSize()) ){
             log.debug("FormName/Page/PageSize/UserId不能为null");
             return getErrResponseResult(null, ErrCode.ORG_USER_NONEXISTENT.getErrCode(), "FormName/Page/PageSize/UserId不能为null");
         }
@@ -59,7 +59,7 @@ public class ThinkCoolFormListController extends BaseController {
     public ResponseResult<PageResult> queryTaskDetial(@RequestBody TaskDetialVO taskDetialVO) {
         //  String userId = this.getUserId();
         //   taskDetialVO.setUserId(userId);
-        if(checkParam(taskDetialVO, taskDetialVO.getFormName(), taskDetialVO.getPage(), taskDetialVO.getPageSize(), taskDetialVO.getUserId()) ){
+        if(checkParam(taskDetialVO, taskDetialVO.getFormName(), taskDetialVO.getPage(), taskDetialVO.getPageSize()) ){
             return getErrResponseResult(null, ErrCode.ORG_USER_NONEXISTENT.getErrCode(), "FormName/Page/PageSize/UserId不能为null");
         }
         if("TaskDetial".equals(taskDetialVO.getFormName())){
@@ -75,7 +75,7 @@ public class ThinkCoolFormListController extends BaseController {
     public ResponseResult<PageResult> acceptTaskList(@RequestBody AcceptTaskVO acceptTaskVO) {
         //    String userId = this.getUserId();
         //  acceptTaskVO.setUserId(userId);
-        if(checkParam(acceptTaskVO, acceptTaskVO.getFormName(), acceptTaskVO.getPage(), acceptTaskVO.getPageSize(), acceptTaskVO.getUserId()) ){
+        if(checkParam(acceptTaskVO, acceptTaskVO.getFormName(), acceptTaskVO.getPage(), acceptTaskVO.getPageSize()) ){
             return getErrResponseResult(null, ErrCode.ORG_USER_NONEXISTENT.getErrCode(), "FormName/Page/PageSize/UserId不能为null");
         }
         if("AcceptTask".equals(acceptTaskVO.getFormName())){
@@ -86,13 +86,13 @@ public class ThinkCoolFormListController extends BaseController {
     }
 
 
-    private boolean checkParam(Object obj, String formName, Integer page, Integer PageSize, String userId){
+    private boolean checkParam(Object obj, String formName, Integer page, Integer PageSize){
         if(Objects.isNull(obj)){
             log.debug("入参对象不能为null");
             return true;
         }
         if(Objects.isNull(formName) || Objects.isNull(page)
-                || Objects.isNull(PageSize) || Objects.isNull(userId)){
+                || Objects.isNull(PageSize) ){
             log.debug("FormName不能为null");
             return true;
         }
