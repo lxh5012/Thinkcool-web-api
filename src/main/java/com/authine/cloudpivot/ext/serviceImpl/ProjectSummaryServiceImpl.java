@@ -50,4 +50,10 @@ public class ProjectSummaryServiceImpl implements IProjectSummaryService {
         return projectSummaryMapper.updateProjectStatus(projectSummaryParam);
     }
 
+    @Override
+    public int updateVendorPayFlag(ProjectSummaryParam projectSummaryParam) {
+        return projectSummaryMapper.updateVendorPayFlag(projectSummaryParam);
+    }
+
+
 }

@@ -15,4 +15,6 @@ public interface IProjectSummaryService {
     public PageResult queryProjectSummaryPage(ProjectSummaryParam projectSummaryParam);
 
     public int updateProjectStatus(ProjectSummaryParam projectSummaryParam);
+
+    public int updateVendorPayFlag(ProjectSummaryParam projectSummaryParam);
 }

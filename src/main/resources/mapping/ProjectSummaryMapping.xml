@@ -86,4 +86,8 @@
     <update id="updateProjectStatus" parameterType="com.authine.cloudpivot.ext.vo.ProjectSummaryParam">
         update i_project_summary set projectStatus = #{projectStatus} where JobCode =#{jobCode}
     </update>
+
+    <update id="updateVendorPayFlag" parameterType="com.authine.cloudpivot.ext.vo.ProjectSummaryParam">
+        update i_project_summary set vendorPayFlag = #{vendorPayFlag} where JobCode =#{jobCode}
+    </update>
 </mapper>
