@@ -89,8 +89,8 @@ public class SummaryTaskServiceImpl implements SummaryTaskService {
 
     @Override
     public PageResult queryTaskDetial(TaskDetialVO taskDetialVO) {
-        int pageNum =taskDetialVO.getPage();
-        int pageSize = taskDetialVO.getPageSize();
+        int pageNum =Objects.isNull(taskDetialVO.getPage())?1:taskDetialVO.getPage();
+        int pageSize =  Objects.isNull(taskDetialVO.getPageSize())?10:taskDetialVO.getPageSize();
         PageHelper.startPage(pageNum, pageSize);
         List<TaskDetialVO> taskDetialList = summaryTaskMapper.queryTaskDetial(taskDetialVO);
         for (TaskDetialVO res: taskDetialList) {
@@ -165,11 +165,10 @@ public class SummaryTaskServiceImpl implements SummaryTaskService {
 
 
     private String getUnfinshRequestUrl(String workItemId, String workflowInstanceId){
-        String ip = NetworkUtil.getIPAddress(request);
+      //  String ip = NetworkUtil.getIPAddress(request);
         int port = request.getServerPort();
         StringBuffer approveUrl = new StringBuffer();
-        approveUrl.append("http://47.103.123.171");
-        approveUrl.append("/form/detail?");
+        approveUrl.append("http://47.103.123.171/form/detail?");
         if(Objects.nonNull(workflowInstanceId)){
             approveUrl.append("workflowInstanceId=" + workflowInstanceId);
             approveUrl.append("&");
@@ -177,7 +176,6 @@ public class SummaryTaskServiceImpl implements SummaryTaskService {
         if(Objects.nonNull(workItemId)){
             approveUrl.append("workitemId=" + workItemId);
         }
-        approveUrl.append(workflowInstanceId);
         return approveUrl.toString();
     }
 

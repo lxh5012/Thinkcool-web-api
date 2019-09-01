@@ -123,6 +123,7 @@ public class ResourceConfig extends ResourceServerConfigurerAdapter {
                     .antMatchers("/formList/query/deliverableTask/list").permitAll()
                     .antMatchers("/formList/query/queryTaskDetial/list").permitAll()
                     .antMatchers("/formList/query/queryacceptTask/list").permitAll()
+                    .antMatchers("/formList/query/cancelActivity").permitAll()
 
                     .antMatchers("/clientContractController/*").permitAll()
                     .antMatchers("/vendorContractController/*").permitAll()

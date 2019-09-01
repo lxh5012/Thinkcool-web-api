@@ -1,6 +1,7 @@
 package com.authine.cloudpivot.ext.controller;
 
 import com.authine.cloudpivot.engine.enums.ErrCode;
+import com.authine.cloudpivot.engine.enums.type.OperationType;
 import com.authine.cloudpivot.ext.service.SummaryTaskService;
 import com.authine.cloudpivot.ext.vo.*;
 import com.authine.cloudpivot.web.api.controller.base.BaseController;
@@ -69,6 +70,17 @@ public class ThinkCoolFormListController extends BaseController {
         return getErrResponseResult(null, ErrCode.ORG_USER_NONEXISTENT.getErrCode(), "FormName不是 Deliverable");
     }
 
+
+    @ApiOperation(value = "取消流程接口")
+    @GetMapping("/cancelActivity")
+    public ResponseResult<Boolean> cancelActivity(@RequestParam("workflowInstanceId") String workflowInstanceId,@RequestParam("activityCode") String activityCode) {
+        String userId = this.getUserId();
+        Boolean cancelResult = getWorkflowInstanceFacade().cancelActivity(userId, workflowInstanceId, activityCode);
+        if (cancelResult) {
+            return getOkResponseResult(cancelResult, "节点任务取消成功");
+        }
+        return getOkResponseResult(cancelResult, "节点任务取消失败");
+    }
 
     @ApiOperation(value = "查看 接单管理 数据接口")
     @PostMapping("/queryacceptTask/list")
