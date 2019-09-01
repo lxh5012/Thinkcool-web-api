@@ -122,6 +122,8 @@ public class ResourceConfig extends ResourceServerConfigurerAdapter {
                     .antMatchers("/formList/query/*").permitAll()
                     .antMatchers("/clientContractController/*").permitAll()
                     .antMatchers("/vendorContractController/*").permitAll()
+                    .antMatchers("/clientPaymentController/*").permitAll()
+                    .antMatchers("/vendorPaymentController/*").permitAll()
                     .antMatchers("/api/thinkCool/workflow").permitAll()
 
 
