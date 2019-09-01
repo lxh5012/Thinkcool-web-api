@@ -119,7 +119,11 @@ public class ResourceConfig extends ResourceServerConfigurerAdapter {
                     .antMatchers("/api/licenseExt/**").permitAll()
                     .antMatchers("/api/aliyun/download").permitAll()
                     .antMatchers("/api/projectmanage/*").permitAll()
-                    .antMatchers("/formList/query/*").permitAll()
+                    .antMatchers("/formList/query/summaryTask/list").permitAll()
+                    .antMatchers("/formList/query/deliverableTask/list").permitAll()
+                    .antMatchers("/formList/query/queryTaskDetial/list").permitAll()
+                    .antMatchers("/formList/query/queryacceptTask/list").permitAll()
+
                     .antMatchers("/clientContractController/*").permitAll()
                     .antMatchers("/vendorContractController/*").permitAll()
                     .antMatchers("/api/thinkCool/workflow").permitAll()
