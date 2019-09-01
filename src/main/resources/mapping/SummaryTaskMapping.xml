@@ -37,10 +37,16 @@
         <if test="projectName != null and projectName != ''">
             AND  t.ProjectName = #{projectName, jdbcType=VARCHAR}
         </if>
-        <if test="projectStartDate != null and projectStartDate != ''">
-            AND  t.ProjectStartDate <![CDATA[>=]]>  #{projectName, jdbcType=DATE}
+        <if test="projectStartDateBegin != null and projectStartDateBegin != ''">
+            AND  t.ProjectStartDate <![CDATA[>=]]>  #{projectStartDateBegin, jdbcType=DATE}
         </if>
-        <if test="projectEndDate != null and projectEndDate != ''">
+        <if test="projectStartDateEnd != null and projectStartDateEnd != ''">
+            AND  t.ProjectStartDate <![CDATA[<=]]>  #{projectStartDateEnd, jdbcType=DATE}
+        </if>
+        <if test="projectEndDateBegin != null and projectEndDateBegin != ''">
+            AND  t.ProjectEndDate <![CDATA[=<]]>  #{projectEndDate, jdbcType=DATE}
+        </if>
+        <if test="projectEndDateEnd != null and projectEndDateEnd != ''">
             AND  t.ProjectEndDate <![CDATA[=<]]>  #{projectEndDate, jdbcType=DATE}
         </if>
         GROUP BY t.Jobcode order by t.ProjectStartDate desc
@@ -53,14 +59,36 @@
             t.ProjectName AS projectName,
             (SELECT c.`name` from i_category c where c.id= t.DeliverableCategory ) AS deliverableCategory,
             t.DeliverableDescription AS deliverableDescription,
+            t.Quantity as quantity,
             (SELECT count(1) FROM i_DispatchSheet d WHERE d.Jobcode = t.Jobcode
                 AND d.DeliverableDescription = t.id ) AS taskNumber,
             ( SELECT count(1) FROM i_DispatchSheet d WHERE d.sequenceStatus = 'PROCESSING' and d.Jobcode = t.Jobcode AND d.DeliverableDescription = t.id ) AS unfinishNumber,
             ( SELECT count(1) FROM i_DispatchSheet d WHERE d.sequenceStatus = 'COMPLETED' and d.Jobcode = t.Jobcode AND d.DeliverableDescription = t.id ) AS finishNumber,
-            ( SELECT date_format(max(d.Deadline), '%Y/%m/%d') FROM i_DispatchSheet d WHERE d.Jobcode = t.Jobcode AND d.DeliverableDescription = t.id ) AS deadline
+            ( SELECT d.Deadline FROM i_DispatchSheet d WHERE d.Jobcode = t.Jobcode AND d.DeliverableDescription = t.id limit 1) AS deadline
         FROM	i_deliverable t
         where  (t.owner = #{userId, jdbcType=VARCHAR} or t.creater = #{userId, jdbcType=VARCHAR})
-          and t.Jobcode= #{jobCode, jdbcType=VARCHAR}
+             and EXISTS
+                (select 1 from i_project_summary p where p.JobCode = #{jobCode, jdbcType=VARCHAR})
+            <if test="deliverableDescription != null and deliverableDescription != ''">
+                and t.DeliverableDescription = #{deliverableDescription, jdbcType=VARCHAR}
+            </if>
+            <if test="deliverableCategory != null and deliverableCategory != ''">
+              and exists (
+                  SELECT 1 from i_category c where c.`name`= #{deliverableCategory, jdbcType=VARCHAR}
+                )
+            </if>
+            <if test="quantity != null and quantity != ''">
+                and t.Quantity = #{quantity, jdbcType=NUMERIC}
+            </if>
+            <if test="quantity != null and quantity != ''">
+                and t.Quantity = #{quantity, jdbcType=NUMERIC}
+            </if>
+            <if test="deadlineStart != null and deadlineStart != ''">
+               and ( SELECT max(d.Deadline) FROM i_DispatchSheet d WHERE d.Jobcode = t.Jobcode AND d.DeliverableDescription = t.id )  <![CDATA[>=]]>  #{deadlineStart, jdbcType=DATE}
+            </if>
+            <if test="deadlineEND != null and deadlineEND != ''">
+                and ( SELECT max(d.Deadline) FROM i_DispatchSheet d WHERE d.Jobcode = t.Jobcode AND d.DeliverableDescription = t.id )  <![CDATA[=<]]>  #{deadlineStart, jdbcType=DATE}
+            </if>
         GROUP BY t.DeliverableCategory order by t.createdTime desc
     </select>
 
@@ -68,13 +96,80 @@
     <select id="queryTaskDetial"  parameterType="com.authine.cloudpivot.ext.vo.TaskDetialVO" resultType="com.authine.cloudpivot.ext.vo.TaskDetialVO">
         SELECT  t.Jobcode as jobId,
 				 (select p.JobCode from i_project_summary p where p.id =  t.Jobcode) AS jobCode,
-				(SELECT c.`name` from i_category c where c.id= t.DeliverableCategory ) as deliverableDescription,
+				(SELECT c.`name` from i_category c where c.id= t.DeliverableCategory ) as deliverableCategory,
 				(select d.DeliverableDescription from i_deliverable d where d.id = t.DeliverableDescription) as deliverableDescription,
-				t.TaskDistributor as taskDistributor,
-				t.Taskowner  as taskOwner,
-                t.sequenceStatus as taskStatus
+				t.TaskDistributor as taskDistributors,
+				t.Taskowner  as taskOwners,
+                t.Quantity as quantity,
+                t.sequenceStatus as taskStatus,
+                t.attachmentUrl as attachmentUrl,
+                (select w.id from biz_workitem w where w.instanceId = t.workflowInstanceId and w.activityCode ='Activity6') as workItemId,
+                t.workflowInstanceId as workflowInstanceId
          from i_DispatchSheet t
-        where t.Jobcode = #{jobCode, jdbcType=VARCHAR}
+        where  EXISTS
+        (select 1 from i_project_summary p where p.JobCode = #{jobCode, jdbcType=VARCHAR})
+          and (t.owner = #{userId, jdbcType=VARCHAR} or t.creater = #{userId, jdbcType=VARCHAR})
+          <if test="taskStatus != null and taskStatus != ''">
+                and t.sequenceStatus = #{taskStatus, jdbcType=VARCHAR}
+          </if>
+          <if test="deliverableCategory != null and deliverableCategory != ''">
+             and (SELECT c.`name` from i_category c where c.id= t.DeliverableCategory ) = #{deliverableCategory, jdbcType=VARCHAR}
+          </if>
+          <if test="deliverableDescription != null and deliverableDescription != ''">
+             and (select d.DeliverableDescription from i_deliverable d where d.id = t.DeliverableDescription)  = #{deliverableDescription, jdbcType=VARCHAR}
+          </if>
+          <if test="quantity != null and quantity != ''">
+            and t.Quantity = #{quantity, jdbcType=NUMERIC}
+          </if>
+          <if test="taskDistributorUserName != null and taskDistributorUserName != ''">
+             and t.TaskDistributor like '%'#{taskDistributorUserName, jdbcType=VARCHAR}'%'
+          </if>
+          <if test="taskOwnerUserName != null and taskOwnerUserName != ''">
+             and t.Taskowner like '%'#{taskOwnerUserName, jdbcType=VARCHAR}'%'
+          </if>
+    </select>
+
+    <select id="acceptTaskList"  parameterType="com.authine.cloudpivot.ext.vo.AcceptTaskVO" resultType="com.authine.cloudpivot.ext.vo.AcceptTaskVO">
+        SELECT
+            d.ProjectTeamBU AS bu,
+            d.Jobcode AS jobId,
+            (SELECT p.JobCode FROM i_project_summary p WHERE p.id = d.Jobcode ) AS jobCode,
+            d.ProjectName AS projectName,
+            d.DeliverableDescription AS deliverableDescriptionId,
+            (SELECT t.DeliverableDescription FROM i_deliverable t WHERE t.id = d.DeliverableDescription ) AS deliverableDescription,
+            d.DeliverableCategory AS deliverableCategoryId,
+            (SELECT c.`name` FROM i_category c WHERE c.id = d.DeliverableCategory ) AS deliverableCategory,
+            d.TaskDistributor AS taskDistributors,
+            d.TaskRequirement AS taskRequirement,
+            d.Quantity AS quantity,
+            d.Deadline AS deadline,
+            d.workflowInstanceId AS workflowInstanceId,
+            w.id AS workItemId
+        FROM i_DispatchSheet d, biz_workitem w
+        WHERE d.workflowInstanceId = w.instanceId
+            AND w.activityCode = 'Activity3'  and (d.owner = #{userId, jdbcType=VARCHAR} or d.creater = #{userId, jdbcType=VARCHAR})
+            <if test="bu != null and bu != ''">
+                and d.ProjectTeamBU = #{bu, jdbcType=VARCHAR}
+            </if>
+            <if test="jobCode != null and jobCode != ''">
+                and (SELECT p.JobCode FROM i_project_summary p WHERE p.id = d.Jobcode ) = #{jobCode, jdbcType=VARCHAR}
+            </if>
+            <if test="projectName != null and projectName != ''">
+                and d.ProjectName = #{projectName, jdbcType=VARCHAR}
+            </if>
+            <if test="deliverableDescription != null and deliverableDescription != ''">
+                and (SELECT t.DeliverableDescription FROM i_deliverable t WHERE t.id = d.DeliverableDescription )  = #{deliverableDescription, jdbcType=VARCHAR}
+            </if>
+            <if test="taskRequirement != null and taskRequirement != ''">
+                and d.TaskRequirement = #{taskRequirement, jdbcType=VARCHAR}
+            </if>
+            <if test="quantity != null and quantity != ''">
+                and d.Quantity = #{quantity, jdbcType=NUMERIC}
+            </if>
+            <if test="taskDistributors != null and taskDistributors != ''">
+                and d.TaskDistributor = #{taskDistributors, jdbcType=VARCHAR}
+            </if>
+            ORDER BY d.Deadline DESC
     </select>
 
 </mapper>

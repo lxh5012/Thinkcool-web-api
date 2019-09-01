@@ -2,8 +2,88 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.authine.cloudpivot.ext.mapper.ProjectSummaryMapper">
 
+    <resultMap id="BaseResultMap" type="com.authine.cloudpivot.ext.vo.ProjectSummaryVO">
+        <id column="id" property="id" jdbcType="VARCHAR"/>
+        <result column="ContractLegalEntity" property="contractLegalEntity" jdbcType="VARCHAR"/>
+        <result column="BU" property="bu" jdbcType="VARCHAR"/>
+        <result column="ClientGroup" property="clientGroup" jdbcType="VARCHAR"/>
+        <result column="ClientBrand" property="clientBrand" jdbcType="VARCHAR"/>
+        <result column="ProjectType" property="projectType" jdbcType="VARCHAR"/>
+        <result column="ProjectStartDate" property="projectStartDate" jdbcType="VARCHAR"/>
+        <result column="ProjectEndDate" property="projectEndDate" jdbcType="VARCHAR"/>
+        <result column="JobCode" property="jobCode" jdbcType="VARCHAR"/>
+        <result column="ProjectName" property="projectName" jdbcType="VARCHAR"/>
+        <result column="Remark" property="remark" jdbcType="VARCHAR"/>
+        <result column="ProjectExpectedMargin" property="projectExpectedMargin" jdbcType="DECIMAL"/>
+        <result column="ProjectMargin" property="projectMargin" jdbcType="DECIMAL"/>
+        <result column="ProjectBudget" property="projectBudget" jdbcType="DECIMAL"/>
+        <result column="projectStatus" property="projectStatus" jdbcType="VARCHAR"/>
+
+    </resultMap>
+    <sql id="Base_Column_List">
+        id,ContractLegalEntity,BU,ClientGroup,ClientBrand,ProjectType,ProjectStartDate,ProjectEndDate,JobCode,ProjectName,Remark,ApprovalOpinion,MarginAttachment,
+        ProjectExpectedMargin,ProjectMargin,ProjectBudget
+    </sql>
     <select id="getUserVo" resultType="com.authine.cloudpivot.ext.vo.UserVO">
            SELECT name, userId,username from h_org_user where   name='赖相鸿';
     </select>
 
+    <select id="queryProjectSummary" resultMap="BaseResultMap" parameterType="com.authine.cloudpivot.ext.vo.ProjectSummaryParam">
+           SELECT
+            id,
+            ContractLegalEntity,
+            BU,
+            ClientGroup,
+            ClientBrand,
+            ProjectType,
+            date_format(t.ProjectStartDate,'%Y/%m/%d') ProjectStartDate,
+            date_format(t.ProjectEndDate,'%Y/%m/%d') ProjectEndDate ,
+            JobCode,
+            ProjectName,
+            Remark,
+            ProjectExpectedMargin,
+            ProjectMargin,
+            ProjectBudget,
+            case
+            projectStatus
+                when 'doing' then '项目进行中'
+                when 'done' then '项目结束'
+                when 'cancel' then '项目取消'
+            else ''
+            end projectStatus
+           from i_project_summary t
+           where 1=1
+            <if test="bu != null and bu != '' ">
+                AND  t.bu like CONCAT('%',CONCAT(#{bu},'%'))
+            </if>
+            <if test="clientGroup != null and clientGroup != '' ">
+                AND  t.ClientGroup = #{clientGroup, jdbcType=VARCHAR}
+            </if>
+            <if test="clientBrand != null and clientBrand != '' ">
+                AND  t.ClientBrand = #{clientBrand, jdbcType=VARCHAR}
+            </if>
+            <if test="jobCode != null and jobCode != '' ">
+                AND  t.Jobcode = #{jobCode, jdbcType=VARCHAR}
+            </if>
+            <if test="projectName != null and projectName != '' ">
+                AND  t.ProjectName like CONCAT('%',CONCAT(#{projectName},'%'))
+            </if>
+            <if test="projectStatus != null and projectStatus != '' ">
+                AND  t.projectStatus = #{projectStatus, jdbcType=VARCHAR}
+            </if>
+            <if test="legalEntity != null and legalEntity != '' ">
+                AND  t.ContractLegalEntity like CONCAT('%',CONCAT(#{legalEntity},'%'))
+            </if>
+            <if test="projectStartDate != null and projectStartDate != '' ">
+                AND  t.ProjectStartDate <![CDATA[>=]]>  #{projectName, jdbcType=DATE}
+            </if>
+            <if test="projectEndDate != null and projectEndDate != '' ">
+                AND  t.ProjectEndDate <![CDATA[>=]]>  #{projectEndDate, jdbcType=DATE}
+            </if>
+
+    </select>
+
+    <update id="updateProjectStatus" parameterType="com.authine.cloudpivot.ext.vo.ProjectSummaryParam">
+        update i_project_summary set projectStatus = #{projectStatus} where JobCode =#{jobCode}
+    </update>
 </mapper>
