@@ -75,9 +75,7 @@ public class SummaryTaskServiceImpl implements SummaryTaskService {
         String resDate = format.format(maxDate);
         StringBuffer dispatchUrl = new StringBuffer();
         String ip = NetworkUtil.getIPAddress(request);
-        dispatchUrl.append("http://");
-        dispatchUrl.append(ip);
-        dispatchUrl.append("/form/detail?startWorkflowCode=DispatchSheet&return=%2Fworkflow-center%2Fstart-workflow");
+        dispatchUrl.append("http://47.103.123.171/form/detail?startWorkflowCode=DispatchSheet&return=%2Fworkflow-center%2Fstart-workflow");
         for (DeliverableTaskVO  deliverableTask: deliverableTaskList) {
             deliverableTask.setDeadlineShow(resDate);
             deliverableTask.setDispatchUrl(dispatchUrl.toString());
@@ -163,8 +161,7 @@ public class SummaryTaskServiceImpl implements SummaryTaskService {
         String ip = NetworkUtil.getIPAddress(request);
         int port = request.getServerPort();
         StringBuffer approveUrl = new StringBuffer();
-        approveUrl.append("http://");
-        approveUrl.append(ip);
+        approveUrl.append("http://47.103.123.171");
         approveUrl.append("/form/detail?");
         if(Objects.nonNull(workflowInstanceId)){
             approveUrl.append("workflowInstanceId=" + workflowInstanceId);
