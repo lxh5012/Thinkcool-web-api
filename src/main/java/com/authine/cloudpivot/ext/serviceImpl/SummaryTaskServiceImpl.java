@@ -64,8 +64,10 @@ public class SummaryTaskServiceImpl implements SummaryTaskService {
             maxDate = deliverableTaskList.get(0).getDeadline();
         }
         for (DeliverableTaskVO  deliverableTask: deliverableTaskList) {
-            if(Objects.nonNull(deliverableTask) && Objects.nonNull(deliverableTask.getDeadline()) && maxDate.before(deliverableTask.getDeadline())){
-                maxDate = deliverableTask.getDeadline();
+            if(Objects.nonNull(deliverableTask) && Objects.nonNull(deliverableTask.getDeadline()) ){
+                if(Objects.isNull(maxDate) || maxDate.before(deliverableTask.getDeadline())){
+                    maxDate = deliverableTask.getDeadline();
+                }
             }
         }
         //将日期转换为制定形式
@@ -143,9 +145,10 @@ public class SummaryTaskServiceImpl implements SummaryTaskService {
                         log.info("-------------接单URL---------------");
                         log.info(approveUrl.toString());
                     }
-
-                    if(Objects.nonNull(res) && Objects.nonNull(res.getDeadline()) && maxDate.before(res.getDeadline())){
-                        maxDate = res.getDeadline();
+                    if(Objects.nonNull(res) && Objects.nonNull(res.getDeadline()) ){
+                        if(Objects.isNull(maxDate) || maxDate.before(res.getDeadline())){
+                            maxDate = res.getDeadline();
+                        }
                     }
                 }
             }

@@ -27,7 +27,7 @@ public class DeliverableTaskVO {
     private String deliverableCategory;
 
     @ApiModelProperty("交付数量")
-    private Integer quantity;
+    private Long quantity;
 
     @ApiModelProperty("工单数量")
     private Integer taskNumber;
