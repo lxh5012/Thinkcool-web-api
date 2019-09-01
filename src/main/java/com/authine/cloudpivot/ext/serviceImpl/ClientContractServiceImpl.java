@@ -8,7 +8,6 @@ import com.authine.cloudpivot.ext.vo.ClientContractVO;
 import com.authine.cloudpivot.ext.vo.PageResult;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
-import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -23,7 +22,7 @@ public class ClientContractServiceImpl implements ClientContractService {
 
 
     @Override
-    public PageResult getClientContractList(@Param("queryClientContract") QueryClientContract queryClientContract) {
+    public PageResult getClientContractList(QueryClientContract queryClientContract) {
         int pageNum =queryClientContract.getPage();
         int pageSize = queryClientContract.getPageSize();
         PageHelper.startPage(pageNum, pageSize);

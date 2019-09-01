@@ -16,9 +16,10 @@
 			  c.ClientContractStatus clientContractStatus,
 			  c.ContractAmount contractValue
 		FROM
-			  i_clientcontract c,
+			  i_clientcontract c
+		JOIN
 			  i_project_summary p
-		WHERE  c.Jobcode = p.id and
+		ON  c.Jobcode = p.id and
 
 			<if test="queryClientContract.clientContractStatus !=null and queryClientContract.clientContractStatus!='' ">
 				c.clientContractStatus = #{queryClientContract.clientContractStatus}  and

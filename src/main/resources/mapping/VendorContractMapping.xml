@@ -17,9 +17,10 @@
 			v.VendorContractStatus vendorContractStatus,
 			v.ContractValue contractValue
 		FROM
-			i_vendorcontract v,
+			i_vendorcontract v
+		JOIN
 			i_project_summary p
-		WHERE	v.Jobcode = p.id and
+		ON 	v.Jobcode = p.id and
 
 			<if test="queryVendorContract.vendorContractStatus !=null and queryVendorContract.vendorContractStatus!='' ">
 				v.VendorContractStatus = #{queryVendorContract.vendorContractStatus}  and
