@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.authine.cloudpivot.ext.mapper.OtherLegalDocumentMapper" >
+
+
+	<select id="getOtherLegalDocumentList"  resultType="com.authine.cloudpivot.ext.vo.OtherLegalDocumentVO">
+		SELECT
+			o.id,
+			c.name,
+			o.DocumentName,
+			o.DocumentStatus,
+			o.Remark
+		FROM
+			i_otherlegaldocument o
+		JOIN i_contracttype c ON o.DocumentType = c.id and
+
+
+
+
+			1=1
+	</select>
+
+
+
+
+
+
+</mapper>
