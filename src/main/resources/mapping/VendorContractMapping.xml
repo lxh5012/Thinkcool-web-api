@@ -5,6 +5,7 @@
 
 	<select id="getVendorContractList"  resultType="com.authine.cloudpivot.ext.vo.VendorContractVO">
 		SELECT
+			v.id id,
 			p.Jobcode jobcode,
 			v.ProjectName projectName,
 			v.ContractType contractType,

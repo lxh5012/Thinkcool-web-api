@@ -1,6 +1,7 @@
 package com.authine.cloudpivot.ext.queryVo;
 
 
+import com.github.pagehelper.PageInfo;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Getter;
 import lombok.Setter;
@@ -8,7 +9,7 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class QueryClientContract {
+public class QueryClientContract extends PageInfo {
 
     /*@ApiModelProperty("项目代码")
     private String jobcode;
@@ -46,11 +47,6 @@ public class QueryClientContract {
     @ApiModelProperty("合同金额")
     private Double contractValue2;
 
-    @ApiModelProperty("当前页码")
-    private Integer page;
-
-    @ApiModelProperty("当前页面数据量")
-    private Integer pageSize;
 
 
 }

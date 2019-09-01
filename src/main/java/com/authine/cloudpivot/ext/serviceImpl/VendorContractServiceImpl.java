@@ -23,12 +23,13 @@ public class VendorContractServiceImpl implements VendorContractService {
 
     @Override
     public PageResult getVendorContractList(QueryVendorContract queryVendorContract) {
-        int pageNum =queryVendorContract.getPage();
-        int pageSize = queryVendorContract.getPageSize();
+        int pageNum = queryVendorContract.getPageNum() == 0?1:queryVendorContract.getPageNum();
+        int pageSize = queryVendorContract.getPageSize() == 0?10:queryVendorContract.getPageSize();
         PageHelper.startPage(pageNum, pageSize);
         List<VendorContractVO> vendorContractList = vendorContractMapper.getVendorContractList(queryVendorContract);
         PageInfo<VendorContractVO> vendorContractVOPageInfo = new PageInfo<>(vendorContractList);
-        return PageUtils.getPageResult(vendorContractVOPageInfo);
+        PageResult pageResult = PageUtils.getPageResult(vendorContractVOPageInfo);
+        return pageResult;
 
     }
 }

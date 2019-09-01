@@ -23,12 +23,13 @@ public class ClientContractServiceImpl implements ClientContractService {
 
     @Override
     public PageResult getClientContractList(QueryClientContract queryClientContract) {
-        int pageNum =queryClientContract.getPage();
-        int pageSize = queryClientContract.getPageSize();
+        int pageNum = queryClientContract.getPageNum() == 0?1:queryClientContract.getPageNum();
+        int pageSize = queryClientContract.getPageSize() == 0?10:queryClientContract.getPageSize();
         PageHelper.startPage(pageNum, pageSize);
         List<ClientContractVO> clientContractList = clientContractMapper.getClientContractList(queryClientContract);
         PageInfo<ClientContractVO> clientContractVOPageInfo = new PageInfo<>(clientContractList);
-        return PageUtils.getPageResult(clientContractVOPageInfo);
+        PageResult pageResult = PageUtils.getPageResult(clientContractVOPageInfo);
+        return pageResult;
 
     }
 }
