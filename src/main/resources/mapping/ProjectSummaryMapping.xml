@@ -46,9 +46,9 @@
             ProjectBudget,
             case
             projectStatus
-                when 'doing' then '项目进行中'
-                when 'done' then '项目结束'
-                when 'cancel' then '项目取消'
+                when 'doing' then '进行中'
+                when 'done' then '已结束'
+                when 'cancel' then '已取消'
             else ''
             end projectStatus
            from i_project_summary t
