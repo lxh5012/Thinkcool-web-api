@@ -18,7 +18,7 @@ public class ClientPaymentVO {
     private String ProjectName;
 
     //客户发票日
-    private Date InvoicingDateClient;
+    private String InvoicingDateClient;
 
     //客户发票号码
     private String ClientInvoice;
@@ -33,7 +33,9 @@ public class ClientPaymentVO {
     private String ClientPaymentAging;
 
     //客户实际付款日
-    private Date ClientaymentRemittanceDate;
+    private String ClientaymentRemittanceDate;
+    //客户付款确认日
+    private String ClientPaymentCheckDate;
 
     //客户付款逾期日
     private Integer ClientPaymentOverDue;
