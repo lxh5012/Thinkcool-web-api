@@ -73,8 +73,8 @@ public class ThinkCoolFormListController extends BaseController {
 
     @ApiOperation(value = "取消流程接口")
     @GetMapping("/cancelActivity")
-    public ResponseResult<Boolean> cancelActivity(@RequestParam("workflowInstanceId") String workflowInstanceId,@RequestParam("activityCode") String activityCode) {
-        String userId = this.getUserId();
+    public ResponseResult<Boolean> cancelActivity(@RequestParam("userId") String userId, @RequestParam("workflowInstanceId") String workflowInstanceId,@RequestParam("activityCode") String activityCode) {
+       // String userId = this.getUserId();
         Boolean cancelResult = getWorkflowInstanceFacade().cancelActivity(userId, workflowInstanceId, activityCode);
         if (cancelResult) {
             return getOkResponseResult(cancelResult, "节点任务取消成功");
