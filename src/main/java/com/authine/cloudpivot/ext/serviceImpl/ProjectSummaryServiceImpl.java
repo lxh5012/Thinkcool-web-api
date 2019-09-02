@@ -3,6 +3,7 @@ package com.authine.cloudpivot.ext.serviceImpl;
 import com.authine.cloudpivot.ext.PageUtils;
 import com.authine.cloudpivot.ext.mapper.ProjectSummaryMapper;
 import com.authine.cloudpivot.ext.service.IProjectSummaryService;
+import com.authine.cloudpivot.ext.utils.ProjectStatusEnum;
 import com.authine.cloudpivot.ext.vo.*;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
@@ -34,11 +35,12 @@ public class ProjectSummaryServiceImpl implements IProjectSummaryService {
         List<ProjectSummaryVO> projectSummaryVOList = projectSummaryMapper.queryProjectSummary(projectSummaryParam);
         for(int i=0;i<projectSummaryVOList.size();i++){
             ProjectSummaryVO projectSummaryVO = projectSummaryVOList.get(i);
-            if(StringUtils.isNotBlank(projectSummaryVO.getJobCode())){
+            if(StringUtils.isNotBlank(projectSummaryVO.getJobCode())&& ProjectStatusEnum.doing.name().equals(projectSummaryVO.getProjectStatus())){
                 projectSummaryVO.setCommercialFlag(Boolean.TRUE);
                 projectSummaryVO.setVendorContractFlag(Boolean.TRUE);
                 projectSummaryVO.setClientContractFlag(Boolean.TRUE);
             }
+            projectSummaryVO.setProjectStatusView(ProjectStatusEnum.valueOf(projectSummaryVO.getProjectStatus()).name());
             projectSummaryVO.setClientPayFlag(Boolean.TRUE);
             projectSummaryVO.setVendorPayFlag(Boolean.TRUE);
         }

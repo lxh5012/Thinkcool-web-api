@@ -50,7 +50,8 @@
                 when 'done' then '已结束'
                 when 'cancel' then '已取消'
             else ''
-            end projectStatus
+            end projectStatusView,
+            projectStatus
            from i_project_summary t
            where 1=1
             <if test="bu != null and bu != '' ">
