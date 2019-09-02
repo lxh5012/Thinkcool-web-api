@@ -21,7 +21,7 @@ import javax.ws.rs.POST;
 import java.util.List;
 
 /**
- * 供应商付款页面接口
+ * 客户收款页面接口
  */
 @Api(value = " 客户收款页面接口", tags = "客户收款页面接口")
 @RestController
