@@ -51,7 +51,13 @@
                 when 'cancel' then '已取消'
             else ''
             end projectStatusView,
-            projectStatus
+            projectStatus,
+            case
+            vendorPayFlag
+                when 0 then false
+                when 1 then true
+            else false
+            end vendorPayFlag
            from i_project_summary t
            where 1=1
             <if test="bu != null and bu != '' ">

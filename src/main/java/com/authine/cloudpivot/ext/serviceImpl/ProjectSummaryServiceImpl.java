@@ -41,9 +41,12 @@ public class ProjectSummaryServiceImpl implements IProjectSummaryService {
                 projectSummaryVO.setClientContractFlag(Boolean.TRUE);
             }
             projectSummaryVO.setProjectStatusView(ProjectStatusEnum.valueOf(projectSummaryVO.getProjectStatus()).getValue());
-            projectSummaryVO.setClientPayFlag(Boolean.TRUE);
-            projectSummaryVO.setVendorPayFlag(Boolean.TRUE);
+            if(!ProjectStatusEnum.doing.name().equals(projectSummaryVO.getProjectStatus())){
+                projectSummaryVO.setClientPayFlag(Boolean.FALSE);
+                projectSummaryVO.setVendorPayFlag(Boolean.FALSE);
+            }
         }
+
         PageInfo<ProjectSummaryVO> projectSummaryVOPageInfo = new PageInfo<>(projectSummaryVOList);
         PageResult pageResult = PageUtils.getPageResult(projectSummaryVOPageInfo);
         return pageResult ;
