@@ -23,6 +23,8 @@ public class QueryClientPayment {
 
     //客户付款账龄
     private String ClientPaymentAging;
+    //客户付款账龄
+    private String ClientPaymentCheckDate;
     //客户付款逾期日
     private Integer ClientPaymentOverDue;
     //当前页码
@@ -116,5 +118,13 @@ public class QueryClientPayment {
 
     public void setClientaymentRemittanceDate(String clientaymentRemittanceDate) {
         ClientaymentRemittanceDate = clientaymentRemittanceDate;
+    }
+
+    public String getClientPaymentCheckDate() {
+        return ClientPaymentCheckDate;
+    }
+
+    public void setClientPaymentCheckDate(String clientPaymentCheckDate) {
+        ClientPaymentCheckDate = clientPaymentCheckDate;
     }
 }
