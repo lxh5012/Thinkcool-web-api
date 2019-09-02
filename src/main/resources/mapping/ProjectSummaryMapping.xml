@@ -46,11 +46,18 @@
             ProjectBudget,
             case
             projectStatus
-                when 'doing' then '项目进行中'
-                when 'done' then '项目结束'
-                when 'cancel' then '项目取消'
+                when 'doing' then '进行中'
+                when 'done' then '已结束'
+                when 'cancel' then '已取消'
             else ''
-            end projectStatus
+            end projectStatusView,
+            projectStatus,
+            case
+            vendorPayFlag
+                when 0 then false
+                when 1 then true
+            else false
+            end vendorPayFlag
            from i_project_summary t
            where 1=1
             <if test="bu != null and bu != '' ">
@@ -88,6 +95,6 @@
     </update>
 
     <update id="updateVendorPayFlag" parameterType="com.authine.cloudpivot.ext.vo.ProjectSummaryParam">
-        update i_project_summary set vendorPayFlag = #{vendorPayFlag} where JobCode =#{jobCode}
+        update i_project_summary set vendorPayFlag = 1 where JobCode =#{jobCode}
     </update>
 </mapper>
