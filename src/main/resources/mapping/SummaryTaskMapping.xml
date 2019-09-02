@@ -129,24 +129,24 @@
     </select>
 
     <select id="acceptTaskList"  parameterType="com.authine.cloudpivot.ext.vo.AcceptTaskVO" resultType="com.authine.cloudpivot.ext.vo.AcceptTaskVO">
-        SELECT
-            d.ProjectTeamBU AS bu,
-            d.Jobcode AS jobId,
-            (SELECT p.JobCode FROM i_project_summary p WHERE p.id = d.Jobcode ) AS jobCode,
-            d.ProjectName AS projectName,
-            d.DeliverableDescription AS deliverableDescriptionId,
-            (SELECT t.DeliverableDescription FROM i_deliverable t WHERE t.id = d.DeliverableDescription ) AS deliverableDescription,
-            d.DeliverableCategory AS deliverableCategoryId,
-            (SELECT c.`name` FROM i_category c WHERE c.id = d.DeliverableCategory ) AS deliverableCategory,
-            d.TaskDistributor AS taskDistributors,
-            d.TaskRequirement AS taskRequirement,
-            d.Quantity AS quantity,
-            d.Deadline AS deadline,
-            d.workflowInstanceId AS workflowInstanceId,
-            w.id AS workItemId
-        FROM i_DispatchSheet d, biz_workitem w
-        WHERE d.workflowInstanceId = w.instanceId
-            AND w.activityCode = 'Activity3'
+            SELECT
+                d.ProjectTeamBU AS bu,
+                d.Jobcode AS jobId,
+                (SELECT p.JobCode FROM i_project_summary p WHERE p.id = d.Jobcode ) AS jobCode,
+                d.ProjectName AS projectName,
+                d.DeliverableDescription AS deliverableDescriptionId,
+                (SELECT t.DeliverableDescription FROM i_deliverable t WHERE t.id = d.DeliverableDescription ) AS deliverableDescription,
+                d.DeliverableCategory AS deliverableCategoryId,
+                (SELECT c.`name` FROM i_category c WHERE c.id = d.DeliverableCategory ) AS deliverableCategory,
+                d.TaskDistributor AS taskDistributors,
+                d.TaskRequirement AS taskRequirement,
+                d.Quantity AS quantity,
+                d.Deadline AS deadline,
+                t.id AS workflowInstanceId,
+                w.id AS workItemId
+            FROM i_DispatchSheet d, biz_workitem w  ,biz_workflow_instance t
+            WHERE d.name = w.instanceName  and t.id = w.instanceId
+                 AND w.activityCode = 'Activity3'
             <if test="bu != null and bu != ''">
                 and d.ProjectTeamBU = #{bu, jdbcType=VARCHAR}
             </if>
@@ -168,7 +168,7 @@
             <if test="taskDistributors != null and taskDistributors != ''">
                 and d.TaskDistributor = #{taskDistributors, jdbcType=VARCHAR}
             </if>
-            ORDER BY d.Deadline DESC
+        ORDER BY d.createdtime desc
     </select>
 
 </mapper>
