@@ -8,19 +8,21 @@
 			c.id id,
 			p.Jobcode jobcode,
 			c.ProjectName projectName,
-			c.ContractType contractType,
+			t.NAME contractType,
 			c.clientName clientName,
-			c.ClientContractVersion clientContractVersion,
+			ccv.NAME clientContractVersion,
 			c.ClientContractCode clientContractCode,
 			c.ClientContractPeriodStart clientContractStarttime,
 			c.ClientContractPeriodEndtime clientContractEndtime,
 			c.ClientContractStatus clientContractStatus,
 			c.ContractAmount contractValue
 		FROM
-			  i_clientcontract c
-		JOIN
-			  i_project_summary p
-		ON  c.Jobcode = p.id and
+			i_clientcontract c
+		JOIN i_project_summary p
+		JOIN i_contracttype t
+		JOIN i_client_contract_version CCV ON c.Jobcode = p.id
+		AND c.contractType = t.id
+		AND c.clientContractVersion = ccv.id and
 
 			<if test="queryClientContract.clientContractStatus !=null and queryClientContract.clientContractStatus!='' ">
 				c.clientContractStatus = #{queryClientContract.clientContractStatus}  and

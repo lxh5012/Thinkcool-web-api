@@ -8,9 +8,9 @@
 			v.id id,
 			p.Jobcode jobcode,
 			v.ProjectName projectName,
-			v.ContractType contractType,
+			c.NAME contractType,
 			v.VendorName vendorName,
-			v.VendorContractVersion vendorContractVersion,
+			ccv.NAME vendorContractVersion,
 			v.VendorContractCode vendorContractCode,
 			v.VendorContractStarttime vendorContractStarttime,
 			v.VendorContractEndtime vendorContractEndtime,
@@ -19,10 +19,11 @@
 			v.ContractValue contractValue
 		FROM
 			i_vendorcontract v
-		JOIN
-			i_project_summary p
-		ON 	v.Jobcode = p.id and
-
+		JOIN i_project_summary p
+		JOIN i_contracttype c
+		JOIN i_client_contract_version ccv ON v.Jobcode = p.id
+		AND v.contractType = c.id
+		AND v.vendorContractVersion = ccv.id and
 			<if test="queryVendorContract.vendorContractStatus !=null and queryVendorContract.vendorContractStatus!='' ">
 				v.VendorContractStatus = #{queryVendorContract.vendorContractStatus}  and
 			</if>

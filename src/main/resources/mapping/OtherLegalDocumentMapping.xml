@@ -5,11 +5,11 @@
 
 	<select id="getOtherLegalDocumentList"  resultType="com.authine.cloudpivot.ext.vo.OtherLegalDocumentVO">
 		SELECT
-			o.id,
-			c.name,
-			o.DocumentName,
-			o.DocumentStatus,
-			o.Remark
+			o.id id,
+			c.NAME documentType,
+			o.DocumentName documentName,
+			o.DocumentStatus documentStatus,
+			o.Remark remark
 		FROM
 			i_otherlegaldocument o
 		JOIN i_contracttype c ON o.DocumentType = c.id and
