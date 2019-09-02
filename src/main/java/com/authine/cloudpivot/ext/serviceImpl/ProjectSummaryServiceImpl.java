@@ -45,6 +45,7 @@ public class ProjectSummaryServiceImpl implements IProjectSummaryService {
                 projectSummaryVO.setClientPayFlag(Boolean.FALSE);
                 projectSummaryVO.setVendorPayFlag(Boolean.FALSE);
             }
+            projectSummaryVO.setClientPayFlag(Boolean.TRUE);
         }
 
         PageInfo<ProjectSummaryVO> projectSummaryVOPageInfo = new PageInfo<>(projectSummaryVOList);
