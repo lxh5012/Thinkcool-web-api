@@ -3,7 +3,7 @@
 <mapper namespace="com.authine.cloudpivot.ext.mapper.ClientPaymentMapper">
 
     <select id="getClientPaymentList" resultType="com.authine.cloudpivot.ext.vo.ClientPaymentVO">
-           select a.id,a.Jobcode,a.ProjectName,b.InvoicingDateClient,b.ClientInvoice,b.amountBeforeTax,b.amountAfterTax,b.ClientPaymentAging,
+           select a.id as bizid,b.id as id,a.Jobcode,a.ProjectName,b.InvoicingDateClient,b.ClientInvoice,b.amountBeforeTax,b.amountAfterTax,b.ClientPaymentAging,
         b.ClientaymentRemittanceDate,b.ClientPaymentCheckDate,b.ClientPaymentOverDue from  i_clientpayment a join i_clientpaymentfin b on a.id=b.parentId and
     <if test="queryClientPayment.Jobcode !=null and queryClientPayment.Jobcode!='' ">
         a.jobcode like '%${queryClientPayment.Jobcode}%'  and

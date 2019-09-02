@@ -11,7 +11,9 @@ import java.util.Date;
 @Setter
 @Getter
 public class VendorPaymentVO {
-    @ApiModelProperty("主键ID")
+    //主表bigobjectid
+    private String bizid;
+    //子表每行数据的id
     private String id;
     //项目代码
     private String Jobcode;
