@@ -28,5 +28,8 @@ public class OtherLegalDocumentVO {
     @ApiModelProperty("备注")
     private String remark;
 
+    @ApiModelProperty("表单url")
+    private String formUrl;
+
 
 }
