@@ -39,6 +39,8 @@ public class ProjectSummaryServiceImpl implements IProjectSummaryService {
                 projectSummaryVO.setVendorContractFlag(Boolean.TRUE);
                 projectSummaryVO.setClientContractFlag(Boolean.TRUE);
             }
+            projectSummaryVO.setClientPayFlag(Boolean.TRUE);
+            projectSummaryVO.setVendorPayFlag(Boolean.TRUE);
         }
         PageInfo<ProjectSummaryVO> projectSummaryVOPageInfo = new PageInfo<>(projectSummaryVOList);
         PageResult pageResult = PageUtils.getPageResult(projectSummaryVOPageInfo);

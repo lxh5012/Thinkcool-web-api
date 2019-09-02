@@ -88,6 +88,6 @@
     </update>
 
     <update id="updateVendorPayFlag" parameterType="com.authine.cloudpivot.ext.vo.ProjectSummaryParam">
-        update i_project_summary set vendorPayFlag = #{vendorPayFlag} where JobCode =#{jobCode}
+        update i_project_summary set vendorPayFlag = 1 where JobCode =#{jobCode}
     </update>
 </mapper>
