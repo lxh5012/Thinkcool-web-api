@@ -39,7 +39,9 @@ public class ClientPaymentVO {
 
     //客户付款逾期日
     private Integer ClientPaymentOverDue;
-
+   //主表bigobjectid
+    private String bizid;
+    //子表每行数据的id
     private String id;
 
 
