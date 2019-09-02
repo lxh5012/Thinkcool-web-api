@@ -40,7 +40,7 @@ public class ProjectSummaryServiceImpl implements IProjectSummaryService {
                 projectSummaryVO.setVendorContractFlag(Boolean.TRUE);
                 projectSummaryVO.setClientContractFlag(Boolean.TRUE);
             }
-            projectSummaryVO.setProjectStatusView(ProjectStatusEnum.valueOf(projectSummaryVO.getProjectStatus()).name());
+            projectSummaryVO.setProjectStatusView(ProjectStatusEnum.valueOf(projectSummaryVO.getProjectStatus()).getValue());
             projectSummaryVO.setClientPayFlag(Boolean.TRUE);
             projectSummaryVO.setVendorPayFlag(Boolean.TRUE);
         }
