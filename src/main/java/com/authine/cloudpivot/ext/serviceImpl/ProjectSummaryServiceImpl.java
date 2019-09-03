@@ -5,13 +5,17 @@ import com.authine.cloudpivot.ext.mapper.ProjectSummaryMapper;
 import com.authine.cloudpivot.ext.service.IProjectSummaryService;
 import com.authine.cloudpivot.ext.utils.ProjectStatusEnum;
 import com.authine.cloudpivot.ext.vo.*;
+import com.authine.cloudpivot.web.api.view.ResponseResult;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.RequestBody;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Service(value="projectSummaryServiceImpl")
 public class ProjectSummaryServiceImpl implements IProjectSummaryService {
@@ -35,8 +39,9 @@ public class ProjectSummaryServiceImpl implements IProjectSummaryService {
         List<ProjectSummaryVO> projectSummaryVOList = projectSummaryMapper.queryProjectSummary(projectSummaryParam);
         for(int i=0;i<projectSummaryVOList.size();i++){
             ProjectSummaryVO projectSummaryVO = projectSummaryVOList.get(i);
+            projectSummaryVO.setCommercialFlag(Boolean.TRUE);
             if(StringUtils.isNotBlank(projectSummaryVO.getJobCode())&& ProjectStatusEnum.doing.name().equals(projectSummaryVO.getProjectStatus())){
-                projectSummaryVO.setCommercialFlag(Boolean.TRUE);
+
                 projectSummaryVO.setVendorContractFlag(Boolean.TRUE);
                 projectSummaryVO.setClientContractFlag(Boolean.TRUE);
             }
@@ -46,7 +51,7 @@ public class ProjectSummaryServiceImpl implements IProjectSummaryService {
                 projectSummaryVO.setClientPayFlag(Boolean.FALSE);
                 projectSummaryVO.setVendorPayFlag(Boolean.FALSE);
             }
-
+            projectSummaryVO.setProfitCommercialUrl(getProjectSummaryFormUrl(projectSummaryVO.getWorkItemId(),projectSummaryVO.getInstanceId()));
         }
 
         PageInfo<ProjectSummaryVO> projectSummaryVOPageInfo = new PageInfo<>(projectSummaryVOList);
@@ -54,6 +59,18 @@ public class ProjectSummaryServiceImpl implements IProjectSummaryService {
         return pageResult ;
     }
 
+
+    public String getProjectSummaryFormUrl(String workitemId,String workflowInstanceId){
+        String ip = "47.103.123.171";
+        StringBuffer fromUrl = new StringBuffer();
+        fromUrl.append("http://");
+        fromUrl.append(ip);
+        fromUrl.append("/form/detail?");
+        fromUrl.append("workitemId=").append(workitemId);
+        fromUrl.append("&workflowInstanceId=").append(workflowInstanceId);
+        fromUrl.append("&return=/workflow-center/my-unfinished-workitem");
+        return fromUrl.toString();
+    }
     @Override
     public int updateProjectStatus(ProjectSummaryParam projectSummaryParam) {
         return projectSummaryMapper.updateProjectStatus(projectSummaryParam);

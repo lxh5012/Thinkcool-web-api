@@ -79,6 +79,14 @@ public class ProjectSummaryVO {
     @ApiModelProperty("项目状态前端展示内容")
     private String projectStatusView;
 
+    @ApiModelProperty("代办id")
+    private String workItemId;
+
+    @ApiModelProperty("流程实例id")
+    private String instanceId;
+
+    @ApiModelProperty("填写profitCommercial url")
+    private String profitCommercialUrl;
 
 
 }

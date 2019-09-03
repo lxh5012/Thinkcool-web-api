@@ -30,7 +30,7 @@
 
     <select id="queryProjectSummary" resultMap="BaseResultMap" parameterType="com.authine.cloudpivot.ext.vo.ProjectSummaryParam">
            SELECT
-            id,
+            t.id,
             ContractLegalEntity,
             BU,
             ClientGroup,
@@ -40,7 +40,7 @@
             date_format(t.ProjectEndDate,'%Y/%m/%d') ProjectEndDate ,
             JobCode,
             ProjectName,
-            Remark,
+            t.Remark,
             ProjectExpectedMargin,
             ProjectMargin,
             ProjectBudget,
@@ -57,9 +57,13 @@
                 when 0 then false
                 when 1 then true
             else false
-            end vendorPayFlag
+            end vendorPayFlag,
+           workitem.id as workItemId,
+           instance.id as instanceId
            from i_project_summary t
-           where 1=1
+           left join biz_workflow_instance instance on t.id=instance.bizObjectId
+           left join biz_workitem workitem on instance.id = workitem.instanceId
+        where 1=1
             <if test="bu != null and bu != '' ">
                 AND  t.bu like CONCAT('%',CONCAT(#{bu},'%'))
             </if>
