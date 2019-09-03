@@ -6,17 +6,15 @@ import com.authine.cloudpivot.ext.service.IProjectSummaryService;
 import com.authine.cloudpivot.ext.utils.ProjectStatusEnum;
 import com.authine.cloudpivot.ext.utils.ThinkoolProjectUtils;
 import com.authine.cloudpivot.ext.vo.*;
-import com.authine.cloudpivot.web.api.view.ResponseResult;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.RequestBody;
 
-import java.util.HashMap;
+
 import java.util.List;
-import java.util.Map;
+import java.util.Objects;
 
 @Service(value="projectSummaryServiceImpl")
 public class ProjectSummaryServiceImpl implements IProjectSummaryService {
@@ -38,20 +36,27 @@ public class ProjectSummaryServiceImpl implements IProjectSummaryService {
         int pageSize = projectSummaryParam.getPageSize() == 0?10:projectSummaryParam.getPageSize();
         PageHelper.startPage(pageNum, pageSize);
         List<ProjectSummaryVO> projectSummaryVOList = projectSummaryMapper.queryProjectSummary(projectSummaryParam);
+        ProjectSummaryVO projectSummaryVO =null;
         for(int i=0;i<projectSummaryVOList.size();i++){
-            ProjectSummaryVO projectSummaryVO = projectSummaryVOList.get(i);
+            projectSummaryVO = projectSummaryVOList.get(i);
             projectSummaryVO.setCommercialFlag(Boolean.TRUE);
             if(StringUtils.isNotBlank(projectSummaryVO.getJobCode())&& ProjectStatusEnum.doing.name().equals(projectSummaryVO.getProjectStatus())){
 
                 projectSummaryVO.setVendorContractFlag(Boolean.TRUE);
                 projectSummaryVO.setClientContractFlag(Boolean.TRUE);
             }
-            projectSummaryVO.setProjectStatusView(ProjectStatusEnum.valueOf(projectSummaryVO.getProjectStatus()).getValue());
-            projectSummaryVO.setClientPayFlag(Boolean.TRUE);
+
+            //1、编写项目利润和商务信息 and 2、客户合同结束后
+            if(projectSummaryVO.getClientPayFlag() && !Objects.isNull(projectSummaryVO.getProjectMargin())){
+                projectSummaryVO.setClientPayFlag(Boolean.TRUE);
+            }
+
+            //项目进行中才有 操作权限
             if(!ProjectStatusEnum.doing.name().equals(projectSummaryVO.getProjectStatus())){
                 projectSummaryVO.setClientPayFlag(Boolean.FALSE);
                 projectSummaryVO.setVendorPayFlag(Boolean.FALSE);
             }
+            projectSummaryVO.setProjectStatusView(ProjectStatusEnum.valueOf(projectSummaryVO.getProjectStatus()).getValue());
             projectSummaryVO.setProfitCommercialUrl(ThinkoolProjectUtils.getWoritemUrl(projectSummaryVO.getWorkItemId(),projectSummaryVO.getInstanceId()));
         }
 
@@ -68,6 +73,16 @@ public class ProjectSummaryServiceImpl implements IProjectSummaryService {
     @Override
     public int updateVendorPayFlag(ProjectSummaryParam projectSummaryParam) {
         return projectSummaryMapper.updateVendorPayFlag(projectSummaryParam);
+    }
+
+    @Override
+    public int updateClientPayFlag(ProjectSummaryParam projectSummaryParam) {
+        return projectSummaryMapper.updateClientPayFlag(projectSummaryParam);
+    }
+
+    @Override
+    public ProjectSummaryVO getProjectSummaryInfo(ProjectSummaryParam projectSummaryParam) {
+        return projectSummaryMapper.getProjectSummaryInfo(projectSummaryParam);
     }
 
 
