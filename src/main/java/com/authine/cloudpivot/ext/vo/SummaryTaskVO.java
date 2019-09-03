@@ -39,6 +39,12 @@ public class SummaryTaskVO {
     @ApiModelProperty("项目名称")
     private String projectName;
 
+    @ApiModelProperty("项目类型")
+    private String projectType;
+
+    @ApiModelProperty("注明")
+    private String remark;
+
     @ApiModelProperty("项目开始日期")
     private String projectStartDate;
 

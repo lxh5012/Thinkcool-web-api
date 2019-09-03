@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
+import java.net.URLEncoder;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
@@ -36,7 +37,9 @@ public class ProjectManageController  extends BaseController {
    private IProjectSummaryService projectSummaryServiceImpl;
    @ApiOperation(value = "查询用户测试",notes = "查询用户测试")
    @GetMapping("/queryUser")
-   public ResponseResult<UserVO>  queryUser(){
+   public ResponseResult<UserVO>  queryUser() throws UnsupportedEncodingException {
+      String str = "http://47.103.123.171/form/detail?workitemId=5e1ee9090d3b4b62a610b1b21e537286&workflowInstanceId=69234693194c4314b5e5c66adc0adf91&return=%2Fworkflow-center%2Fmy-unfinished-workitem";
+      str = URLDecoder.decode(str,"UTF-8");
       UserVO userVo = projectSummaryServiceImpl.getUserVo();
       return getOkResponseResult( userVo,"查询成功");
    }
