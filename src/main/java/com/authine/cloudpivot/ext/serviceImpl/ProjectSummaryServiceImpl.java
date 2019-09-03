@@ -4,6 +4,7 @@ import com.authine.cloudpivot.ext.PageUtils;
 import com.authine.cloudpivot.ext.mapper.ProjectSummaryMapper;
 import com.authine.cloudpivot.ext.service.IProjectSummaryService;
 import com.authine.cloudpivot.ext.utils.ProjectStatusEnum;
+import com.authine.cloudpivot.ext.utils.ThinkoolProjectUtils;
 import com.authine.cloudpivot.ext.vo.*;
 import com.authine.cloudpivot.web.api.view.ResponseResult;
 import com.github.pagehelper.PageHelper;
@@ -51,7 +52,7 @@ public class ProjectSummaryServiceImpl implements IProjectSummaryService {
                 projectSummaryVO.setClientPayFlag(Boolean.FALSE);
                 projectSummaryVO.setVendorPayFlag(Boolean.FALSE);
             }
-            projectSummaryVO.setProfitCommercialUrl(getProjectSummaryFormUrl(projectSummaryVO.getWorkItemId(),projectSummaryVO.getInstanceId()));
+            projectSummaryVO.setProfitCommercialUrl(ThinkoolProjectUtils.getWoritemUrl(projectSummaryVO.getWorkItemId(),projectSummaryVO.getInstanceId()));
         }
 
         PageInfo<ProjectSummaryVO> projectSummaryVOPageInfo = new PageInfo<>(projectSummaryVOList);
@@ -59,18 +60,6 @@ public class ProjectSummaryServiceImpl implements IProjectSummaryService {
         return pageResult ;
     }
 
-
-    public String getProjectSummaryFormUrl(String workitemId,String workflowInstanceId){
-        String ip = "47.103.123.171";
-        StringBuffer fromUrl = new StringBuffer();
-        fromUrl.append("http://");
-        fromUrl.append(ip);
-        fromUrl.append("/form/detail?");
-        fromUrl.append("workitemId=").append(workitemId);
-        fromUrl.append("&workflowInstanceId=").append(workflowInstanceId);
-        fromUrl.append("&return=/workflow-center/my-unfinished-workitem");
-        return fromUrl.toString();
-    }
     @Override
     public int updateProjectStatus(ProjectSummaryParam projectSummaryParam) {
         return projectSummaryMapper.updateProjectStatus(projectSummaryParam);
