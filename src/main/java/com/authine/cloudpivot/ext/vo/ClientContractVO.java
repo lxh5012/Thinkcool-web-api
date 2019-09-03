@@ -49,8 +49,14 @@ public class ClientContractVO {
     @ApiModelProperty("合同金额")
     private Double contractValue;
 
-    @ApiModelProperty("表单url")
-    private String formUrl;
+    @ApiModelProperty("代办id")
+    private String workItemId;
+
+    @ApiModelProperty("流程实例id")
+    private String instanceId;
+
+    @ApiModelProperty("填写profitCommercial url")
+    private String profitCommercialUrl;
 
 
 

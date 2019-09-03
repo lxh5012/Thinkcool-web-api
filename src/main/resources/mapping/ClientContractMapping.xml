@@ -15,12 +15,16 @@
 			c.ClientContractPeriodStart clientContractStarttime,
 			c.ClientContractPeriodEndtime clientContractEndtime,
 			c.ClientContractStatus clientContractStatus,
-			c.ContractAmount contractValue
+			c.ContractAmount contractValue,
+			workitem.id AS workItemId,
+			instance.id AS instanceId
 		FROM
 			i_clientcontract c
 		LEFT JOIN i_project_summary p ON c.Jobcode = p.id
 		LEFT JOIN i_contracttype t ON c.contractType = t.id
-		LEFT JOIN i_client_contract_version CCV ON c.clientContractVersion = ccv.id and
+		LEFT JOIN i_client_contract_version CCV ON c.clientContractVersion = ccv.id
+		LEFT JOIN biz_workflow_instance instance ON c.id = instance.bizObjectId
+		LEFT JOIN biz_workitem workitem ON instance.id = workitem.instanceId and
 
 			<if test="queryClientContract.clientContractStatus !=null and queryClientContract.clientContractStatus!='' ">
 				c.clientContractStatus = #{queryClientContract.clientContractStatus}  and

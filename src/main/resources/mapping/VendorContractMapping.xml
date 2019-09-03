@@ -8,20 +8,25 @@
 			v.id id,
 			p.Jobcode jobcode,
 			v.ProjectName projectName,
-			c.DataValue contractType,
+			c.NAME contractType,
 			v.VendorName vendorName,
-			ccv.DataValue vendorContractVersion,
+			ccv.NAME vendorContractVersion,
 			v.VendorContractCode vendorContractCode,
 			v.VendorContractStarttime vendorContractStarttime,
 			v.VendorContractEndtime vendorContractEndtime,
 			v.VenderContracgtSigningDate venderContracgtSigningDate,
 			v.VendorContractStatus vendorContractStatus,
-			v.ContractValue contractValue
+			v.ContractValue contractValue,
+			workitem.id AS workItemId,
+			instance.id AS instanceId
 		FROM
 			i_vendorcontract v
 		LEFT JOIN i_project_summary p ON v.Jobcode = p.id
 		LEFT JOIN i_contracttype c ON v.contractType = c.id
-		LEFT JOIN i_client_contract_version ccv ON v.vendorContractVersion = ccv.id and
+		LEFT JOIN i_client_contract_version ccv ON v.vendorContractVersion = ccv.id
+		LEFT JOIN biz_workflow_instance instance ON v.id = instance.bizObjectId
+		LEFT JOIN biz_workitem workitem ON instance.id = workitem.instanceId and
+
 			<if test="queryVendorContract.vendorContractStatus !=null and queryVendorContract.vendorContractStatus!='' ">
 				v.VendorContractStatus = #{queryVendorContract.vendorContractStatus}  and
 			</if>
