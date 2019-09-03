@@ -12,4 +12,6 @@ public interface ProjectSummaryMapper {
     public List<ProjectSummaryVO> queryProjectSummary(ProjectSummaryParam projectSummaryParam);
     public int updateProjectStatus(ProjectSummaryParam projectSummaryParam);
     public int updateVendorPayFlag(ProjectSummaryParam projectSummaryParam);
+    public int updateClientPayFlag(ProjectSummaryParam projectSummaryParam);
+    public ProjectSummaryVO getProjectSummaryInfo(ProjectSummaryParam projectSummaryParam);
 }

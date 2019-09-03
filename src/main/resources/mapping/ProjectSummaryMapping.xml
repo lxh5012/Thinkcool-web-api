@@ -58,6 +58,12 @@
                 when 1 then true
             else false
             end vendorPayFlag,
+            case
+            clientPayFlag
+                when 0 then false
+                when 1 then true
+            else false
+            end clientPayFlag,
            workitem.id as workItemId,
            instance.id as instanceId
            from i_project_summary t
@@ -101,4 +107,24 @@
     <update id="updateVendorPayFlag" parameterType="com.authine.cloudpivot.ext.vo.ProjectSummaryParam">
         update i_project_summary set vendorPayFlag = 1 where JobCode =#{jobCode}
     </update>
+    <update id="updateClientPayFlag" parameterType="com.authine.cloudpivot.ext.vo.ProjectSummaryParam">
+        update i_project_summary set clientPayFlag = 1 where JobCode =#{jobCode}
+    </update>
+    <select id="getProjectSummaryInfo">
+        select
+            t.id,
+            ContractLegalEntity,
+            BU,
+            ClientGroup,
+            ClientBrand,
+            ProjectType,
+            date_format(t.ProjectStartDate,'%Y/%m/%d') ProjectStartDate,
+            date_format(t.ProjectEndDate,'%Y/%m/%d') ProjectEndDate ,
+            JobCode,
+            ProjectName,
+            ProjectExpectedMargin,
+            ProjectMargin,
+            ProjectBudget,
+        from i_project_summary t where id =#{id}
+    </select>
 </mapper>
