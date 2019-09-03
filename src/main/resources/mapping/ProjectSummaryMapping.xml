@@ -110,7 +110,7 @@
     <update id="updateClientPayFlag" parameterType="com.authine.cloudpivot.ext.vo.ProjectSummaryParam">
         update i_project_summary set clientPayFlag = 1 where JobCode =#{jobCode}
     </update>
-    <select id="getProjectSummaryInfo">
+    <select id="getProjectSummaryInfo" resultMap="BaseResultMap" parameterType="com.authine.cloudpivot.ext.vo.ProjectSummaryParam">
         select
             t.id,
             ContractLegalEntity,
@@ -124,7 +124,7 @@
             ProjectName,
             ProjectExpectedMargin,
             ProjectMargin,
-            ProjectBudget,
+            ProjectBudget
         from i_project_summary t where id =#{id}
     </select>
 </mapper>
