@@ -14,8 +14,17 @@
 			i_otherlegaldocument o
 		JOIN i_contracttype c ON o.DocumentType = c.id and
 
+			<if test="queryOtherLegalDocument.documentType !=null and queryOtherLegalDocument.documentType!='' ">
+				c.name = #{queryOtherLegalDocument.documentType}  and
+			</if>
 
+			<if test="queryOtherLegalDocument.documentName !=null and queryOtherLegalDocument.documentName!='' ">
+				o.documentName = #{queryOtherLegalDocument.documentName}  and
+			</if>
 
+			<if test="queryOtherLegalDocument.documentStatus !=null and queryOtherLegalDocument.documentStatus!='' ">
+				o.documentStatus = #{queryOtherLegalDocument.documentStatus}  and
+			</if>
 
 			1=1
 	</select>
