@@ -39,9 +39,11 @@ public class ProjectSummaryServiceImpl implements IProjectSummaryService {
         ProjectSummaryVO projectSummaryVO =null;
         for(int i=0;i<projectSummaryVOList.size();i++){
             projectSummaryVO = projectSummaryVOList.get(i);
-            projectSummaryVO.setCommercialFlag(Boolean.TRUE);
+            if(StringUtils.isNotBlank(projectSummaryVO.getJobCode())){
+                projectSummaryVO.setProjectApprovalFlag(Boolean.FALSE);
+            }
             if(StringUtils.isNotBlank(projectSummaryVO.getJobCode())&& ProjectStatusEnum.doing.name().equals(projectSummaryVO.getProjectStatus())){
-
+                projectSummaryVO.setCommercialFlag(Boolean.TRUE);
                 projectSummaryVO.setVendorContractFlag(Boolean.TRUE);
                 projectSummaryVO.setClientContractFlag(Boolean.TRUE);
             }
