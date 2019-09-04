@@ -93,40 +93,42 @@
 
 
     <select id="queryTaskDetial"  parameterType="com.authine.cloudpivot.ext.vo.TaskDetialVO" resultType="com.authine.cloudpivot.ext.vo.TaskDetialVO">
-        SELECT  t.Jobcode as jobId,
-                (select p.JobCode from i_project_summary p where p.id =  t.Jobcode) AS jobCode,
-                (SELECT c.`name` from i_category c where c.id= t.DeliverableCategory ) as deliverableCategory,
-                (select d.DeliverableDescription from i_deliverable d where d.id = t.DeliverableDescription) as deliverableDescription,
-                t.TaskDistributor as taskDistributors,
-                t.Taskowner  as taskOwners,
-                t.Quantity as quantity,
-                t.sequenceStatus as taskStatus,
-                t.attachmentUrl as attachmentUrl,
-                w.id  as workItemId,
-                t.id as workflowInstanceId
-                from i_DispatchSheet t, biz_workitem w,biz_workflow_instance i
-        where w.instanceId = t.workflowInstanceId  and t.id = i.bizObjectId
-        and (w.activityCode ='Activity6' or  i.state= 'COMPLETED' )
-          and EXISTS
-        (select 1 from i_project_summary p where p.JobCode = #{jobCode, jdbcType=VARCHAR})
-          <if test="taskStatus != null and taskStatus != ''">
-                and t.sequenceStatus = #{taskStatus, jdbcType=VARCHAR}
-          </if>
-          <if test="deliverableCategory != null and deliverableCategory != ''">
-             and (SELECT c.`name` from i_category c where c.id= t.DeliverableCategory ) = #{deliverableCategory, jdbcType=VARCHAR}
-          </if>
-          <if test="deliverableDescription != null and deliverableDescription != ''">
-             and (select d.DeliverableDescription from i_deliverable d where d.id = t.DeliverableDescription)  = #{deliverableDescription, jdbcType=VARCHAR}
-          </if>
-          <if test="quantity != null and quantity != ''">
-            and t.Quantity = #{quantity, jdbcType=NUMERIC}
-          </if>
-          <if test="taskDistributorUserName != null and taskDistributorUserName != ''">
-             and t.TaskDistributor like '%'#{taskDistributorUserName, jdbcType=VARCHAR}'%'
-          </if>
-          <if test="taskOwnerUserName != null and taskOwnerUserName != ''">
-             and t.Taskowner like '%'#{taskOwnerUserName, jdbcType=VARCHAR}'%'
-          </if>
+        SELECT
+        t.Jobcode AS jobId,
+        (SELECT p.JobCode FROM i_project_summary p WHERE p.id = t.Jobcode ) AS jobCode,
+        (SELECT c.`name` FROM i_category c WHERE c.id = t.DeliverableCategory ) AS deliverableCategory,
+        (SELECT d.DeliverableDescription FROM i_deliverable d WHERE d.id = t.DeliverableDescription ) AS deliverableDescription,
+        t.TaskDistributor AS taskDistributors,
+        t.Taskowner AS taskOwners,
+        t.Quantity AS quantity,
+        t.sequenceStatus AS taskStatus,
+        t.attachmentUrl AS attachmentUrl,
+        ( SELECT w.id FROM biz_workitem w,biz_workflow_instance i WHERE w.instanceId = t.workflowInstanceId
+        AND t.id = i.bizObjectId AND w.activityCode = 'Activity6' ) AS workItemId,
+        t.workflowInstanceId AS workflowInstanceId
+        FROM i_DispatchSheet t
+        WHERE t.sequenceStatus IN ('COMPLETED', 'PROCESSING')
+        AND t.workflowInstanceId IS NOT NULL
+        AND EXISTS (
+        SELECT 1 FROM i_project_summary p WHERE p.JobCode = #{jobCode, jdbcType=VARCHAR} and p.id = t.Jobcode )
+        <if test="taskStatus != null and taskStatus != ''">
+            and res.sequenceStatus = #{taskStatus, jdbcType=VARCHAR}
+        </if>
+        <if test="deliverableCategory != null and deliverableCategory != ''">
+            and res.deliverableCategory = #{deliverableCategory, jdbcType=VARCHAR}
+        </if>
+        <if test="deliverableDescription != null and deliverableDescription != ''">
+            and res.deliverableDescription = #{deliverableDescription, jdbcType=VARCHAR}
+        </if>
+        <if test="quantity != null and quantity != ''">
+            and res.Quantity = #{quantity, jdbcType=NUMERIC}
+        </if>
+        <if test="taskDistributorUserName != null and taskDistributorUserName != ''">
+            and res.TaskDistributor like '%'#{taskDistributorUserName, jdbcType=VARCHAR}'%'
+        </if>
+        <if test="taskOwnerUserName != null and taskOwnerUserName != ''">
+            and res.Taskowner like '%'#{taskOwnerUserName, jdbcType=VARCHAR}'%'
+        </if>
     </select>
 
     <select id="acceptTaskList"  parameterType="com.authine.cloudpivot.ext.vo.AcceptTaskVO" resultType="com.authine.cloudpivot.ext.vo.AcceptTaskVO">
