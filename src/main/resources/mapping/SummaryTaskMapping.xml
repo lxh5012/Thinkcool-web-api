@@ -112,22 +112,22 @@
         AND EXISTS (
         SELECT 1 FROM i_project_summary p WHERE p.JobCode = #{jobCode, jdbcType=VARCHAR} and p.id = t.Jobcode )
         <if test="taskStatus != null and taskStatus != ''">
-            and res.sequenceStatus = #{taskStatus, jdbcType=VARCHAR}
+            and t.sequenceStatus = #{taskStatus, jdbcType=VARCHAR}
         </if>
         <if test="deliverableCategory != null and deliverableCategory != ''">
-            and res.deliverableCategory = #{deliverableCategory, jdbcType=VARCHAR}
+            and t.deliverableCategory = #{deliverableCategory, jdbcType=VARCHAR}
         </if>
         <if test="deliverableDescription != null and deliverableDescription != ''">
-            and res.deliverableDescription = #{deliverableDescription, jdbcType=VARCHAR}
+            and t.deliverableDescription = #{deliverableDescription, jdbcType=VARCHAR}
         </if>
         <if test="quantity != null and quantity != ''">
-            and res.Quantity = #{quantity, jdbcType=NUMERIC}
+            and t.Quantity = #{quantity, jdbcType=NUMERIC}
         </if>
         <if test="taskDistributorUserName != null and taskDistributorUserName != ''">
-            and res.TaskDistributor like '%'#{taskDistributorUserName, jdbcType=VARCHAR}'%'
+            and t.TaskDistributor like '%'#{taskDistributorUserName, jdbcType=VARCHAR}'%'
         </if>
         <if test="taskOwnerUserName != null and taskOwnerUserName != ''">
-            and res.Taskowner like '%'#{taskOwnerUserName, jdbcType=VARCHAR}'%'
+            and t.Taskowner like '%'#{taskOwnerUserName, jdbcType=VARCHAR}'%'
         </if>
     </select>
 
