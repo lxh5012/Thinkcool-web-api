@@ -29,6 +29,12 @@
 
     <dependencies>
         <!-- ****************************************************** -->
+        <!-- 汉字转拼音首字母大写的jar包 -->
+        <dependency>
+            <groupId>org.clojars.cbilson</groupId>
+            <artifactId>pinyin4j</artifactId>
+            <version>2.5.0</version>
+        </dependency>
         <!-- 添加 mybatis.jar 相关的jar包-->
         <dependency>
             <groupId>org.mybatis</groupId>
