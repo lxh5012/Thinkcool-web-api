@@ -67,7 +67,7 @@
             ( SELECT d.Deadline FROM i_DispatchSheet d WHERE d.Jobcode = t.Jobcode AND d.DeliverableDescription = t.id limit 1) AS deadline
         FROM	i_deliverable t
         where   EXISTS
-                (select 1 from i_project_summary p where p.JobCode = #{jobCode, jdbcType=VARCHAR})
+                (select 1 from i_project_summary p where p.JobCode = #{jobCode, jdbcType=VARCHAR} and p.id = t.Jobcode)
             <if test="deliverableDescription != null and deliverableDescription != ''">
                 and t.DeliverableDescription = #{deliverableDescription, jdbcType=VARCHAR}
             </if>
@@ -154,7 +154,8 @@
                 and d.ProjectTeamBU = #{bu, jdbcType=VARCHAR}
             </if>
             <if test="jobCode != null and jobCode != ''">
-                and (SELECT p.JobCode FROM i_project_summary p WHERE p.id = d.Jobcode ) = #{jobCode, jdbcType=VARCHAR}
+                and EXISTS (
+                SELECT 1 FROM i_project_summary p WHERE p.JobCode = #{jobCode, jdbcType=VARCHAR} and p.id = t.Jobcode )
             </if>
             <if test="projectName != null and projectName != ''">
                 and d.ProjectName = #{projectName, jdbcType=VARCHAR}
