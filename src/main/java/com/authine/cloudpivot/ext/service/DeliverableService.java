@@ -10,4 +10,5 @@ import java.util.List;
 
 public interface DeliverableService {
     public DeliverableVO getDeliverableList();
+    public PageResult queryDeliverables(QueryDeliverable queryDeliverable);
 }

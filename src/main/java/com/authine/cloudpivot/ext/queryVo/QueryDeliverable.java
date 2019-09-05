@@ -1,5 +1,12 @@
 package com.authine.cloudpivot.ext.queryVo;
-public class QueryDeliverable {
+
+import com.github.pagehelper.PageInfo;
+import lombok.Getter;
+import lombok.Setter;
+
+@Setter
+@Getter
+public class QueryDeliverable extends PageInfo {
 
 
     //项目代码
@@ -16,60 +23,4 @@ public class QueryDeliverable {
     private String UnitCost;
     //数量
     private String Quantity;
-
-    public String getJobcode() {
-        return Jobcode;
-    }
-
-    public void setJobcode(String jobcode) {
-        Jobcode = jobcode;
-    }
-
-    public String getProjectName() {
-        return ProjectName;
-    }
-
-    public void setProjectName(String projectName) {
-        ProjectName = projectName;
-    }
-
-    public String getDeliverableDescription() {
-        return DeliverableDescription;
-    }
-
-    public void setDeliverableDescription(String deliverableDescription) {
-        DeliverableDescription = deliverableDescription;
-    }
-
-    public String getDeliverableCategory() {
-        return DeliverableCategory;
-    }
-
-    public void setDeliverableCategory(String deliverableCategory) {
-        DeliverableCategory = deliverableCategory;
-    }
-
-    public String getClientPrice() {
-        return ClientPrice;
-    }
-
-    public void setClientPrice(String clientPrice) {
-        ClientPrice = clientPrice;
-    }
-
-    public String getUnitCost() {
-        return UnitCost;
-    }
-
-    public void setUnitCost(String unitCost) {
-        UnitCost = unitCost;
-    }
-
-    public String getQuantity() {
-        return Quantity;
-    }
-
-    public void setQuantity(String quantity) {
-        Quantity = quantity;
-    }
 }

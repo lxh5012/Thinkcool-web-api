@@ -2,6 +2,7 @@ package com.authine.cloudpivot.ext.serviceImpl;
 
 import com.authine.cloudpivot.ext.PageUtils;
 import com.authine.cloudpivot.ext.mapper.ProjectSummaryMapper;
+import com.authine.cloudpivot.ext.queryVo.ProjectSummaryParam;
 import com.authine.cloudpivot.ext.service.IProjectSummaryService;
 import com.authine.cloudpivot.ext.utils.ProjectStatusEnum;
 import com.authine.cloudpivot.ext.utils.ThinkoolProjectUtils;

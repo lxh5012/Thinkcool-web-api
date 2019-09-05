@@ -1,6 +1,6 @@
 package com.authine.cloudpivot.ext.mapper;
 
-import com.authine.cloudpivot.ext.vo.ProjectSummaryParam;
+import com.authine.cloudpivot.ext.queryVo.ProjectSummaryParam;
 import com.authine.cloudpivot.ext.vo.ProjectSummaryVO;
 import com.authine.cloudpivot.ext.vo.UserVO;
 

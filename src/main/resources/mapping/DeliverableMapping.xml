@@ -1,8 +1,44 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.authine.cloudpivot.ext.mapper.DeliverableMapper">
+    <resultMap id="DeliverableMap" type="com.authine.cloudpivot.ext.vo.DeliverableVO">
+        <id column="id" property="id" jdbcType="VARCHAR"/>
+        <result column="JobCode" property="jobCode" jdbcType="VARCHAR"/>
+        <result column="ProjectName" property="projectName" jdbcType="VARCHAR"/>
+        <result column="DeliverableDescription" property="deliverableDescription" jdbcType="VARCHAR"/>
+        <result column="DeliverableCategory" property="deliverableCategory" jdbcType="VARCHAR"/>
+        <result column="ClientPrice" property="clientPrice" jdbcType="DECIMAL"/>
+        <result column="unitCost" property="unitCost" jdbcType="DECIMAL"/>
+        <result column="Quantity" property="quantity" jdbcType="DECIMAL"/>
+        <result column="Profit" property="profit" jdbcType="DECIMAL"/>
 
+        <result column="Margin" property="margin" jdbcType="DECIMAL"/>
+        <result column="VenforTax" property="venforTax" jdbcType="DECIMAL"/>
+        <result column="ClientTax" property="clientTax" jdbcType="DECIMAL"/>
+        <result column="ClientUnitPrice" property="clientUnitPrice" jdbcType="DECIMAL"/>
+
+    </resultMap>
     <select id="getDeliverableList" resultType="com.authine.cloudpivot.ext.vo.DeliverableVO">
         SELECT FORMAT(SUM(ClientPrice),2) as sumClientPrice,FORMAT(SUM(UnitCost),2) as sumUnitCost from i_deliverable
+    </select>
+    <select id="queryDeliverables" resultMap="DeliverableMap" parameterType="com.authine.cloudpivot.ext.queryVo.QueryDeliverable">
+              select
+              id,
+              JobCode,
+              DeliverableDescription,
+              DeliverableCategory,
+              ClientPrice,
+              unitCost,
+              Quantity,
+              Profit,
+              Margin,
+              VenforTax,
+              ClientTax
+              from
+              i_deliverable t
+              where 1=1
+              <if test="Jobcode != null and Jobcode != '' ">
+                    AND  t.JobCode =#{Jobcode}
+              </if>
     </select>
 </mapper>

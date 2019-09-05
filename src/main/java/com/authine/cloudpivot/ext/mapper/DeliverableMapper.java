@@ -4,6 +4,7 @@ import com.authine.cloudpivot.ext.queryVo.QueryClientPayment;
 import com.authine.cloudpivot.ext.queryVo.QueryDeliverable;
 import com.authine.cloudpivot.ext.vo.ClientPaymentVO;
 import com.authine.cloudpivot.ext.vo.DeliverableVO;
+import com.authine.cloudpivot.ext.vo.PageResult;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
 
@@ -12,4 +13,6 @@ import java.util.List;
 @Repository
 public interface DeliverableMapper {
     public DeliverableVO getDeliverableList();
+
+    public List<DeliverableVO> queryDeliverables(QueryDeliverable queryDeliverable);
 }

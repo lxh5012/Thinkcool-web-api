@@ -17,6 +17,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.constraints.Positive;
 import java.util.List;
 
 /**
@@ -36,6 +37,13 @@ public class DeliverableController extends BaseController {
    public ResponseResult<DeliverableVO>  getDeliverableList(){
       DeliverableVO deliverableVO = deliverableService.getDeliverableList();
       return getOkResponseResult( deliverableVO,"获取成功");
+   }
+
+   @ApiOperation(value = "查询deliverables",notes = "查询deliverables")
+   @PostMapping("/queryDeliverables")
+   public ResponseResult<PageResult>  queryDeliverables(@RequestBody QueryDeliverable queryDeliverable){
+      PageResult pageResult = deliverableService.queryDeliverables(queryDeliverable);
+      return getOkResponseResult( pageResult,"获取成功");
    }
 
 }

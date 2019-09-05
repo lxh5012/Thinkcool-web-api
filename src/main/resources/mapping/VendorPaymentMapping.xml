@@ -3,7 +3,8 @@
 <mapper namespace="com.authine.cloudpivot.ext.mapper.VendorPaymentMapper">
 
     <select id="getVendorPaymentList" resultType="com.authine.cloudpivot.ext.vo.VendorPaymentVO">
-           select a.id as bizid,b.id as id,a.Jobcode,a.ProjectName,date_format(b.vendorInvoicingDate,'%Y/%m/%d') as vendorInvoicingDate,b.installment,date_format(b.PaymentVendorDate,'%Y/%m/%d') as PaymentVendorDate,b.index,date_format(b.PaymentCheckDate,'%Y/%m/%d') as PaymentCheckDate,date_format(b.ActualPaymentDate,'%Y/%m/%d') as ActualPaymentDate from  i_vendorpayment a join i_stagePaymentInfo b on a.id=b.parentId and
+           select a.id as bizid,b.id as id,a.Jobcode,a.ProjectName,date_format(b.vendorInvoicingDate,'%Y/%m/%d') as vendorInvoicingDate,b.installment,date_format(b.PaymentVendorDate,'%Y/%m/%d') as PaymentVendorDate,b.index,date_format(b.PaymentCheckDate,'%Y/%m/%d') as PaymentCheckDate,date_format(b.ActualPaymentDate,'%Y/%m/%d') as ActualPaymentDate
+        from  i_vendorpayment a join i_stagePaymentInfo b on a.id=b.parentId and
     <if test="queryVendorPayment.Jobcode !=null and queryVendorPayment.Jobcode!='' ">
         a.jobcode like '%${queryVendorPayment.Jobcode}%'  and
     </if>

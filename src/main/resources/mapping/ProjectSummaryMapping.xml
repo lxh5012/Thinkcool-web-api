@@ -28,7 +28,7 @@
            SELECT name, userId,username from h_org_user where   name='赖相鸿';
     </select>
 
-    <select id="queryProjectSummary" resultMap="BaseResultMap" parameterType="com.authine.cloudpivot.ext.vo.ProjectSummaryParam">
+    <select id="queryProjectSummary" resultMap="BaseResultMap" parameterType="com.authine.cloudpivot.ext.queryVo.ProjectSummaryParam">
            SELECT
             t.id,
             ContractLegalEntity,
@@ -100,17 +100,17 @@
 
     </select>
 
-    <update id="updateProjectStatus" parameterType="com.authine.cloudpivot.ext.vo.ProjectSummaryParam">
+    <update id="updateProjectStatus" parameterType="com.authine.cloudpivot.ext.queryVo.ProjectSummaryParam">
         update i_project_summary set projectStatus = #{projectStatus} where JobCode =#{jobCode}
     </update>
 
-    <update id="updateVendorPayFlag" parameterType="com.authine.cloudpivot.ext.vo.ProjectSummaryParam">
+    <update id="updateVendorPayFlag" parameterType="com.authine.cloudpivot.ext.queryVo.ProjectSummaryParam">
         update i_project_summary set vendorPayFlag = 1 where JobCode =#{jobCode}
     </update>
-    <update id="updateClientPayFlag" parameterType="com.authine.cloudpivot.ext.vo.ProjectSummaryParam">
+    <update id="updateClientPayFlag" parameterType="com.authine.cloudpivot.ext.queryVo.ProjectSummaryParam">
         update i_project_summary set clientPayFlag = 1 where JobCode =#{jobCode}
     </update>
-    <select id="getProjectSummaryInfo" resultMap="BaseResultMap" parameterType="com.authine.cloudpivot.ext.vo.ProjectSummaryParam">
+    <select id="getProjectSummaryInfo" resultMap="BaseResultMap" parameterType="com.authine.cloudpivot.ext.queryVo.ProjectSummaryParam">
         select
             t.id,
             ContractLegalEntity,

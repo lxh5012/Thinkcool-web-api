@@ -1,4 +1,4 @@
-package com.authine.cloudpivot.ext.vo;
+package com.authine.cloudpivot.ext.queryVo;
 
 import com.github.pagehelper.PageInfo;
 import io.swagger.annotations.ApiModelProperty;

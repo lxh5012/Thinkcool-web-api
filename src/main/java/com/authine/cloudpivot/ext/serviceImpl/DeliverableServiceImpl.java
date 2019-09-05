@@ -7,15 +7,20 @@ import com.authine.cloudpivot.ext.queryVo.QueryClientPayment;
 import com.authine.cloudpivot.ext.queryVo.QueryDeliverable;
 import com.authine.cloudpivot.ext.service.ClientPaymentService;
 import com.authine.cloudpivot.ext.service.DeliverableService;
+import com.authine.cloudpivot.ext.utils.ProjectStatusEnum;
+import com.authine.cloudpivot.ext.utils.ThinkoolProjectUtils;
 import com.authine.cloudpivot.ext.vo.ClientPaymentVO;
 import com.authine.cloudpivot.ext.vo.DeliverableVO;
 import com.authine.cloudpivot.ext.vo.PageResult;
+import com.authine.cloudpivot.ext.vo.ProjectSummaryVO;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
+import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Objects;
 
 @Service(value="deliverableServiceImpl")
 public class DeliverableServiceImpl implements DeliverableService {
@@ -28,4 +33,16 @@ public class DeliverableServiceImpl implements DeliverableService {
         DeliverableVO list = deliverableMapper.getDeliverableList();
         return list;
     }
+
+    @Override
+    public PageResult queryDeliverables(QueryDeliverable queryDeliverable) {
+        int pageNum = queryDeliverable.getPageNum() == 0?1:queryDeliverable.getPageNum();
+        int pageSize = queryDeliverable.getPageSize() == 0?10:queryDeliverable.getPageSize();
+        PageHelper.startPage(pageNum, pageSize);
+        List<DeliverableVO> queryDeliverableVOList = deliverableMapper.queryDeliverables(queryDeliverable);
+        PageInfo<DeliverableVO> queryDeliverableVOPageInfo =new PageInfo<>(queryDeliverableVOList);
+        PageResult pageResult = PageUtils.getPageResult(queryDeliverableVOPageInfo);
+        return pageResult ;
+    }
+
 }
