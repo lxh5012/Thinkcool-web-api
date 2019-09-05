@@ -2,7 +2,9 @@ package com.authine.cloudpivot.ext.controller;
 
 import com.authine.cloudpivot.ext.queryVo.QueryClientContract;
 import com.authine.cloudpivot.ext.service.ClientContractService;
+import com.authine.cloudpivot.ext.utils.GenerationCodingUtils;
 import com.authine.cloudpivot.ext.vo.PageResult;
+import com.authine.cloudpivot.ext.vo.TestVO;
 import com.authine.cloudpivot.web.api.controller.base.BaseController;
 import com.authine.cloudpivot.web.api.handler.CustomizedOrigin;
 import com.authine.cloudpivot.web.api.view.ResponseResult;
@@ -33,6 +35,38 @@ public class ClientContractController extends BaseController {
         PageResult list = clientContractService.getClientContractList(queryClientContract);
         return getOkResponseResult(list,"查询成功");
     }
+
+
+
+
+    @ApiOperation(value = "根据 jobcode 自动生成客户合同编码")
+    @PostMapping("/getAutomaticGenerationCoding")
+    public String getAutomaticGenerationCoding(@RequestBody TestVO testVO) {
+        GenerationCodingUtils generationCodingUtils = new GenerationCodingUtils();
+        StringBuffer stringBuffer = new StringBuffer();
+        String coding = generationCodingUtils.getGenerationCoding();
+        String coding1 = generationCodingUtils.getGenerationCoding1();
+        String coding2 = generationCodingUtils.getGenerationCoding2();
+        if (testVO.getContractType().equals("客户补充合同")){
+            stringBuffer.append("R");
+            stringBuffer.append(coding);
+            stringBuffer.append(testVO.getJobCode());
+            stringBuffer.append("A");
+            stringBuffer.append(coding1);
+        }else if (testVO.getContractType().equals("客户订单(适用于订单等同合同)")){
+            stringBuffer.append("R");
+            stringBuffer.append(coding);
+            stringBuffer.append(testVO.getJobCode());
+            stringBuffer.append("P");
+            stringBuffer.append(coding2);
+        }else {
+            stringBuffer.append("R");
+            stringBuffer.append(coding);
+            stringBuffer.append(testVO.getJobCode());
+        }
+        return stringBuffer.toString();
+    }
+
 
 
 }

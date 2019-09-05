@@ -2,6 +2,7 @@ package com.authine.cloudpivot.ext.controller;
 
 import com.authine.cloudpivot.ext.queryVo.QueryVendorContract;
 import com.authine.cloudpivot.ext.service.VendorContractService;
+import com.authine.cloudpivot.ext.utils.GenerationCodingUtils;
 import com.authine.cloudpivot.ext.vo.PageResult;
 import com.authine.cloudpivot.web.api.controller.base.BaseController;
 import com.authine.cloudpivot.web.api.handler.CustomizedOrigin;
@@ -33,6 +34,15 @@ public class VendorContractController extends BaseController {
     public ResponseResult<PageResult> getVendorContractList(@RequestBody QueryVendorContract queryVendorContract) {
         PageResult list = vendorContractService.getVendorContractList(queryVendorContract);
         return getOkResponseResult(list,"查询成功");
+    }
+
+    @ApiOperation(value = "根据 jobcode 自动生成供应商合同编码")
+    @PostMapping("/getAutomaticGenerationCoding")
+    public ResponseResult<String> getAutomaticGenerationCoding(String jobCode) {
+        GenerationCodingUtils generationCodingUtils = new GenerationCodingUtils();
+        String coding = generationCodingUtils.getGenerationCoding();
+        String generationCoding = "P" + coding + jobCode;
+        return getOkResponseResult(generationCoding,"查询成功");
     }
 
 
