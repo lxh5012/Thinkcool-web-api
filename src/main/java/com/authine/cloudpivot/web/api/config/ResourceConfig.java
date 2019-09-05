@@ -101,7 +101,7 @@ public class ResourceConfig extends ResourceServerConfigurerAdapter {
                     .antMatchers("/openapi/**").hasAuthority("openapi")
                     //生成二维码
                     .antMatchers("/api/qrcode/**").permitAll()
-                    .antMatchers("/api/runtime/convert/download").permitAll()
+                    .antMatchers("/api/runtime/**").permitAll()
                     // swagger end
                     .antMatchers("/actuator/**", "/monitor/**", "/login/dingtalk", "login/mobile", "login/mobile/ajax", "login/password").permitAll()
                     .antMatchers("/oauth/**").permitAll()

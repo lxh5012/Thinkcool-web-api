@@ -170,12 +170,14 @@ public class SummaryTaskServiceImpl implements SummaryTaskService {
         StringBuffer approveUrl = new StringBuffer();
         approveUrl.append("http://47.103.123.171/form/detail?");
         if(Objects.nonNull(workflowInstanceId)){
-            approveUrl.append("workflowInstanceId=" + workflowInstanceId);
-            approveUrl.append("&");
+                approveUrl.append("workflowInstanceId=" + workflowInstanceId);
+            if(Objects.nonNull(workItemId)){
+                approveUrl.append("&");
+                approveUrl.append("workitemId=" + workItemId);
+            }
+            return approveUrl.toString();
         }
-        if(Objects.nonNull(workItemId)){
-            approveUrl.append("workitemId=" + workItemId);
-        }
+        approveUrl.append("workitemId=" + workItemId);
         return approveUrl.toString();
     }
 

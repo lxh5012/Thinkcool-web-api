@@ -58,6 +58,9 @@ public class ProjectSummaryVO {
     @ApiModelProperty("项目预算/Project budget")
     private BigDecimal projectBudget;
 
+    @ApiModelProperty("项目审批标记")
+    private Boolean projectApprovalFlag = Boolean.TRUE;
+
     @ApiModelProperty("项目利润 &商务信息 Project profit& commercial info 操作标记")
     private Boolean commercialFlag = Boolean.FALSE;
 

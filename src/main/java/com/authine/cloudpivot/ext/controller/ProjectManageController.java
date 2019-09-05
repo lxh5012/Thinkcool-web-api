@@ -4,6 +4,7 @@ import com.authine.cloudpivot.ext.service.IProjectSummaryService;
 import com.authine.cloudpivot.ext.utils.NetworkUtil;
 import com.authine.cloudpivot.ext.vo.PageResult;
 import com.authine.cloudpivot.ext.vo.ProjectSummaryParam;
+import com.authine.cloudpivot.ext.vo.ProjectSummaryVO;
 import com.authine.cloudpivot.ext.vo.UserVO;
 import com.authine.cloudpivot.web.api.controller.base.BaseController;
 import com.authine.cloudpivot.web.api.handler.CustomizedOrigin;
@@ -68,6 +69,14 @@ public class ProjectManageController  extends BaseController {
       return getOkResponseResult( result,"更新供应商付款操作标记");
    }
 
+   @ApiOperation(value = "更新客户收款操作标记",notes = "更新客户付款操作标记")
+   @PostMapping("/updateClientPayFlag")
+   public ResponseResult<Integer>  updateClientPayFlag(@RequestBody ProjectSummaryParam projectSummaryParam){
+      log.info("ProjectManageController|updateClientPayFlag|"+projectSummaryParam.toString());
+      int result = projectSummaryServiceImpl.updateClientPayFlag(projectSummaryParam);
+      return getOkResponseResult( result,"更新客户付款操作标记");
+   }
+
    @ApiOperation(value = "获取projectSummary表单数据url",notes = "获取projectSummary表单数据url")
    @PostMapping("/getProjectSummaryFormUrl")
    public ResponseResult<Map<String,String>>  getProjectSummaryFormUrl(@RequestBody ProjectSummaryParam projectSummaryParam){
@@ -87,5 +96,11 @@ public class ProjectManageController  extends BaseController {
       Map<String,String> resultMap = new HashMap<>();
       resultMap.put("formUrl",fromUrl.toString());
       return getOkResponseResult( resultMap,"获取表单url成功");
+   }
+   @ApiOperation(value = "获取projectSummary表单数据",notes = "获取projectSummary表单数据")
+   @PostMapping("/getProjectSummaryInfo")
+   public ResponseResult<ProjectSummaryVO> getProjectSummaryInfo(@RequestBody ProjectSummaryParam projectSummaryParam){
+      ProjectSummaryVO projectSummaryVO = projectSummaryServiceImpl.getProjectSummaryInfo(projectSummaryParam);
+      return getOkResponseResult( projectSummaryVO,"获取成功");
    }
 }
