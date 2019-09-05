@@ -6,7 +6,7 @@
 	<select id="getVendorContractList"  resultType="com.authine.cloudpivot.ext.vo.VendorContractVO">
 		SELECT
 			v.id id,
-			p.Jobcode jobcode,
+			v.Jobcode jobcode,
 			v.ProjectName projectName,
 			c.NAME contractType,
 			v.VendorName vendorName,
@@ -21,7 +21,6 @@
 			instance.id AS instanceId
 		FROM
 			i_vendorcontract v
-		LEFT JOIN i_project_summary p ON v.Jobcode = p.id
 		LEFT JOIN i_contracttype c ON v.contractType = c.id
 		LEFT JOIN i_client_contract_version ccv ON v.vendorContractVersion = ccv.id
 		LEFT JOIN biz_workflow_instance instance ON v.id = instance.bizObjectId

@@ -6,7 +6,7 @@
 	<select id="getClientContractList"  resultType="com.authine.cloudpivot.ext.vo.ClientContractVO">
 		SELECT
 			c.id id,
-			p.Jobcode jobcode,
+			c.Jobcode jobcode,
 			c.ProjectName projectName,
 			t.DataValue contractType,
 			c.clientName clientName,
@@ -20,7 +20,6 @@
 			instance.id AS instanceId
 		FROM
 			i_clientcontract c
-		LEFT JOIN i_project_summary p ON c.Jobcode = p.id
 		LEFT JOIN i_contracttype t ON c.contractType = t.id
 		LEFT JOIN i_client_contract_version CCV ON c.clientContractVersion = ccv.id
 		LEFT JOIN biz_workflow_instance instance ON c.id = instance.bizObjectId

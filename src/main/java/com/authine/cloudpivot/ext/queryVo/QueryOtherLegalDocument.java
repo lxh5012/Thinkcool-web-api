@@ -14,4 +14,10 @@ public class QueryOtherLegalDocument extends PageInfo {
     @ApiModelProperty("文件类型")
     private String documentType;
 
+    @ApiModelProperty("文件名称")
+    private String documentName;
+
+    @ApiModelProperty("文件状态")
+    private String documentStatus;
+
 }
