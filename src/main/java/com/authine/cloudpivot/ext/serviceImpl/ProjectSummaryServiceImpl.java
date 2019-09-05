@@ -39,12 +39,18 @@ public class ProjectSummaryServiceImpl implements IProjectSummaryService {
         ProjectSummaryVO projectSummaryVO =null;
         for(int i=0;i<projectSummaryVOList.size();i++){
             projectSummaryVO = projectSummaryVOList.get(i);
+
             if(StringUtils.isNotBlank(projectSummaryVO.getJobCode())){
+                //项目审批节点控制
                 projectSummaryVO.setProjectApprovalFlag(Boolean.FALSE);
             }
-            if(StringUtils.isNotBlank(projectSummaryVO.getJobCode())&& ProjectStatusEnum.doing.name().equals(projectSummaryVO.getProjectStatus())){
+            if(StringUtils.isNotBlank(projectSummaryVO.getJobCode())&&
+                    ProjectStatusEnum.doing.name().equals(projectSummaryVO.getProjectStatus())){
+                //填写商务信息&项目利润
                 projectSummaryVO.setCommercialFlag(Boolean.TRUE);
+                //发起供应商合同
                 projectSummaryVO.setVendorContractFlag(Boolean.TRUE);
+                //发起客户合同
                 projectSummaryVO.setClientContractFlag(Boolean.TRUE);
             }
 

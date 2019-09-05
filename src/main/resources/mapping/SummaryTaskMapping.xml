@@ -107,7 +107,9 @@
         AND t.id = i.bizObjectId AND w.activityCode = 'Activity6' ) AS workItemId,
         t.workflowInstanceId AS workflowInstanceId
         FROM i_DispatchSheet t
-        WHERE t.sequenceStatus IN ('COMPLETED', 'PROCESSING')
+        WHERE (t.sequenceStatus ='COMPLETED' OR
+             EXISTS (SELECT 1 FROM biz_workitem w WHERE w.instanceId = t.workflowInstanceId
+                AND  w.activityCode = 'Activity6' and t.sequenceStatus ='PROCESSING'  ))
         AND t.workflowInstanceId IS NOT NULL
         AND EXISTS (
         SELECT 1 FROM i_project_summary p WHERE p.JobCode = #{jobCode, jdbcType=VARCHAR} and p.id = t.Jobcode )
