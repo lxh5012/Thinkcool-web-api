@@ -3,6 +3,6 @@
 <mapper namespace="com.authine.cloudpivot.ext.mapper.DeliverableMapper">
 
     <select id="getDeliverableList" resultType="com.authine.cloudpivot.ext.vo.DeliverableVO">
-        SELECT SUM(ClientPrice) as sumClientPrice,SUM(UnitCost) as sumUnitCost from i_deliverable
+        SELECT FORMAT(SUM(ClientPrice),2) as sumClientPrice,FORMAT(SUM(UnitCost),2) as sumUnitCost from i_deliverable
     </select>
 </mapper>
