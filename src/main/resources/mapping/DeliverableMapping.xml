@@ -19,7 +19,7 @@
 
     </resultMap>
     <select id="getDeliverableList" resultType="com.authine.cloudpivot.ext.vo.DeliverableVO">
-        SELECT FORMAT(SUM(ClientPrice),2) as sumClientPrice,FORMAT(SUM(UnitCost),2) as sumUnitCost from i_deliverable
+        SELECT ROUND(SUM(ClientPrice),2) as sumClientPrice,ROUND(SUM(UnitCost),2) as sumUnitCost from i_deliverable
     </select>
     <select id="queryDeliverables" resultMap="DeliverableMap" parameterType="com.authine.cloudpivot.ext.queryVo.QueryDeliverable">
               select

@@ -4,6 +4,7 @@ import cn.hutool.http.HttpUtil;
 import com.authine.cloudpivot.engine.api.facade.OrganizationFacade;
 import com.authine.cloudpivot.engine.api.model.organization.UserModel;
 import com.authine.cloudpivot.ext.PageUtils;
+import com.authine.cloudpivot.ext.constant.ConstantString;
 import com.authine.cloudpivot.ext.mapper.SummaryTaskMapper;
 import com.authine.cloudpivot.ext.service.SummaryTaskService;
 import com.authine.cloudpivot.ext.utils.NetworkUtil;
@@ -77,8 +78,7 @@ public class SummaryTaskServiceImpl implements SummaryTaskService {
             resDate = format.format(maxDate);
         }
         StringBuffer dispatchUrl = new StringBuffer();
-        String ip = NetworkUtil.getIPAddress(request);
-        dispatchUrl.append("http://47.103.123.171/form/detail?startWorkflowCode=DispatchSheet&return=%2Fworkflow-center%2Fstart-workflow");
+        dispatchUrl.append(ConstantString.Deliverable_Task_Start_Url);
         for (DeliverableTaskVO  deliverableTask: deliverableTaskList) {
             deliverableTask.setDeadlineShow(resDate);
             deliverableTask.setDispatchUrl(dispatchUrl.toString());
@@ -168,7 +168,8 @@ public class SummaryTaskServiceImpl implements SummaryTaskService {
       //  String ip = NetworkUtil.getIPAddress(request);
         int port = request.getServerPort();
         StringBuffer approveUrl = new StringBuffer();
-        approveUrl.append("http://47.103.123.171/form/detail?");
+        approveUrl.append(ConstantString.IP);
+        approveUrl.append("/form/detail?");
         if(Objects.nonNull(workflowInstanceId)){
                 approveUrl.append("workflowInstanceId=" + workflowInstanceId);
             if(Objects.nonNull(workItemId)){
