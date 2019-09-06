@@ -23,4 +23,6 @@ public class QueryDeliverable extends PageInfo {
     private String UnitCost;
     //数量
     private String Quantity;
+
+    private String projectSummaryId;
 }
