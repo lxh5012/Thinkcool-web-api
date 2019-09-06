@@ -29,10 +29,10 @@ public class VendorContractServiceImpl implements VendorContractService {
         int pageSize = queryVendorContract.getPageSize() == 0?10:queryVendorContract.getPageSize();
         PageHelper.startPage(pageNum, pageSize);
         List<VendorContractVO> vendorContractList = vendorContractMapper.getVendorContractList(queryVendorContract);
-        List<VendorContractVO> list = new ArrayList<>();
+        List<VendorContractVO> list = new ArrayList<VendorContractVO>();
         for (int i = 0;i < vendorContractList.size();i++){
             VendorContractVO vendorContractVO = vendorContractList.get(i);
-            if (vendorContractVO.getJobcode() != null){
+            if (!"".equals(vendorContractVO.getJobcode())){
                 list.add(vendorContractVO);
             }
             vendorContractVO.setProfitCommercialUrl(ThinkoolProjectUtils.getWoritemUrl(vendorContractVO.getWorkItemId(),vendorContractVO.getInstanceId()));
