@@ -122,8 +122,8 @@
             t.id,
             ContractLegalEntity,
             BU,
-            ClientGroup,
-            ClientBrand,
+            c.ClientGroup,
+            d.ParentClientBrand clientBrand,
             ProjectType,
             date_format(t.ProjectStartDate,'%Y/%m/%d') ProjectStartDate,
             date_format(t.ProjectEndDate,'%Y/%m/%d') ProjectEndDate ,
@@ -132,6 +132,9 @@
             ProjectExpectedMargin,
             ProjectMargin,
             ProjectBudget
-        from i_project_summary t where id =#{id}
+        from i_project_summary t
+        LEFT JOIN i_clientgroup c ON t.clientgroup = c.id
+        LEFT JOIN i_customerbrand d ON t.ClientBrand = d.id
+        where id =#{id}
     </select>
 </mapper>
