@@ -34,8 +34,6 @@ public class DeliverableController extends BaseController {
    @Autowired
    private DeliverableService deliverableService;
 
-   @Autowired
-   private IProjectSummaryService projectSummaryServiceImpl;
    @ApiOperation(value = "查询deliverable",notes = "查询deliverable")
    @GetMapping("/getDeliverableList")
    public ResponseResult<DeliverableVO>  getDeliverableList(){
@@ -43,21 +41,5 @@ public class DeliverableController extends BaseController {
       return getOkResponseResult( deliverableVO,"获取成功");
    }
 
-   @ApiOperation(value = "查询deliverables",notes = "查询deliverables")
-   @PostMapping("/queryDeliverables")
-   public ResponseResult<PageResult>  queryDeliverables(@RequestBody QueryDeliverable queryDeliverable){
-      ProjectSummaryParam  projectSummaryParam = new ProjectSummaryParam();
-      if(StringUtils.isBlank(queryDeliverable.getProjectSummaryId())){
-         return getErrResponseResult( null,-1l,"项目ID不能为空");
-      }
-      projectSummaryParam.setId(queryDeliverable.getProjectSummaryId());
-      ProjectSummaryVO projectSummaryVO = projectSummaryServiceImpl.getProjectSummaryInfo(projectSummaryParam);
-      if(Objects.isNull(projectSummaryVO)){
-         return getErrResponseResult( null,-1l,"获取项目信息失败");
-      }
-      queryDeliverable.setJobcode(projectSummaryVO.getJobCode());
-      PageResult pageResult = deliverableService.queryDeliverables(queryDeliverable);
-      return getOkResponseResult( pageResult,"获取成功");
-   }
 
 }

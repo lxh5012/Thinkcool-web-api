@@ -1,6 +1,8 @@
 package com.authine.cloudpivot.ext.controller;
 
 import com.authine.cloudpivot.ext.queryVo.ProjectSummaryParam;
+import com.authine.cloudpivot.ext.queryVo.QueryDeliverable;
+import com.authine.cloudpivot.ext.service.DeliverableService;
 import com.authine.cloudpivot.ext.service.IProjectSummaryService;
 import com.authine.cloudpivot.ext.vo.PageResult;
 import com.authine.cloudpivot.ext.vo.ProjectSummaryVO;
@@ -11,6 +13,7 @@ import com.authine.cloudpivot.web.api.view.ResponseResult;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
@@ -19,6 +22,7 @@ import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
 
 
 /**
@@ -33,6 +37,10 @@ import java.util.Map;
 public class ProjectManageController  extends BaseController {
    @Autowired
    private IProjectSummaryService projectSummaryServiceImpl;
+
+   @Autowired
+   private DeliverableService deliverableService;
+
    @ApiOperation(value = "查询用户测试",notes = "查询用户测试")
    @GetMapping("/queryUser")
    public ResponseResult<UserVO>  queryUser() throws UnsupportedEncodingException {
@@ -101,6 +109,21 @@ public class ProjectManageController  extends BaseController {
       return getOkResponseResult( projectSummaryVO,"获取成功");
    }
 
-
+   @ApiOperation(value = "查询deliverables",notes = "查询deliverables")
+   @PostMapping("/queryDeliverables")
+   public ResponseResult<PageResult>  queryDeliverables(@RequestBody QueryDeliverable queryDeliverable){
+      ProjectSummaryParam  projectSummaryParam = new ProjectSummaryParam();
+      if(StringUtils.isBlank(queryDeliverable.getProjectSummaryId())){
+         return getErrResponseResult( null,-1l,"项目ID不能为空");
+      }
+      projectSummaryParam.setId(queryDeliverable.getProjectSummaryId());
+      ProjectSummaryVO projectSummaryVO = projectSummaryServiceImpl.getProjectSummaryInfo(projectSummaryParam);
+      if(Objects.isNull(projectSummaryVO)){
+         return getErrResponseResult( null,-1l,"获取项目信息失败");
+      }
+      queryDeliverable.setJobcode(projectSummaryVO.getJobCode());
+      PageResult pageResult = deliverableService.queryDeliverables(queryDeliverable);
+      return getOkResponseResult( pageResult,"获取成功");
+   }
 
 }
