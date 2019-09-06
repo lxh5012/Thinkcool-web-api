@@ -26,6 +26,7 @@ public class ThinkCoolFormListController extends BaseController {
     @PostMapping("/summaryTask/list")
     public ResponseResult<PageResult> list(@RequestBody SummaryTaskVO summaryTaskParam) {
          String userId = this.getUserId();
+         log.info("查询project summary可派工数据接口，当前登录的用户ID为： {}",userId);
          summaryTaskParam.setUserId(userId);
         if(checkParam(summaryTaskParam,summaryTaskParam.getFormName(), summaryTaskParam.getPage(), summaryTaskParam.getPageSize()) ){
             log.debug("FormName/Page/PageSize/UserId不能为null");
@@ -42,6 +43,7 @@ public class ThinkCoolFormListController extends BaseController {
     @PostMapping("/deliverableTask/list")
     public ResponseResult<PageResult> queryDeliverableTask(@RequestBody DeliverableTaskVO deliverableTaskVO) {
         String userId = this.getUserId();
+        log.info("查询Deliverable工单执行情况数据接口，当前登录的用户ID为： {}",userId);
         deliverableTaskVO.setUserId(userId);
         if(checkParam(deliverableTaskVO, deliverableTaskVO.getFormName(), deliverableTaskVO.getPage(), deliverableTaskVO.getPageSize()) ){
             log.debug("FormName/Page/PageSize/UserId不能为null");
@@ -60,6 +62,7 @@ public class ThinkCoolFormListController extends BaseController {
     public ResponseResult<PageResult> queryTaskDetial(@RequestBody TaskDetialVO taskDetialVO) {
         String userId = this.getUserId();
         taskDetialVO.setUserId(userId);
+        log.info("查看执行工单数据接口，当前登录的用户ID为： {}",userId);
         if(checkParam(taskDetialVO, taskDetialVO.getFormName(), taskDetialVO.getPage(), taskDetialVO.getPageSize()) ){
             return getErrResponseResult(null, ErrCode.ORG_USER_NONEXISTENT.getErrCode(), "FormName/Page/PageSize/UserId不能为null");
         }
@@ -75,6 +78,7 @@ public class ThinkCoolFormListController extends BaseController {
     @GetMapping("/cancelActivity")
     public ResponseResult<Boolean> cancelActivity(@RequestParam("userId") String userId, @RequestParam("workflowInstanceId") String workflowInstanceId,@RequestParam("activityCode") String activityCode) {
         userId = this.getUserId();
+        log.info("取消流程接口，当前登录的用户ID为： {}",userId);
         Boolean cancelResult = getWorkflowInstanceFacade().cancelActivity(userId, workflowInstanceId, activityCode);
         if (cancelResult) {
             return getOkResponseResult(cancelResult, "节点任务取消成功");
@@ -87,6 +91,7 @@ public class ThinkCoolFormListController extends BaseController {
     public ResponseResult<PageResult> acceptTaskList(@RequestBody AcceptTaskVO acceptTaskVO) {
         String userId = this.getUserId();
         acceptTaskVO.setUserId(userId);
+        log.info("接单管理接口，当前登录的用户ID为： {}",userId);
         if(checkParam(acceptTaskVO, acceptTaskVO.getFormName(), acceptTaskVO.getPage(), acceptTaskVO.getPageSize()) ){
             return getErrResponseResult(null, ErrCode.ORG_USER_NONEXISTENT.getErrCode(), "FormName/Page/PageSize/UserId不能为null");
         }
