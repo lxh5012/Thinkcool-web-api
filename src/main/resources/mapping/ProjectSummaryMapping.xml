@@ -29,55 +29,62 @@
     </select>
 
     <select id="queryProjectSummary" resultMap="BaseResultMap" parameterType="com.authine.cloudpivot.ext.queryVo.ProjectSummaryParam">
-           SELECT
-            t.id,
-            ContractLegalEntity,
-            BU,
-            ClientGroup,
-            ClientBrand,
-            ProjectType,
-            date_format(t.ProjectStartDate,'%Y/%m/%d') ProjectStartDate,
-            date_format(t.ProjectEndDate,'%Y/%m/%d') ProjectEndDate ,
-            JobCode,
-            ProjectName,
-            t.Remark,
-            ProjectExpectedMargin,
-            ProjectMargin,
-            ProjectBudget,
-            case
-            projectStatus
-                when 'doing' then '进行中'
-                when 'done' then '已结束'
-                when 'cancel' then '已取消'
-            else ''
-            end projectStatusView,
-            projectStatus,
-            case
-            vendorPayFlag
-                when 0 then false
-                when 1 then true
-            else false
-            end vendorPayFlag,
-            case
-            clientPayFlag
-                when 0 then false
-                when 1 then true
-            else false
-            end clientPayFlag,
-           workitem.id as workItemId,
-           instance.id as instanceId
-           from i_project_summary t
-           left join biz_workflow_instance instance on t.id=instance.bizObjectId
-           left join biz_workitem workitem on instance.id = workitem.instanceId
+        SELECT
+          t.id,
+          ContractLegalEntity,
+          BU,
+          c.ClientGroup,
+          d.ParentClientBrand clientBrand,
+          ProjectType,
+          date_format( t.ProjectStartDate, '%Y/%m/%d' ) ProjectStartDate,
+          date_format( t.ProjectEndDate, '%Y/%m/%d' ) ProjectEndDate,
+          JobCode,
+          ProjectName,
+          t.Remark,
+          ProjectExpectedMargin,
+          ProjectMargin,
+          ProjectBudget,
+        CASE
+          projectStatus
+          WHEN 'doing' THEN
+          '进行中'
+          WHEN 'done' THEN
+          '已结束'
+          WHEN 'cancel' THEN
+          '已取消' ELSE ''
+          END projectStatusView,
+          projectStatus,
+        CASE
+          vendorPayFlag
+          WHEN 0 THEN
+          FALSE
+          WHEN 1 THEN
+          TRUE ELSE FALSE
+          END vendorPayFlag,
+        CASE
+          clientPayFlag
+          WHEN 0 THEN
+        FALSE
+          WHEN 1 THEN
+        TRUE ELSE FALSE
+          END clientPayFlag,
+          workitem.id AS workItemId,
+          instance.id AS instanceId
+        FROM
+        i_project_summary t
+        LEFT JOIN i_clientgroup c ON t.clientgroup = c.id
+        LEFT JOIN i_customerbrand d ON t.ClientBrand = d.id
+        LEFT JOIN biz_workflow_instance instance ON t.id = instance.bizObjectId
+        LEFT JOIN biz_workitem workitem ON instance.id = workitem.instanceId
         where 1=1
             <if test="bu != null and bu != '' ">
                 AND  t.bu like CONCAT('%',CONCAT(#{bu},'%'))
             </if>
             <if test="clientGroup != null and clientGroup != '' ">
-                AND  t.ClientGroup = #{clientGroup, jdbcType=VARCHAR}
+                AND  c.ClientGroup = #{clientGroup, jdbcType=VARCHAR}
             </if>
             <if test="clientBrand != null and clientBrand != '' ">
-                AND  t.ClientBrand = #{clientBrand, jdbcType=VARCHAR}
+                AND  d.ParentClientBrand = #{clientBrand, jdbcType=VARCHAR}
             </if>
             <if test="jobCode != null and jobCode != '' ">
                 AND  t.Jobcode = #{jobCode, jdbcType=VARCHAR}

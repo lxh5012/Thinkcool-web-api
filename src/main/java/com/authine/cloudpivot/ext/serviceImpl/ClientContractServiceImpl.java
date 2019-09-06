@@ -7,6 +7,7 @@ import com.authine.cloudpivot.ext.service.ClientContractService;
 import com.authine.cloudpivot.ext.utils.ThinkoolProjectUtils;
 import com.authine.cloudpivot.ext.vo.ClientContractVO;
 import com.authine.cloudpivot.ext.vo.PageResult;
+import com.authine.cloudpivot.ext.vo.VendorContractVO;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,12 +31,14 @@ public class ClientContractServiceImpl implements ClientContractService {
         PageHelper.startPage(pageNum, pageSize);
         List<ClientContractVO> clientContractList = clientContractMapper.getClientContractList(queryClientContract);
         List<ClientContractVO> list = new ArrayList<>();
-        for (int i=0;i<clientContractList.size();i++){
-            ClientContractVO clientContractVO = clientContractList.get(i);
-            if (!"".equals(clientContractVO.getJobcode())){
-                list.add(clientContractVO);
+
+        if(null!=clientContractList&&clientContractList.size()>0){
+            for (ClientContractVO clientContractVO : clientContractList){
+                if (null!=clientContractVO && !"".equals(clientContractVO.getJobcode())){
+                    list.add(clientContractVO);
+                }
+                clientContractVO.setProfitCommercialUrl(ThinkoolProjectUtils.getWoritemUrl(clientContractVO.getWorkItemId(),clientContractVO.getInstanceId()));
             }
-            clientContractVO.setProfitCommercialUrl(ThinkoolProjectUtils.getWoritemUrl(clientContractVO.getWorkItemId(),clientContractVO.getInstanceId()));
         }
 
         PageInfo<ClientContractVO> clientContractVOPageInfo = new PageInfo<>(list);
