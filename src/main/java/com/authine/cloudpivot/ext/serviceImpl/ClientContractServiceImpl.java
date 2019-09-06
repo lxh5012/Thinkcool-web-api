@@ -32,7 +32,7 @@ public class ClientContractServiceImpl implements ClientContractService {
         List<ClientContractVO> list = new ArrayList<>();
         for (int i=0;i<clientContractList.size();i++){
             ClientContractVO clientContractVO = clientContractList.get(i);
-            if (clientContractVO.getJobcode() != null){
+            if (!"".equals(clientContractVO.getJobcode())){
                 list.add(clientContractVO);
             }
             clientContractVO.setProfitCommercialUrl(ThinkoolProjectUtils.getWoritemUrl(clientContractVO.getWorkItemId(),clientContractVO.getInstanceId()));
