@@ -14,8 +14,8 @@ public class JobCodeServiceImpl implements JobCodeService {
 
 
     @Override
-    public JobCodeVO  getJobCode(String bizObjectid) {
-        JobCodeVO jobCodeVO = jobCodeMapper.getJobCode(bizObjectid);
+    public JobCodeVO  getJobCode() {
+        JobCodeVO jobCodeVO = jobCodeMapper.getJobCode();
         return jobCodeVO;
     }
 

@@ -30,14 +30,9 @@ public class JobCodeController extends BaseController {
    private JobCodeService jobCodeService;
    @ApiOperation(value = "生成JobCode编码",notes = "生成JobCode编码")
    @GetMapping("/getJobCode")
-   public ResponseResult<JobCodeVO>  getJobCode(String bizObjectid){
-      JobCodeVO jobCodeVO = jobCodeService.getJobCode(bizObjectid);
-      if(jobCodeVO==null){
-         return getOkResponseResult( jobCodeVO,"获取失败,bizObjectid:"+bizObjectid+"不存在");
-      }else {
-         return getOkResponseResult( jobCodeVO,"获取成功");
-      }
-
+   public ResponseResult<JobCodeVO>  getJobCode(){
+      JobCodeVO jobCodeVO = jobCodeService.getJobCode();
+      return getOkResponseResult( jobCodeVO,"获取成功");
    }
    @ApiOperation(value = "插入bizobjectid",notes = "插入bizobjectid")
    @PostMapping("/insertBizobjectid")
