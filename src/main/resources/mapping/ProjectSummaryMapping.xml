@@ -31,8 +31,8 @@
     <select id="queryProjectSummary" resultMap="BaseResultMap" parameterType="com.authine.cloudpivot.ext.queryVo.ProjectSummaryParam">
         SELECT
           t.id,
-          ContractLegalEntity,
-          BU,
+          y.DataValue ContractLegalEntity,
+          p.DataValue BU,
           c.ClientGroup,
           d.ParentClientBrand clientBrand,
           ProjectType,
@@ -72,6 +72,8 @@
          -- instance.id AS instanceId
         FROM
         i_project_summary t
+        LEFT JOIN i_projectteambu p ON t.BU = p.id
+        LEFT JOIN i_contractlegalentity y ON t.ContractLegalEntity = y.id
         LEFT JOIN i_clientgroup c ON t.clientgroup = c.id
         LEFT JOIN i_customerbrand d ON t.ClientBrand = d.id
         -- LEFT JOIN biz_workflow_instance instance ON t.id = instance.bizObjectId
@@ -120,8 +122,8 @@
     <select id="getProjectSummaryInfo" resultMap="BaseResultMap" parameterType="com.authine.cloudpivot.ext.queryVo.ProjectSummaryParam">
         select
             t.id,
-            ContractLegalEntity,
-            BU,
+            y.DataValue ContractLegalEntity,
+	        p.DataValue BU,
             c.ClientGroup,
             d.ParentClientBrand clientBrand,
             ProjectType,
@@ -133,6 +135,8 @@
             ProjectMargin,
             ProjectBudget
         from i_project_summary t
+        LEFT JOIN i_projectteambu p ON t.BU = p.id
+	    LEFT JOIN i_contractlegalentity y ON t.ContractLegalEntity = y.id
         LEFT JOIN i_clientgroup c ON t.clientgroup = c.id
         LEFT JOIN i_customerbrand d ON t.ClientBrand = d.id
         where t.id =#{id}
