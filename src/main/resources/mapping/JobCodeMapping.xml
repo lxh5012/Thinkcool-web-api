@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.authine.cloudpivot.ext.mapper.JobCodeMapper">
+
+    <select id="getJobCode" resultType="com.authine.cloudpivot.ext.vo.JobCodeVO">
+        SELECT (id+1) as id,bizObjectid from sh_jobcodetable where bizobjectid = #{bizObjectId}
+    </select>
+    <insert id="insertBizObjectid" keyProperty="id" useGeneratedKeys="true" parameterType="com.authine.cloudpivot.ext.vo.JobCodeVO">
+        insert into sh_jobcodetable(bizobjectid) value (#{bizobjectid})
+    </insert>
+</mapper>
