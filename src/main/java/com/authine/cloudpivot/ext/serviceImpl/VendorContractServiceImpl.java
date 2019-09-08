@@ -25,18 +25,18 @@ public class VendorContractServiceImpl implements VendorContractService {
 
     @Override
     public PageResult getVendorContractList(QueryVendorContract queryVendorContract) {
-        int pageNum = queryVendorContract.getPageNum() == 0?1:queryVendorContract.getPageNum();
-        int pageSize = queryVendorContract.getPageSize() == 0?10:queryVendorContract.getPageSize();
+        int pageNum = queryVendorContract.getPageNum() == 0 ? 1 : queryVendorContract.getPageNum();
+        int pageSize = queryVendorContract.getPageSize() == 0 ? 10 : queryVendorContract.getPageSize();
         PageHelper.startPage(pageNum, pageSize);
         List<VendorContractVO> vendorContractList = vendorContractMapper.getVendorContractList(queryVendorContract);
         List<VendorContractVO> list = new ArrayList<>();
 
-        if(null!=vendorContractList&&vendorContractList.size()>0){
-            for (VendorContractVO vendorContractVO : vendorContractList){
-                if (null!=vendorContractVO && !"".equals(vendorContractVO.getJobcode())){
+        if (null != vendorContractList && vendorContractList.size() > 0) {
+            for (VendorContractVO vendorContractVO : vendorContractList) {
+                if (null != vendorContractVO && vendorContractVO.getJobcode() != null) {
                     list.add(vendorContractVO);
                 }
-                vendorContractVO.setProfitCommercialUrl(ThinkoolProjectUtils.getWoritemUrl(vendorContractVO.getWorkItemId(),vendorContractVO.getInstanceId()));
+                vendorContractVO.setProfitCommercialUrl(ThinkoolProjectUtils.getWoritemUrl(vendorContractVO.getWorkItemId(), vendorContractVO.getInstanceId()));
             }
         }
 
@@ -45,7 +45,6 @@ public class VendorContractServiceImpl implements VendorContractService {
         return pageResult;
 
     }
-
 
 
 }
