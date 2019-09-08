@@ -9,10 +9,7 @@ import com.authine.cloudpivot.ext.service.ClientPaymentService;
 import com.authine.cloudpivot.ext.service.DeliverableService;
 import com.authine.cloudpivot.ext.utils.ProjectStatusEnum;
 import com.authine.cloudpivot.ext.utils.ThinkoolProjectUtils;
-import com.authine.cloudpivot.ext.vo.ClientPaymentVO;
-import com.authine.cloudpivot.ext.vo.DeliverableVO;
-import com.authine.cloudpivot.ext.vo.PageResult;
-import com.authine.cloudpivot.ext.vo.ProjectSummaryVO;
+import com.authine.cloudpivot.ext.vo.*;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import org.apache.commons.lang.StringUtils;
@@ -44,5 +41,11 @@ public class DeliverableServiceImpl implements DeliverableService {
         PageResult pageResult = PageUtils.getPageResult(queryDeliverableVOPageInfo);
         return pageResult ;
     }
+
+    @Override
+    public int addContractRelation(List<DeliverableContract> deliverableContracts) {
+        return 0;
+    }
+
 
 }

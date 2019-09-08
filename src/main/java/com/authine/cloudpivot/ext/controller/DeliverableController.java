@@ -41,5 +41,11 @@ public class DeliverableController extends BaseController {
       return getOkResponseResult( deliverableVO,"获取成功");
    }
 
+   @ApiOperation(value = "关联客户合同/供应商合同/客户收款/供应商付款",notes = "关联客户合同/供应商合同/客户收款/供应商付款")
+   @GetMapping("/addContractRelation")
+   public ResponseResult<Integer>  addContractRelation(){
+      return getOkResponseResult( 1,"获取成功");
+   }
+
 
 }

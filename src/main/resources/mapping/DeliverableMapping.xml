@@ -41,4 +41,11 @@
                     AND  t.JobCode =#{Jobcode}
               </if>
     </select>
+    <insert id="addContractRelation">
+        INSERT INTO emp(ename,gender,email,did)
+        VALUES
+        <foreach collection="deliverableContracts" item="emp" separator=",">
+            (#{emp.eName},#{emp.gender},#{emp.email},#{emp.dept.id})
+        </foreach>
+    </insert>
 </mapper>
