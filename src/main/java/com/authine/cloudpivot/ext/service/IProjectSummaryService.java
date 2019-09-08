@@ -21,4 +21,6 @@ public interface IProjectSummaryService {
     public int updateClientPayFlag(ProjectSummaryParam projectSummaryParam);
 
     public ProjectSummaryVO getProjectSummaryInfo(ProjectSummaryParam projectSummaryParam);
+
+    public ProjectSummaryVO getWorItemInfoByProjectId(ProjectSummaryParam projectSummaryParam);
 }

@@ -1,9 +1,12 @@
 package com.authine.cloudpivot.ext.controller;
 
+import com.authine.cloudpivot.engine.api.facade.OrganizationFacade;
+import com.authine.cloudpivot.engine.api.model.organization.UserModel;
 import com.authine.cloudpivot.ext.queryVo.ProjectSummaryParam;
 import com.authine.cloudpivot.ext.queryVo.QueryDeliverable;
 import com.authine.cloudpivot.ext.service.DeliverableService;
 import com.authine.cloudpivot.ext.service.IProjectSummaryService;
+import com.authine.cloudpivot.ext.utils.ThinkoolProjectUtils;
 import com.authine.cloudpivot.ext.vo.PageResult;
 import com.authine.cloudpivot.ext.vo.ProjectSummaryVO;
 import com.authine.cloudpivot.ext.vo.UserVO;
@@ -125,5 +128,21 @@ public class ProjectManageController  extends BaseController {
       PageResult pageResult = deliverableService.queryDeliverables(queryDeliverable);
       return getOkResponseResult( pageResult,"获取成功");
    }
-
+   @ApiOperation(value = "获取projectSummary代办url",notes = "获取projectSummary代办url")
+   @PostMapping("/getProjectWorkItemUrl")
+   public ResponseResult<String> getProjectWorkItemUrl(@RequestBody ProjectSummaryParam projectSummaryParam){
+      String userId = this.getUserId();
+      OrganizationFacade organizationFacade = getOrganizationFacade();
+      UserModel userModel = organizationFacade.getUserByUserId(userId);
+      if (Objects.isNull(userModel)){
+         return getErrResponseResult( "",-1l,"用户不存在");
+      }
+      projectSummaryParam.setParticipant(userModel.getId());
+      ProjectSummaryVO projectSummaryVO = projectSummaryServiceImpl.getWorItemInfoByProjectId(projectSummaryParam);
+      if(Objects.isNull(projectSummaryVO)){
+         return getErrResponseResult( "",-1l,"代办任务不存在");
+      }
+      String projectWorkItemUrl = ThinkoolProjectUtils.getWoritemUrl(projectSummaryVO.getWorkItemId(),projectSummaryVO.getInstanceId());
+      return getOkResponseResult( projectWorkItemUrl,"获取成功");
+   }
 }

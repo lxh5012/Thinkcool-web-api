@@ -44,6 +44,9 @@ public class ProjectSummaryParam extends PageInfo {
     @ApiModelProperty("供应商付款操作标记")
     private Integer vendorPayFlag;
 
+    @ApiModelProperty("参与者")
+    private String participant;
+
     public String toString(){
         StringBuilder sb = new StringBuilder("PageInfo{");
         sb.append("pageNum=").append(super.getPageNum());

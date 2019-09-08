@@ -19,19 +19,17 @@ public class ThinkoolProjectUtils {
         return fromUrl.toString();
     }
 
-    public static String getFormUrl(String objectId,String sheetCode){
-//        StringBuffer fromUrl = new StringBuffer();
-//        fromUrl.append("http://");
-//        fromUrl.append(ip);
-//        fromUrl.append("/form/detail?");
-//        fromUrl.append("sheetCode=").append(sheetCode);
-//        fromUrl.append("&objectId=").append(objectId);
-//        fromUrl.append("&schemaCode=project_summary");
-//        fromUrl.append("&return=/application/ProjectSummary/application-list/project_summary?parentId=2c93208b6c9e0bc6016c9e36d7ac0011");
-//        fromUrl.append("&code=project_summary");
-//        fromUrl.append("&openMode");
-//        fromUrl.append("&pcUrl");
-//        return fromUrl.toString();
-          return "";
+    public static String getFormUrl(String schemaCode,String objectId,String sheetCode){
+        StringBuffer fromUrl = new StringBuffer();
+        fromUrl.append(THINKOOL_IP);
+        fromUrl.append("/form/detail?");
+        fromUrl.append("sheetCode=").append(sheetCode);
+        fromUrl.append("&objectId=").append(objectId);
+        fromUrl.append("&schemaCode=").append(schemaCode);
+        fromUrl.append("&return=/application/ProjectSummary/application-list/project_summary?parentId=2c93208b6c9e0bc6016c9e36d7ac0011");
+        fromUrl.append("&code=project_summary");
+        fromUrl.append("&openMode");
+        fromUrl.append("&pcUrl");
+        return fromUrl.toString();
     }
 }

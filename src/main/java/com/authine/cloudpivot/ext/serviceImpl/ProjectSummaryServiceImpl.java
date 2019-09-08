@@ -94,5 +94,10 @@ public class ProjectSummaryServiceImpl implements IProjectSummaryService {
         return projectSummaryMapper.getProjectSummaryInfo(projectSummaryParam);
     }
 
+    @Override
+    public ProjectSummaryVO getWorItemInfoByProjectId(ProjectSummaryParam projectSummaryParam) {
+        return projectSummaryMapper.getWorItemInfoByProjectId(projectSummaryParam);
+    }
+
 
 }

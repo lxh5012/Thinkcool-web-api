@@ -67,15 +67,15 @@
         FALSE
           WHEN 1 THEN
         TRUE ELSE FALSE
-          END clientPayFlag,
-          workitem.id AS workItemId,
-          instance.id AS instanceId
+          END clientPayFlag
+         -- workitem.id AS workItemId,
+         -- instance.id AS instanceId
         FROM
         i_project_summary t
         LEFT JOIN i_clientgroup c ON t.clientgroup = c.id
         LEFT JOIN i_customerbrand d ON t.ClientBrand = d.id
-        LEFT JOIN biz_workflow_instance instance ON t.id = instance.bizObjectId
-        LEFT JOIN biz_workitem workitem ON instance.id = workitem.instanceId
+        -- LEFT JOIN biz_workflow_instance instance ON t.id = instance.bizObjectId
+        -- LEFT JOIN biz_workitem workitem ON instance.id = workitem.instanceId
         where 1=1
             <if test="bu != null and bu != '' ">
                 AND  t.bu like CONCAT('%',CONCAT(#{bu},'%'))
@@ -108,7 +108,7 @@
     </select>
 
     <update id="updateProjectStatus" parameterType="com.authine.cloudpivot.ext.queryVo.ProjectSummaryParam">
-        update i_project_summary set projectStatus = #{projectStatus} where JobCode =#{jobCode}
+        update i_project_summary set projectStatus = #{projectStatus} where id =#{id}
     </update>
 
     <update id="updateVendorPayFlag" parameterType="com.authine.cloudpivot.ext.queryVo.ProjectSummaryParam">
@@ -135,6 +135,18 @@
         from i_project_summary t
         LEFT JOIN i_clientgroup c ON t.clientgroup = c.id
         LEFT JOIN i_customerbrand d ON t.ClientBrand = d.id
-        where id =#{id}
+        where t.id =#{id}
+    </select>
+
+    <select id="getWorItemInfoByProjectId" resultType="com.authine.cloudpivot.ext.vo.ProjectSummaryVO" parameterType="com.authine.cloudpivot.ext.queryVo.ProjectSummaryParam">
+        SELECT
+            t.id,
+            workitem.id AS workItemId,
+            instance.id AS instanceId
+        FROM
+        i_project_summary t
+        LEFT JOIN biz_workflow_instance instance ON t.id = instance.bizObjectId
+        LEFT JOIN biz_workitem workitem ON instance.id = workitem.instanceId
+        where   t.id = #{id} AND  workitem.participant = #{participant}
     </select>
 </mapper>
