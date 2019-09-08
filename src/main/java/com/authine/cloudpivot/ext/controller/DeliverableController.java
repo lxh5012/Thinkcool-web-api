@@ -28,7 +28,7 @@ import java.util.Objects;
 @RestController
 @Validated
 @Slf4j
-@RequestMapping("/deliverableController")
+@RequestMapping("/api/deliverableController")
 @CustomizedOrigin(level = 0)
 public class DeliverableController extends BaseController {
    @Autowired

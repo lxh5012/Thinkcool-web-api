@@ -60,5 +60,18 @@ public class DeliverableVO {
     @ApiModelProperty("客户单价税前")
     private BigDecimal clientUnitPrice;
 
+    @ApiModelProperty("客户合同信息")
+    private String clientContractContent;
+
+    @ApiModelProperty("供应商合同信息")
+    private String vendorContractContent;
+
+    @ApiModelProperty("客户收款内容")
+    private String clientPaymentContent;
+
+    @ApiModelProperty("供应商付款内容")
+    private String vendorPaymentContent;
+
+
 
 }

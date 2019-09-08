@@ -44,7 +44,7 @@ public class DeliverableServiceImpl implements DeliverableService {
 
     @Override
     public int addContractRelation(List<DeliverableContract> deliverableContracts) {
-        return 0;
+        return deliverableMapper.addContractRelation(deliverableContracts);
     }
 
 
