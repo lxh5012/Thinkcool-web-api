@@ -7,6 +7,6 @@ import com.authine.cloudpivot.ext.vo.JobCodeVO;
 import com.authine.cloudpivot.ext.vo.PageResult;
 
 public interface JobCodeService {
-    public JobCodeVO   getJobCode(String bizObjectid);
+    public JobCodeVO   getJobCode();
     public int insertBizObjectid(QueryJobCode queryJobCode);
 }

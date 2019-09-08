@@ -6,6 +6,6 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface JobCodeMapper {
-    public JobCodeVO   getJobCode(String bizObjectid);
+    public JobCodeVO   getJobCode();
     public int insertBizObjectid(QueryJobCode queryJobCode);
 }

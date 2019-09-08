@@ -3,7 +3,7 @@
 <mapper namespace="com.authine.cloudpivot.ext.mapper.JobCodeMapper">
 
     <select id="getJobCode" resultType="com.authine.cloudpivot.ext.vo.JobCodeVO">
-        SELECT  id+1 as id from sh_jobcodetable
+        SELECT MAX(id)+1 as id  FROM sh_jobcodetable
     </select>
     <insert id="insertBizObjectid" keyProperty="id" useGeneratedKeys="true" parameterType="com.authine.cloudpivot.ext.vo.JobCodeVO">
         insert into sh_jobcodetable(bizobjectid) value (#{bizobjectid})
