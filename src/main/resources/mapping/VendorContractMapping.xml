@@ -26,6 +26,10 @@
 		LEFT JOIN biz_workflow_instance instance ON v.id = instance.bizObjectId
 		LEFT JOIN biz_workitem workitem ON instance.id = workitem.instanceId and
 
+			<if test="queryVendorContract.jobcode !=null and queryVendorContract.jobcode!='' ">
+				v.jobcode = #{queryVendorContract.jobcode}  and
+			</if>
+
 			<if test="queryVendorContract.vendorContractStatus !=null and queryVendorContract.vendorContractStatus!='' ">
 				v.VendorContractStatus = #{queryVendorContract.vendorContractStatus}  and
 			</if>
