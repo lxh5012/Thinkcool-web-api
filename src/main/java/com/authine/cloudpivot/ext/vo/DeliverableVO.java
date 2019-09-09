@@ -42,7 +42,7 @@ public class DeliverableVO {
     @ApiModelProperty("主表bigobjectid")
     private String bizid;
 
-    @ApiModelProperty("子表每行数据的id")
+    @ApiModelProperty("id")
     private String id;
 
     @ApiModelProperty("客户总价格")

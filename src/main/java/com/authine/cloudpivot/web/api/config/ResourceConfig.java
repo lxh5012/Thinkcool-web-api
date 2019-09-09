@@ -130,13 +130,13 @@ public class ResourceConfig extends ResourceServerConfigurerAdapter {
                     .antMatchers("/api/otherLegalDocumentController/*").permitAll()
                     .antMatchers("/api/thinkCool/workflow").permitAll()
                     .antMatchers("/api/clientPaymentController/getclientPaymentList").permitAll()
-                    .antMatchers("/vendorPaymentController/getvendorPaymentList").permitAll()
+                    .antMatchers("/api/vendorPaymentController/getvendorPaymentList").permitAll()
                     .antMatchers("/api/deliverableController/getDeliverableList").permitAll()
                     .antMatchers("/api/deliverableController/queryDeliverables").permitAll()
+                    .antMatchers("/api/deliverableController/addContractRelation").permitAll()
                     .antMatchers("/api/jobCodeController/*").permitAll()
                     //.antMatchers("/api/**").permitAll()
 
-                    //.antMatchers("/api/projectmanage/**").permitAll()
                     //客户端接口测试
                     .antMatchers("/api/client/**").hasAuthority("AUTH_SYSTEM_MANAGE")
                     //test

@@ -37,6 +37,8 @@ public class DeliverableServiceImpl implements DeliverableService {
         int pageSize = queryDeliverable.getPageSize() == 0?10:queryDeliverable.getPageSize();
         PageHelper.startPage(pageNum, pageSize);
         List<DeliverableVO> queryDeliverableVOList = deliverableMapper.queryDeliverables(queryDeliverable);
+
+
         PageInfo<DeliverableVO> queryDeliverableVOPageInfo =new PageInfo<>(queryDeliverableVOList);
         PageResult pageResult = PageUtils.getPageResult(queryDeliverableVOPageInfo);
         return pageResult ;
@@ -46,6 +48,4 @@ public class DeliverableServiceImpl implements DeliverableService {
     public int addContractRelation(List<DeliverableContract> deliverableContracts) {
         return deliverableMapper.addContractRelation(deliverableContracts);
     }
-
-
 }

@@ -43,13 +43,22 @@
     </select>
 
 
-    <insert id="addContractRelation">
-        INSERT INTO emp(ename,gender,email,did)
+    <insert id="addContractRelation" parameterType="java.util.List">
+        INSERT INTO i_deliverable_contract(id,deliverableId,contractId,type)
         VALUES
-        <foreach collection="deliverableContracts" item="emp" separator=",">
-            (#{emp.eName},#{emp.gender},#{emp.email},#{emp.dept.id})
+        <foreach collection="list" item="deliverableContract" separator=",">
+            (#{deliverableContract.id},#{deliverableContract.deliverableId},#{deliverableContract.contractId},#{deliverableContract.type})
         </foreach>
     </insert>
-
+    <update id="">
+        update i_deliverable
+        <set>
+            <if test="type='clientContract'"> set clientContractContent=#{clientContractContent}</if>
+            <if test="type='vendorContract'"> set vendorContractContent=#{vendorContractContent}</if>
+            <if test="type='clientPayment'"> set clientPaymentContent=#{clientPaymentContent}</if>
+            <if test="type='vendorPayment'"> set vendorPaymentContent=#{vendorPaymentContent}</if>
+        </set>
+        where id=#{deliverableId}
+    </update>
 
 </mapper>
