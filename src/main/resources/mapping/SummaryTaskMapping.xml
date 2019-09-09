@@ -21,7 +21,6 @@
         <if test="bu != null and bu != ''">
             AND  t.bu = (SELECT  b.id from i_ProjectTeamBU b where b.`name`= #{bu, jdbcType=VARCHAR} )
         </if>
-
         <if test="contractLegalEntity != null and contractLegalEntity != ''">
             AND  t.ContractLegalEntity = #{contractLegalEntity, jdbcType=VARCHAR}
         </if>
@@ -46,7 +45,7 @@
 <!--        <if test="projectEndDateBegin != null and projectEndDateBegin != ''">-->
 <!--            AND  t.ProjectEndDate <![CDATA[=<]]>  #{projectEndDate, jdbcType=DATE}-->
 <!--        </if>-->
-        <if test="projectEndDate != null and projectEndDate != ''">
+        <if test="projectEndDate != null and projectEndDate!= ''">
             AND  t.ProjectEndDate <![CDATA[<=]]>  #{projectEndDate, jdbcType=VARCHAR}
         </if>
         GROUP BY t.Jobcode order by t.ProjectStartDate desc
@@ -82,10 +81,10 @@
                 and t.Quantity = #{quantity, jdbcType=NUMERIC}
             </if>
             <if test="deadlineStart != null and deadlineStart != ''">
-               and ( SELECT max(d.Deadline) FROM i_DispatchSheet d WHERE d.Jobcode = t.Jobcode AND d.DeliverableDescription = t.id )  <![CDATA[>=]]>  #{deadlineStart, jdbcType=DATE}
+               and ( SELECT max(d.Deadline) FROM i_DispatchSheet d WHERE d.Jobcode = t.Jobcode AND d.DeliverableDescription = t.id )  <![CDATA[>=]]>  #{deadlineStart, jdbcType=VARCHAR}
             </if>
             <if test="deadlineEND != null and deadlineEND != ''">
-                and ( SELECT max(d.Deadline) FROM i_DispatchSheet d WHERE d.Jobcode = t.Jobcode AND d.DeliverableDescription = t.id )  <![CDATA[=<]]>  #{deadlineStart, jdbcType=DATE}
+                and ( SELECT max(d.Deadline) FROM i_DispatchSheet d WHERE d.Jobcode = t.Jobcode AND d.DeliverableDescription = t.id )  <![CDATA[<=]]>  #{deadlineEND, jdbcType=VARCHAR}
             </if>
         GROUP BY t.DeliverableCategory order by t.createdTime desc
     </select>

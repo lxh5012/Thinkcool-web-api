@@ -45,10 +45,10 @@ public class DeliverableTaskVO {
     private String deadlineShow;
 
     @ApiModelProperty("交付时间入参START")
-    private Date deadlineStart;
+    private String deadlineStart;
 
     @ApiModelProperty("交付时间入参END")
-    private Date deadlineEND;
+    private String deadlineEND;
 
     @ApiModelProperty("交付数量")
     private String deliverableQuantity;
