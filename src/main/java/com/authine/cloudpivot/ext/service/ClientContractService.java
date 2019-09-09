@@ -7,6 +7,6 @@ import org.apache.ibatis.annotations.Param;
 public interface ClientContractService {
 
 
-    public PageResult getClientContractList(@Param("queryClientContract") QueryClientContract queryClientContract);
+    public PageResult getClientContractList(QueryClientContract queryClientContract);
 
 }

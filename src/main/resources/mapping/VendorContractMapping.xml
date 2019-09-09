@@ -24,8 +24,8 @@
 		LEFT JOIN i_contracttype c ON v.contractType = c.id
 		LEFT JOIN i_client_contract_version ccv ON v.vendorContractVersion = ccv.id
 		LEFT JOIN biz_workflow_instance instance ON v.id = instance.bizObjectId
-		LEFT JOIN biz_workitem workitem ON instance.id = workitem.instanceId and
-
+		LEFT JOIN biz_workitem workitem ON instance.id = workitem.instanceId
+		WHERE
 			<if test="queryVendorContract.jobcode !=null and queryVendorContract.jobcode!='' ">
 				v.jobcode = #{queryVendorContract.jobcode}  and
 			</if>
