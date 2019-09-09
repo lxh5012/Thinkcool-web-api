@@ -3,6 +3,7 @@ package com.authine.cloudpivot.ext.mapper;
 import com.authine.cloudpivot.ext.queryVo.QueryClientPayment;
 import com.authine.cloudpivot.ext.queryVo.QueryDeliverable;
 import com.authine.cloudpivot.ext.vo.ClientPaymentVO;
+import com.authine.cloudpivot.ext.vo.DeliverableContract;
 import com.authine.cloudpivot.ext.vo.DeliverableVO;
 import com.authine.cloudpivot.ext.vo.PageResult;
 import org.apache.ibatis.annotations.Param;
@@ -15,4 +16,6 @@ public interface DeliverableMapper {
     public DeliverableVO getDeliverableList();
 
     public List<DeliverableVO> queryDeliverables(QueryDeliverable queryDeliverable);
+
+    public int addContractRelation(List<DeliverableContract> deliverableContracts);
 }

@@ -27,7 +27,7 @@ import java.util.List;
 @RestController
 @Validated
 @Slf4j
-@RequestMapping("/clientPaymentController")
+@RequestMapping("/api/clientPaymentController")
 @CustomizedOrigin(level = 0)
 public class ClientPaymentController extends BaseController {
    @Autowired

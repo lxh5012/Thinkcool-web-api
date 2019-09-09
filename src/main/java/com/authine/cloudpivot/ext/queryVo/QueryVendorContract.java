@@ -11,10 +11,10 @@ import lombok.Setter;
 @Setter
 public class QueryVendorContract extends PageInfo {
 
-    /*@ApiModelProperty("项目代码")
+    @ApiModelProperty("项目代码")
     private String jobcode;
 
-    @ApiModelProperty("项目名称")
+    /*@ApiModelProperty("项目名称")
     private String projectName;
 
     @ApiModelProperty("合同类型")
