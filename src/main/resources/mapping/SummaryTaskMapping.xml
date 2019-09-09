@@ -21,6 +21,7 @@
         <if test="bu != null and bu != ''">
             AND  t.bu = (SELECT  b.id from i_ProjectTeamBU b where b.`name`= #{bu, jdbcType=VARCHAR} )
         </if>
+
         <if test="contractLegalEntity != null and contractLegalEntity != ''">
             AND  t.ContractLegalEntity = #{contractLegalEntity, jdbcType=VARCHAR}
         </if>
@@ -36,17 +37,17 @@
         <if test="projectName != null and projectName != ''">
             AND  t.ProjectName = #{projectName, jdbcType=VARCHAR}
         </if>
-        <if test="projectStartDateBegin != null and projectStartDateBegin != ''">
-            AND  t.ProjectStartDate <![CDATA[>=]]>  #{projectStartDateBegin, jdbcType=DATE}
+        <if test="projectStartDate != null and projectStartDate != ''">
+            AND  t.ProjectStartDate <![CDATA[>=]]>  #{projectStartDate, jdbcType=VARCHAR}
         </if>
-        <if test="projectStartDateEnd != null and projectStartDateEnd != ''">
-            AND  t.ProjectStartDate <![CDATA[<=]]>  #{projectStartDateEnd, jdbcType=DATE}
-        </if>
-        <if test="projectEndDateBegin != null and projectEndDateBegin != ''">
-            AND  t.ProjectEndDate <![CDATA[=<]]>  #{projectEndDate, jdbcType=DATE}
-        </if>
-        <if test="projectEndDateEnd != null and projectEndDateEnd != ''">
-            AND  t.ProjectEndDate <![CDATA[=<]]>  #{projectEndDate, jdbcType=DATE}
+<!--        <if test="projectStartDateEnd != null and projectStartDateEnd != ''">-->
+<!--            AND  t.ProjectStartDate <![CDATA[<=]]>  #{projectStartDateEnd, jdbcType=DATE}-->
+<!--        </if>-->
+<!--        <if test="projectEndDateBegin != null and projectEndDateBegin != ''">-->
+<!--            AND  t.ProjectEndDate <![CDATA[=<]]>  #{projectEndDate, jdbcType=DATE}-->
+<!--        </if>-->
+        <if test="projectEndDate != null and projectEndDate != ''">
+            AND  t.ProjectEndDate <![CDATA[<=]]>  #{projectEndDate, jdbcType=VARCHAR}
         </if>
         GROUP BY t.Jobcode order by t.ProjectStartDate desc
     </select>
