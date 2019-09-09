@@ -125,14 +125,15 @@ public class ResourceConfig extends ResourceServerConfigurerAdapter {
                     .antMatchers("/formList/query/queryacceptTask/list").permitAll()
                     .antMatchers("/formList/query/cancelActivity").permitAll()
 
-                    .antMatchers("/clientContractController/*").permitAll()
-                    .antMatchers("/vendorContractController/*").permitAll()
+                    .antMatchers("/api/clientContractController/*").permitAll()
+                    .antMatchers("/api/vendorContractController/*").permitAll()
+                    .antMatchers("/api/otherLegalDocumentController/*").permitAll()
                     .antMatchers("/api/thinkCool/workflow").permitAll()
                     .antMatchers("/clientPaymentController/getclientPaymentList").permitAll()
                     .antMatchers("/vendorPaymentController/getvendorPaymentList").permitAll()
                     .antMatchers("/deliverableController/getDeliverableList").permitAll()
                     .antMatchers("/deliverableController/queryDeliverables").permitAll()
-                    .antMatchers("/api/**").permitAll()
+                    //.antMatchers("/api/**").permitAll()
 
                     //.antMatchers("/api/projectmanage/**").permitAll()
                     //客户端接口测试

@@ -8,10 +8,10 @@ import lombok.Setter;
 @Getter
 public class TestVO {
 
-    @ApiModelProperty
+    @ApiModelProperty("项目代码")
     private String jobCode;
 
-    @ApiModelProperty
+    @ApiModelProperty("合同类型")
     private String contractType;
 
 
