@@ -2,8 +2,23 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.authine.cloudpivot.ext.mapper.ClientContractMapper" >
 
+	<resultMap id="ClientContractMap" type="com.authine.cloudpivot.ext.vo.ClientContractVO">
+		<id column="id" property="id" jdbcType="VARCHAR"/>
+		<result column="jobcode" property="jobcode" jdbcType="VARCHAR"/>
+		<result column="projectName" property="projectName" jdbcType="VARCHAR"/>
+		<result column="contractType" property="contractType" jdbcType="VARCHAR"/>
+		<result column="clientName" property="clientName" jdbcType="VARCHAR"/>
+		<result column="clientContractVersion" property="clientContractVersion" jdbcType="VARCHAR"/>
+		<result column="clientContractCode" property="clientContractCode" jdbcType="VARCHAR"/>
+		<result column="clientContractStarttime" property="clientContractStarttime" jdbcType="VARCHAR"/>
+		<result column="clientContractEndtime" property="clientContractEndtime" jdbcType="VARCHAR"/>
+		<result column="clientContractStatus" property="clientContractStatus" jdbcType="VARCHAR"/>
+		<result column="contractValue" property="contractValue" jdbcType="VARCHAR"/>
 
-	<select id="getClientContractList"  resultType="com.authine.cloudpivot.ext.vo.ClientContractVO">
+	</resultMap>
+
+
+	<select id="getClientContractList" resultMap="ClientContractMap"  parameterType="com.authine.cloudpivot.ext.queryVo.QueryClientContract">
 		SELECT
 			c.id id,
 			c.Jobcode jobcode,
@@ -23,30 +38,30 @@
 		LEFT JOIN i_contracttype t ON c.contractType = t.id
 		LEFT JOIN i_client_contract_version CCV ON c.clientContractVersion = ccv.id
 		LEFT JOIN biz_workflow_instance instance ON c.id = instance.bizObjectId
-		LEFT JOIN biz_workitem workitem ON instance.id = workitem.instanceId and
-
-			<if test="queryClientContract.jobcode !=null and queryClientContract.jobcode!='' ">
-				c.jobcode = #{queryClientContract.jobcode}  and
+		LEFT JOIN biz_workitem workitem ON instance.id = workitem.instanceId
+		WHERE
+			<if test="jobcode != null and jobcode != '' ">
+				c.jobcode = #{jobcode}  and
 			</if>
 
-			<if test="queryClientContract.clientContractStatus !=null and queryClientContract.clientContractStatus!='' ">
-				c.clientContractStatus = #{queryClientContract.clientContractStatus}  and
+			<if test="clientContractStatus != null and clientContractStatus != '' ">
+				c.clientContractStatus = #{clientContractStatus}  and
 			</if>
 
-			<if test="queryClientContract.starttimeStart !=null and queryClientContract.starttimeStart !='' ">
-				c.ClientContractPeriodStart &gt;= STR_TO_DATE(#{queryClientContract.starttimeStart},'%Y-%m-%d')  and
+			<if test="starttimeStart != null and starttimeStart != '' ">
+				c.ClientContractPeriodStart &gt;= STR_TO_DATE(#{starttimeStart},'%Y-%m-%d')  and
 			</if>
 
-			<if test="queryClientContract.starttimeEnd !=null and queryClientContract.starttimeEnd !=''">
-				c.ClientContractPeriodStart &lt;= STR_TO_DATE(#{queryClientContract.starttimeEnd},'%Y-%m-%d')  and
+			<if test="starttimeEnd != null and starttimeEnd != ''">
+				c.ClientContractPeriodStart &lt;= STR_TO_DATE(#{starttimeEnd},'%Y-%m-%d')  and
 			</if>
 
-			<if test="queryClientContract.contractValue1 !=null and queryClientContract.contractValue1 !='' ">
-				c.ContractAmount &gt;= #{queryClientContract.contractValue1}  and
+			<if test="contractValue1 != null and contractValue1 != '' ">
+				c.ContractAmount &gt;= #{contractValue1}  and
 			</if>
 
-			<if test="queryClientContract.contractValue2 !=null and queryClientContract.contractValue2 !='' ">
-				c.ContractAmount &lt;= #{queryClientContract.contractValue2}  and
+			<if test="contractValue2 != null and contractValue2 != '' ">
+				c.ContractAmount &lt;= #{contractValue2}  and
 			</if>
 			1=1
 	</select>

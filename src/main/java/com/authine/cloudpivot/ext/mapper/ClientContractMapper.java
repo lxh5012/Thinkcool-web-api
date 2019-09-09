@@ -10,6 +10,6 @@ import java.util.List;
 @Repository
 public interface ClientContractMapper {
 
-    public List<ClientContractVO> getClientContractList(@Param("queryClientContract") QueryClientContract queryClientContract);
+    public List<ClientContractVO> getClientContractList(QueryClientContract queryClientContract);
 
 }
