@@ -21,7 +21,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @Validated
 @Slf4j
-@RequestMapping("/otherLegalDocumentController")
+@RequestMapping("/api/otherLegalDocumentController")
 @CustomizedOrigin(level = 0)
 public class OtherLegalDocumentController extends BaseController {
 

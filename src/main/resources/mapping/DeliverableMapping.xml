@@ -41,6 +41,8 @@
                     AND  t.JobCode =#{Jobcode}
               </if>
     </select>
+
+
     <insert id="addContractRelation">
         INSERT INTO i_deliverable_contract(id,deliverableId,contractId,'type')
         VALUES
@@ -58,4 +60,5 @@
         </set>
         where id=#{deliverableId}
     </update>
+
 </mapper>

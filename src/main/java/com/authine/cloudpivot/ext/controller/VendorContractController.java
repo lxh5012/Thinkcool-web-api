@@ -4,6 +4,7 @@ import com.authine.cloudpivot.ext.queryVo.QueryVendorContract;
 import com.authine.cloudpivot.ext.service.VendorContractService;
 import com.authine.cloudpivot.ext.utils.GenerationCodingUtils;
 import com.authine.cloudpivot.ext.vo.PageResult;
+import com.authine.cloudpivot.ext.vo.TestVO;
 import com.authine.cloudpivot.web.api.controller.base.BaseController;
 import com.authine.cloudpivot.web.api.handler.CustomizedOrigin;
 import com.authine.cloudpivot.web.api.view.ResponseResult;
@@ -17,12 +18,14 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.Random;
+
 
 @Api(value = " 供应商合同页面接口", tags = "供应商合同页面接口")
 @RestController
 @Validated
 @Slf4j
-@RequestMapping("/vendorContractController")
+@RequestMapping("/api/vendorContractController")
 @CustomizedOrigin(level = 0)
 public class VendorContractController extends BaseController {
 
@@ -33,7 +36,7 @@ public class VendorContractController extends BaseController {
     @PostMapping("/getVendorContractList")
     public ResponseResult<PageResult> getVendorContractList(@RequestBody QueryVendorContract queryVendorContract) {
         PageResult list = vendorContractService.getVendorContractList(queryVendorContract);
-        return getOkResponseResult(list,"查询成功");
+        return getOkResponseResult(list, "查询成功");
     }
 
     @ApiOperation(value = "根据 jobcode 自动生成供应商合同编码")
@@ -42,9 +45,49 @@ public class VendorContractController extends BaseController {
         GenerationCodingUtils generationCodingUtils = new GenerationCodingUtils();
         String coding = generationCodingUtils.getGenerationCoding();
         String generationCoding = "P" + coding + jobCode;
-        return getOkResponseResult(generationCoding,"查询成功");
+        return getOkResponseResult(generationCoding, "查询成功");
     }
 
+
+    @ApiOperation(value = "根据 jobcode 自动生成供应商合同编码")
+    @PostMapping("/getVendorAutomaticGenerationCoding")
+    public ResponseResult<String> getVendorAutomaticGenerationCoding(@RequestBody TestVO testVO) {
+
+        StringBuffer stringBuffer = new StringBuffer();
+        Random random = new Random();
+
+        int num1 = random.nextInt(9);
+        String str1 = String.format("%01d", num1);
+
+        int num2 = random.nextInt(99);
+        String str2 = String.format("%02d", num2);
+
+        int num3 = random.nextInt(999);
+        String str3 = String.format("%03d", num3);
+        try {
+            if (testVO.getContractType().equals("供应商补充合同")) {
+                stringBuffer.append("P");
+                stringBuffer.append(str3);
+                stringBuffer.append(testVO.getJobCode());
+                stringBuffer.append("A");
+                stringBuffer.append(str1);
+            } else if (testVO.getContractType().equals("供应商订单(适用于订单等同合同)")) {
+                stringBuffer.append("P");
+                stringBuffer.append(str3);
+                stringBuffer.append(testVO.getJobCode());
+                stringBuffer.append("P");
+                stringBuffer.append(str2);
+            } else {
+                stringBuffer.append("P");
+                stringBuffer.append(str3);
+                stringBuffer.append(testVO.getJobCode());
+            }
+
+            return getOkResponseResult(stringBuffer.toString(), "编码处理成功");
+        } catch (Exception e) {
+            return getOkResponseResult(stringBuffer.toString(), "传入参数异常，编码生成失败");
+        }
+    }
 
 
 }
