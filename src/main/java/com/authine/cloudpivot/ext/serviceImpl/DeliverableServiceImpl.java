@@ -48,4 +48,26 @@ public class DeliverableServiceImpl implements DeliverableService {
     public int addContractRelation(List<DeliverableContract> deliverableContracts) {
         return deliverableMapper.addContractRelation(deliverableContracts);
     }
+
+    @Override
+    public int addClientContractInfo(List<ClientContractVO> clientContractVOList) {
+        return 0;
+    }
+
+    @Override
+    public int addVendorContractInfo(List<VendorContractVO> vendorContractVOList) {
+        return 0;
+    }
+
+    @Override
+    public int addClientPaymentInfo(List<ClientPaymentVO> clientPaymentVOList) {
+        return 0;
+    }
+
+    @Override
+    public int addVendorPaymentInfo(List<VendorPaymentVO> vendorPaymentVOList) {
+        return 0;
+    }
+
+
 }

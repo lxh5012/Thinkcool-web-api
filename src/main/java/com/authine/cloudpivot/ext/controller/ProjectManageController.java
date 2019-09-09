@@ -145,4 +145,5 @@ public class ProjectManageController  extends BaseController {
       String projectWorkItemUrl = ThinkoolProjectUtils.getWoritemUrl(projectSummaryVO.getWorkItemId(),projectSummaryVO.getInstanceId());
       return getOkResponseResult( projectWorkItemUrl,"获取成功");
    }
+
 }

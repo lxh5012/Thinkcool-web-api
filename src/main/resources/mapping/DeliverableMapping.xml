@@ -61,4 +61,65 @@
         where id=#{deliverableId}
     </update>
 
+    <insert id="addClientContractInfo" parameterType="java.util.List">
+        INSERT INTO i_clientcontractinfo(
+                            id,ClientContractStatus,Jobcode,ProjectName,
+                            ContractType,ClientName,ClientContractVersion,
+                            ClientContractCode,ClientContractStartDate,
+                            ClientContractEndDate,ContractValue,parentId
+        )
+        VALUES
+        <foreach collection="list" item="deliverableContract" separator=",">
+            (
+                #{id},#{ClientContractCode},#{ClientName},
+                #{ClientContractStartDate},#{ClientContractEndDate},#{ContractType},#{ClientContractVersion},#{parentId}
+            )
+        </foreach>
+    </insert>
+
+    <insert id="addVendorContractInfo" parameterType="java.util.List">
+        INSERT INTO
+        i_vendorcontractinfo(
+            id,VendorContractStatus,Jobcode,ProjectName,ContractType,VendorName,VendorContractCode,
+            VendorContractStartDate,VendorContractEndDate,VenderContracgtSigningDate,ContractValue,parentId
+        )
+        VALUES
+        <foreach collection="list" item="deliverableContract" separator=",">
+            (
+            #{id},#{ClientContractCode},#{ClientName},#{ClientContractStartDate},
+            #{ClientContractEndDate},#{ContractType},#{ClientContractVersion},#{parentId}
+            )
+        </foreach>
+    </insert>
+
+    <insert id="addClientPaymentInfo" parameterType="java.util.List">
+        INSERT INTO
+        i_clientpaymentinfo(
+            id,ClientContractStatus,Jobcode,ProjectName,ContractType,
+            ClientName,ClientContractVersion,ClientContractCode,ClientContractStartDate,
+            ClientContractEndDate,ContractValue,parentId
+        )
+        VALUES
+        <foreach collection="list" item="deliverableContract" separator=",">
+            (
+                #{id},#{ClientContractCode},#{ClientName},#{ClientContractStartDate},#{ClientContractEndDate},
+                #{ContractType},#{ClientContractVersion},#{parentId}
+            )
+        </foreach>
+    </insert>
+
+    <insert id="addVendorPaymentInfo" parameterType="java.util.List">
+        INSERT INTO
+        i_vendorpaymentinfo(
+        id,ClientContractStatus,Jobcode,ProjectName,ContractType,ClientName,ClientContractVersion,
+        ClientContractCode,ClientContractStartDate,ClientContractEndDate,ContractValue,parentId
+        )
+        VALUES
+        <foreach collection="list" item="deliverableContract" separator=",">
+            (
+            #{id},#{ClientContractCode},#{ClientName},#{ClientContractStartDate},#{ClientContractEndDate},
+            #{ContractType},#{ClientContractVersion},#{parentId}
+            )
+        </foreach>
+    </insert>
 </mapper>
