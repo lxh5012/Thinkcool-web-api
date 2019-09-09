@@ -60,14 +60,15 @@ public class DeliverableController extends BaseController {
          List<ContractFinVO> contractFinVOS = map.getValue();
          for(ContractFinVO contractFinVO:contractFinVOS){
             deliverableContract = new DeliverableContract();
+            String uuid = UUID.randomUUID().toString().toUpperCase().replaceAll("-", "");
+            deliverableContract.setId(uuid);
             deliverableContract.setDeliverableId(key);
             deliverableContract.setContractId(contractFinVO.getId());
+            deliverableContract.setType(deliverableContractParam.getType());
             deliverableContracts.add(deliverableContract);
          }
       }
       deliverableService.addContractRelation(deliverableContracts);
-      return getOkResponseResult( 1,"获取成功");
+      return getOkResponseResult( 1,"关联成功");
    }
-
-
 }

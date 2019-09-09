@@ -23,7 +23,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @Validated
 @Slf4j
-@RequestMapping("/vendorPaymentController")
+@RequestMapping("/api/vendorPaymentController")
 @CustomizedOrigin(level = 0)
 public class VendorPaymentController extends BaseController {
    @Autowired

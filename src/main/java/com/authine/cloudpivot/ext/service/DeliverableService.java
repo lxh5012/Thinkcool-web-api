@@ -11,7 +11,8 @@ import java.util.List;
 
 public interface DeliverableService {
     public DeliverableVO getDeliverableList();
+
     public PageResult queryDeliverables(QueryDeliverable queryDeliverable);
 
-    public int addContractRelation(List<DeliverableContract> deliverableContracts);
+    public int addContractRelation(@Param("deliverableContracts") List<DeliverableContract> deliverableContracts);
 }

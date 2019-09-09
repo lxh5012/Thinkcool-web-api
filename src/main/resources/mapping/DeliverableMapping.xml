@@ -43,10 +43,10 @@
     </select>
 
 
-    <insert id="addContractRelation">
-        INSERT INTO i_deliverable_contract(id,deliverableId,contractId,'type')
+    <insert id="addContractRelation" parameterType="java.util.List">
+        INSERT INTO i_deliverable_contract(id,deliverableId,contractId,type)
         VALUES
-        <foreach collection="deliverableContracts" item="deliverableContract" separator=",">
+        <foreach collection="list" item="deliverableContract" separator=",">
             (#{deliverableContract.id},#{deliverableContract.deliverableId},#{deliverableContract.contractId},#{deliverableContract.type})
         </foreach>
     </insert>
