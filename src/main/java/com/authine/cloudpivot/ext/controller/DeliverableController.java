@@ -65,6 +65,7 @@ public class DeliverableController extends BaseController {
             deliverableContracts.add(deliverableContract);
          }
       }
+      deliverableService.addContractRelation(deliverableContracts);
       return getOkResponseResult( 1,"获取成功");
    }
 
