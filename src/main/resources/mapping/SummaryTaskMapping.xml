@@ -5,12 +5,11 @@
 
     <select id="queryProjectTask" parameterType="com.authine.cloudpivot.ext.vo.SummaryTaskVO" resultType="com.authine.cloudpivot.ext.vo.SummaryTaskVO">
         SELECT
-            t.Jobcode AS jobId,
+            t.Jobcode AS jobCode,
             (SELECT b.`name` from i_ProjectTeamBU b where b.id = t.bu ) as bu,
             t.ContractLegalEntity AS contractLegalEntity,
             t.ClientGroup AS clientGroup,
             t.ClientBrand AS clientBrand,
-            (select p.JobCode from i_project_summary p where p.id =  t.Jobcode) AS jobCode,
             t.ProjectName AS projectName,
             date_format(t.ProjectStartDate,'%Y/%m/%d') AS projectStartDate,
             date_format(t.ProjectEndDate,'%Y/%m/%d') AS projectEndDate,
@@ -66,8 +65,7 @@
             ( SELECT count(1) FROM i_DispatchSheet d WHERE d.sequenceStatus = 'COMPLETED' and d.Jobcode = t.Jobcode AND d.DeliverableDescription = t.id ) AS finishNumber,
             ( SELECT d.Deadline FROM i_DispatchSheet d WHERE d.Jobcode = t.Jobcode AND d.DeliverableDescription = t.id limit 1) AS deadline
         FROM	i_deliverable t
-        where   EXISTS
-                (select 1 from i_project_summary p where p.JobCode = #{jobCode, jdbcType=VARCHAR} and p.id = t.Jobcode)
+        where    t.JobCode = #{jobCode, jdbcType=VARCHAR}
             <if test="deliverableDescription != null and deliverableDescription != ''">
                 and t.DeliverableDescription = #{deliverableDescription, jdbcType=VARCHAR}
             </if>
