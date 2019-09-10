@@ -39,17 +39,8 @@ public class VendorContractController extends BaseController {
         return getOkResponseResult(list, "查询成功");
     }
 
-    @ApiOperation(value = "根据 jobcode 自动生成供应商合同编码")
-    @PostMapping("/getAutomaticGenerationCoding")
-    public ResponseResult<String> getAutomaticGenerationCoding(String jobCode) {
-        GenerationCodingUtils generationCodingUtils = new GenerationCodingUtils();
-        String coding = generationCodingUtils.getGenerationCoding();
-        String generationCoding = "P" + coding + jobCode;
-        return getOkResponseResult(generationCoding, "查询成功");
-    }
 
-
-    @ApiOperation(value = "根据 jobcode 自动生成供应商合同编码")
+    @ApiOperation(value = "根据 jobcode contractType 自动生成供应商合同编码")
     @PostMapping("/getVendorAutomaticGenerationCoding")
     public ResponseResult<String> getVendorAutomaticGenerationCoding(@RequestBody TestVO testVO) {
 
