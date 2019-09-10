@@ -12,7 +12,7 @@ public class StagePaymentVO {
      @ApiModelProperty("id")
      private  String id;
      @ApiModelProperty("付款期数")
-     private Integer pay;  
+     private String pay;
      @ApiModelProperty("供应商发票号")
      private  String vendorInvoice;
      @ApiModelProperty("供应商开票日期")
@@ -27,4 +27,6 @@ public class StagePaymentVO {
      private Date paymentCheckDate;
      @ApiModelProperty("实际付款日期")
      private Date actualPaymentDate;
+     @ApiModelProperty("关联供应商付款，保存子表数据时使用")
+     private String parentId;
 }
