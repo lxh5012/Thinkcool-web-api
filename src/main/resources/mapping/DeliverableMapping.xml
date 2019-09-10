@@ -89,8 +89,8 @@
             (
             #{vendorContractInfo.id},#{vendorContractInfo.vendorContractStatus},#{vendorContractInfo.contractType},
             #{vendorContractInfo.vendorName},#{vendorContractInfo.vendorContractVersion},#{vendorContractInfo.vendorContractCode},
-            #{vendorContractInfo.vendorContractStartDate},#{vendorContractInfo.vendorContractEndDate},#{vendorContractInfo.venderContracgtSigningDate}
-            ,#{vendorContractInfo.vendorContractInfoContractValue},#{vendorContractInfo.parentId}
+            #{vendorContractInfo.vendorContractStarttime},#{vendorContractInfo.vendorContractEndtime},#{vendorContractInfo.venderContracgtSigningDate}
+            ,#{vendorContractInfo.contractValue},#{vendorContractInfo.parentId}
             )
         </foreach>
     </insert>

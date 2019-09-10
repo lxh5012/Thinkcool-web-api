@@ -123,6 +123,16 @@ public class DeliverableController extends BaseController {
             String uuid = UUID.randomUUID().toString().toUpperCase().replaceAll("-", "");
             vendorContractVOTemp.setId(uuid);
             vendorContractVOTemp.setParentId(deliverableId);
+            vendorContractVOTemp.setVendorContractStatus(vendorContractVO.getVendorContractStatus());
+            vendorContractVOTemp.setContractType(vendorContractVO.getContractType());
+            vendorContractVOTemp.setVendorName(vendorContractVO.getVendorName());
+            vendorContractVOTemp.setVendorContractVersion(vendorContractVO.getVendorContractVersion());
+            vendorContractVOTemp.setVendorContractCode(vendorContractVO.getVendorContractCode());
+            vendorContractVOTemp.setVendorContractStarttime(vendorContractVO.getVendorContractStarttime());
+            vendorContractVOTemp.setVendorContractEndtime(vendorContractVO.getVendorContractEndtime());
+            vendorContractVOTemp.setVenderContracgtSigningDate(vendorContractVO.getVenderContracgtSigningDate());
+            vendorContractVOTemp.setContractValue(vendorContractVO.getContractValue());
+
             vendorContractVOS.add(vendorContractVOTemp);
          }
       }
