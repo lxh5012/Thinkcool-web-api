@@ -3,6 +3,7 @@ package com.authine.cloudpivot.ext.serviceImpl;
 import com.authine.cloudpivot.ext.PageUtils;
 import com.authine.cloudpivot.ext.mapper.ClientPaymentMapper;
 import com.authine.cloudpivot.ext.mapper.DeliverableMapper;
+import com.authine.cloudpivot.ext.queryVo.DeliverableContractParam;
 import com.authine.cloudpivot.ext.queryVo.QueryClientPayment;
 import com.authine.cloudpivot.ext.queryVo.QueryDeliverable;
 import com.authine.cloudpivot.ext.service.ClientPaymentService;
@@ -68,4 +69,16 @@ public class DeliverableServiceImpl implements DeliverableService {
     public int addVendorPaymentInfo(List<StagePaymentVO> stagePaymentVOList) {
         return deliverableMapper.addVendorPaymentInfo(stagePaymentVOList);
     }
+
+    @Override
+    public int updateDeliverableStatus(QueryDeliverable queryDeliverable) {
+        return deliverableMapper.updateDeliverableStatus(queryDeliverable);
+    }
+
+    @Override
+    public int updateRelationInfo(DeliverableContractParam deliverableContractParam) {
+        return deliverableMapper.updateRelationInfo(deliverableContractParam);
+    }
+
+
 }

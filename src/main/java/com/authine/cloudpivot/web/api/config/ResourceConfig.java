@@ -131,9 +131,7 @@ public class ResourceConfig extends ResourceServerConfigurerAdapter {
                     .antMatchers("/api/thinkCool/workflow").permitAll()
                     .antMatchers("/api/clientPaymentController/getclientPaymentList").permitAll()
                     .antMatchers("/api/vendorPaymentController/getvendorPaymentList").permitAll()
-                    .antMatchers("/api/deliverableController/getDeliverableList").permitAll()
-                    .antMatchers("/api/deliverableController/queryDeliverables").permitAll()
-                    .antMatchers("/api/deliverableController/addContractRelation").permitAll()
+                    .antMatchers("/api/deliverableController/*").permitAll()
                     .antMatchers("/api/jobCodeController/*").permitAll()
                     //.antMatchers("/api/**").permitAll()
 

@@ -50,13 +50,13 @@
             (#{deliverableContract.id},#{deliverableContract.deliverableId},#{deliverableContract.contractId},#{deliverableContract.type})
         </foreach>
     </insert>
-    <update id="">
+    <update id="updateRelationInfo" parameterType="com.authine.cloudpivot.ext.queryVo.DeliverableContractParam">
         update i_deliverable
         <set>
-            <if test="type='clientContract'"> set clientContractContent=#{clientContractContent}</if>
-            <if test="type='vendorContract'"> set vendorContractContent=#{vendorContractContent}</if>
-            <if test="type='clientPayment'"> set clientPaymentContent=#{clientPaymentContent}</if>
-            <if test="type='vendorPayment'"> set vendorPaymentContent=#{vendorPaymentContent}</if>
+            <if test="type=='clientContract'">  clientContractContent=#{clientContractContent}</if>
+            <if test="type=='vendorContract'"> vendorContractContent=#{vendorContractContent}</if>
+            <if test="type=='clientPayment'">  clientPaymentContent=#{clientPaymentFinContent}</if>
+            <if test="type=='vendorPayment'">  vendorPaymentContent=#{stagePaymentContent}</if>
         </set>
         where id=#{deliverableId}
     </update>
@@ -136,4 +136,9 @@
             )
         </foreach>
     </insert>
+
+    <update id="updateDeliverableStatus">
+        update i_deliverable set where  id=#{id}
+
+    </update>
 </mapper>

@@ -16,5 +16,9 @@ public class DeliverableContractParam {
     private List<VendorContractVO> vendorContractVOS;
     private List<ClientPaymentFinVO> clientPaymentVOS;
     private List<StagePaymentVO> vendorPaymentVOS;
+    private String clientContractContent;
+    private String vendorContractContent;
+    private String clientPaymentFinContent;
+    private String stagePaymentContent;
 
 }

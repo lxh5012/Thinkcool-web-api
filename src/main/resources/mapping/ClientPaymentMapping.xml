@@ -2,17 +2,17 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.authine.cloudpivot.ext.mapper.ClientPaymentMapper">
 
-    <resultMap id="ClientPayBaseResultMap" type="com.authine.cloudpivot.ext.vo.StagePaymentVO">
+    <resultMap id="ClientPayBaseResultMap" type="com.authine.cloudpivot.ext.vo.ClientPaymentFinVO">
         <id column="id" property="id" jdbcType="VARCHAR"/>
         <result column="ClientPO" property="clientPO" jdbcType="VARCHAR"/>
         <result column="ClientPOvalue" property="clientPOvalue" jdbcType="VARCHAR"/>
         <result column="InvoicingDateClient" property="invoicingDateClient" jdbcType="DECIMAL"/>
         <result column="ClientInvoice" property="clientInvoice" jdbcType="VARCHAR"/>
-        <result column="amountBeforeTax" property="amountBeforeTax" jdbcType="DECIMAL"/>
-        <result column="amountAfterTax" property="amountAfterTax" jdbcType="DECIMAL"/>
+        <result column="amountBeforeTax" property="clientInvoiceTotalAmountBF" jdbcType="DECIMAL"/>
+        <result column="amountAfterTax" property="clientInvoiceTotalAmountAF" jdbcType="DECIMAL"/>
         <result column="ClientPaymentCheckDate" property="clientPaymentCheckDate" jdbcType="DATE"/>
         <result column="ClientPaymentAging" property="clientPaymentAging" jdbcType="VARCHAR"/>
-        <result column="ClientaymentRemittanceDate" property="clientaymentRemittanceDate" jdbcType="DATE"/>
+        <result column="ClientaymentRemittanceDate" property="clientPaymentRemittanceDate" jdbcType="DATE"/>
         <result column="ClientPaymentOverDue" property="clientPaymentOverDue" jdbcType="DATE"/>
     </resultMap>
 
@@ -64,7 +64,7 @@
           clfin.ClientInvoice,
           clfin.amountBeforeTax, -- 客户发票总金额(税前)
           clfin.amountAfterTax, -- 客户发票总金额(税后)
-          date_format(clfin.ClientPaymentCheckDate, -- 客户付款确认日
+          date_format(clfin.ClientPaymentCheckDate,'%Y/%m/%d') ClientPaymentCheckDate, -- 客户付款确认日
           clfin.ClientPaymentAging, -- 客户付款账龄
           date_format(clfin.ClientaymentRemittanceDate, '%Y/%m/%d' ) ClientaymentRemittanceDate, -- 实际付款日
           date_format(clfin.ClientPaymentOverDue , '%Y/%m/%d' ) ClientPaymentOverDue -- 客户付款逾期日

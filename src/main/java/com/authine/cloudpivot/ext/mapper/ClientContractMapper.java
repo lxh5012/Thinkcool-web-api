@@ -12,4 +12,6 @@ public interface ClientContractMapper {
 
     public List<ClientContractVO> getClientContractList(QueryClientContract queryClientContract);
 
+    public List<ClientContractVO> getClientContractById(List<String> ids);
+
 }

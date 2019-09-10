@@ -1,5 +1,6 @@
 package com.authine.cloudpivot.ext.service;
 
+import com.authine.cloudpivot.ext.queryVo.DeliverableContractParam;
 import com.authine.cloudpivot.ext.queryVo.QueryDeliverable;
 import com.authine.cloudpivot.ext.vo.*;
 
@@ -19,4 +20,8 @@ public interface DeliverableService {
     public int addClientPaymentInfo(List<ClientPaymentFinVO> clientPaymentVOList);
 
     public int addVendorPaymentInfo(List<StagePaymentVO> vendorPaymentVOList);
+
+    public int updateDeliverableStatus(QueryDeliverable queryDeliverable);
+
+    public int updateRelationInfo(DeliverableContractParam deliverableContractParam);
 }

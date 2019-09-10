@@ -46,5 +46,10 @@ public class ClientContractServiceImpl implements ClientContractService {
 
     }
 
+    @Override
+    public List<ClientContractVO> getClientContractById(List<String> ids) {
+        return clientContractMapper.getClientContractById(ids);
+    }
+
 
 }

@@ -4,6 +4,7 @@ import com.authine.cloudpivot.ext.PageUtils;
 import com.authine.cloudpivot.ext.mapper.VendorPaymentMapper;
 import com.authine.cloudpivot.ext.queryVo.QueryVendorPayment;
 import com.authine.cloudpivot.ext.service.VendorPaymentService;
+import com.authine.cloudpivot.ext.vo.StagePaymentVO;
 import com.authine.cloudpivot.ext.vo.VendorPaymentVO;
 import com.authine.cloudpivot.ext.vo.PageResult;
 import com.github.pagehelper.PageHelper;
@@ -30,7 +31,12 @@ public class VendorPaymentServiceImpl implements VendorPaymentService {
 
     @Override
     public PageResult getStagePaymentInfoList(QueryVendorPayment queryVendorPayment) {
-        return null;
+        int pageNum =queryVendorPayment.getPage();
+        int pageSize = queryVendorPayment.getPageSize();
+        PageHelper.startPage(pageNum, pageSize);
+        List<StagePaymentVO> VendorPaymentList = VendorPaymentMapper.getStagePaymentInfoList(queryVendorPayment);
+        PageInfo<StagePaymentVO> VendorPaymentVOVOPageInfo = new PageInfo<>(VendorPaymentList);
+        return PageUtils.getPageResult(VendorPaymentVOVOPageInfo);
     }
 
 

@@ -1,5 +1,6 @@
 package com.authine.cloudpivot.ext.mapper;
 
+import com.authine.cloudpivot.ext.queryVo.DeliverableContractParam;
 import com.authine.cloudpivot.ext.queryVo.QueryDeliverable;
 import com.authine.cloudpivot.ext.vo.*;
 import org.springframework.stereotype.Repository;
@@ -12,6 +13,8 @@ public interface DeliverableMapper {
 
     public List<DeliverableVO> queryDeliverables(QueryDeliverable queryDeliverable);
 
+    public int updateRelationInfo(DeliverableContractParam deliverableContractParam);
+
     public int addContractRelation(List<DeliverableContract> deliverableContracts);
 
     public int addClientContractInfo(List<ClientContractVO> clientContractVOList);
@@ -21,4 +24,6 @@ public interface DeliverableMapper {
     public int addClientPaymentInfo(List<ClientPaymentFinVO> clientPaymentVOList);
 
     public int addVendorPaymentInfo(List<StagePaymentVO> vendorPaymentVOList);
+
+    public int updateDeliverableStatus(QueryDeliverable queryDeliverable);
 }

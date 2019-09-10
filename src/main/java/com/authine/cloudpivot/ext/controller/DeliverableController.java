@@ -2,10 +2,9 @@ package com.authine.cloudpivot.ext.controller;
 
 import com.authine.cloudpivot.ext.queryVo.ContractFinVO;
 import com.authine.cloudpivot.ext.queryVo.DeliverableContractParam;
-import com.authine.cloudpivot.ext.queryVo.ProjectSummaryParam;
 import com.authine.cloudpivot.ext.queryVo.QueryDeliverable;
+import com.authine.cloudpivot.ext.service.ClientContractService;
 import com.authine.cloudpivot.ext.service.DeliverableService;
-import com.authine.cloudpivot.ext.service.IProjectSummaryService;
 import com.authine.cloudpivot.ext.vo.*;
 import com.authine.cloudpivot.web.api.controller.base.BaseController;
 import com.authine.cloudpivot.web.api.handler.CustomizedOrigin;
@@ -13,7 +12,6 @@ import com.authine.cloudpivot.web.api.view.ResponseResult;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
@@ -34,6 +32,9 @@ public class DeliverableController extends BaseController {
    @Autowired
    private DeliverableService deliverableService;
 
+   @Autowired
+   private ClientContractService clientContractService;
+
    @ApiOperation(value = "查询deliverable",notes = "查询deliverable")
    @GetMapping("/getDeliverableList")
    public ResponseResult<DeliverableVO>  getDeliverableList(){
@@ -48,6 +49,7 @@ public class DeliverableController extends BaseController {
       String [] deliverableIdArr = deliverableIds.split(",");
       List<DeliverableContract> deliverableContracts = new ArrayList<>();
       Map<String, List<ContractFinVO> > deliverableMap = new HashMap<>();
+
       for(int i=0;i<deliverableIdArr.length;i++){
          deliverableMap.put(deliverableIdArr[i],deliverableContractParam.getContractFinVOS());
       }
@@ -75,32 +77,62 @@ public class DeliverableController extends BaseController {
       String deliverableIds = deliverableContractParam.getDeliverableId();
       String [] deliverableIdArr = deliverableIds.split(",");
       Map<String, List<ClientContractVO> > deliverableMap = new HashMap<>();
+      List<String> contractIds = new ArrayList<>();
+      // 通过合同id获取数据 todo
+      List<ClientContractVO> clientContractVOListVal = deliverableContractParam.getClientContractVOS();
+      for(ClientContractVO clientContractVO:clientContractVOListVal){
+         contractIds.add(clientContractVO.getId());
+      }
+      List<ClientContractVO> voList = clientContractService.getClientContractById(contractIds);
+      deliverableContractParam.setClientContractVOS(voList);
+
       for(int i=0;i<deliverableIdArr.length;i++){
          deliverableMap.put(deliverableIdArr[i],deliverableContractParam.getClientContractVOS());
       }
+      //保存关联合同信息数据
       List<ClientContractVO> clientContractVOSSave = new ArrayList<>();
       ClientContractVO clientContractVOTemp = null;
+      List<DeliverableContractParam> deliverableContractParams = new ArrayList<>();
       for(Map.Entry<String,List<ClientContractVO>> map:deliverableMap.entrySet()){
          String deliverableId = map.getKey();
          List<ClientContractVO> clientContractVOList = map.getValue();
+         int cnt = clientContractVOList.size();
          String uuid = null;
-         for(ClientContractVO clientContractVO:clientContractVOList){
-            uuid = UUID.randomUUID().toString().toUpperCase().replaceAll("-", "");
-            clientContractVOTemp = new ClientContractVO();
-            clientContractVOTemp.setId(uuid);
-            clientContractVOTemp.setParentId(deliverableId);
-            clientContractVOTemp.setClientContractStarttime(clientContractVO.getClientContractStarttime());
-            clientContractVOTemp.setClientContractEndtime(clientContractVO.getClientContractEndtime());
-            clientContractVOTemp.setClientContractStatus(clientContractVO.getClientContractStatus());
-            clientContractVOTemp.setContractType(clientContractVO.getContractType());
-            clientContractVOTemp.setClientName(clientContractVO.getClientName());
-            clientContractVOTemp.setClientContractVersion(clientContractVO.getClientContractVersion());
-            clientContractVOTemp.setClientContractCode(clientContractVO.getClientContractCode());
-            clientContractVOTemp.setContractValue(clientContractVO.getContractValue());
-            clientContractVOSSave.add(clientContractVOTemp);
+         StringBuffer clientContractContent = new StringBuffer("");
+         for(int i=0;i<cnt;i++){
+               ClientContractVO clientContractVO = clientContractVOList.get(i);
+               uuid = UUID.randomUUID().toString().toUpperCase().replaceAll("-", "");
+               clientContractVOTemp = new ClientContractVO();
+               clientContractVOTemp.setId(uuid);
+               clientContractVOTemp.setParentId(deliverableId);
+               clientContractVOTemp.setClientContractStarttime(clientContractVO.getClientContractStarttime());
+               clientContractVOTemp.setClientContractEndtime(clientContractVO.getClientContractEndtime());
+               clientContractVOTemp.setClientContractStatus(clientContractVO.getClientContractStatus());
+               clientContractVOTemp.setContractType(clientContractVO.getContractType());
+               clientContractVOTemp.setClientName(clientContractVO.getClientName());
+               clientContractVOTemp.setClientContractVersion(clientContractVO.getClientContractVersion());
+               clientContractVOTemp.setClientContractCode(clientContractVO.getClientContractCode());
+               clientContractVOTemp.setContractValue(clientContractVO.getContractValue());
+               clientContractVOSSave.add(clientContractVOTemp);
+               if(i!=cnt-1){
+                  clientContractContent.append(clientContractVO.getClientName()).append(clientContractVO.getClientContractCode()).append("/");
+               }else{
+                  clientContractContent.append(clientContractVO.getClientName()).append(clientContractVO.getClientContractCode());
+               }
          }
+
+         // 组装关联合同信息
+         DeliverableContractParam deliverableContractParamSave = new DeliverableContractParam();
+         deliverableContractParamSave.setDeliverableId(deliverableId);
+         deliverableContractParamSave.setClientContractContent(clientContractContent.toString());
+         deliverableContractParamSave.setType("clientContract");
+         deliverableContractParams.add(deliverableContractParamSave);
       }
       int returnCode = deliverableService.addClientContractInfo(clientContractVOSSave);
+      //更新Deliverable表中关联合同信息字段
+      for(DeliverableContractParam temp:deliverableContractParams){
+         deliverableService.updateRelationInfo(temp);
+      }
       return getOkResponseResult( returnCode,"关联客户合同成功");
    }
 
@@ -212,6 +244,14 @@ public class DeliverableController extends BaseController {
       }
       int returnCode = deliverableService.addVendorPaymentInfo(stagePaymentVOSave);
       return getOkResponseResult( returnCode,"关联供应商付款成功");
+   }
+
+   @ApiOperation(value = "更新project状态",notes = "更新project状态")
+   @PostMapping("/updateDeliverableStatus")
+   public ResponseResult<Integer>  updateDeliverableStatus(@RequestBody QueryDeliverable queryDeliverable){
+      log.info("DeliverableController|updateDeliverableStatus|"+queryDeliverable.toString());
+      int result = deliverableService.updateDeliverableStatus(queryDeliverable);
+      return getOkResponseResult( result,"更新项目状态成功");
    }
 
 }
