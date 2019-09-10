@@ -8,9 +8,9 @@
 			v.id id,
 			v.Jobcode jobcode,
 			v.ProjectName projectName,
-			c.NAME contractType,
+			v.contractType contractType,
 			v.VendorName vendorName,
-			ccv.NAME vendorContractVersion,
+			v.vendorContractVersion vendorContractVersion,
 			v.VendorContractCode vendorContractCode,
 			date_format(v.VendorContractStarttime,'%Y/%m/%d') vendorContractStarttime,
 			date_format(v.VendorContractEndtime,'%Y/%m/%d') vendorContractEndtime,
@@ -21,8 +21,8 @@
 			instance.id AS instanceId
 		FROM
 			i_vendorcontract v
-		LEFT JOIN i_contracttype c ON v.contractType = c.id
-		LEFT JOIN i_client_contract_version ccv ON v.vendorContractVersion = ccv.id
+		/*LEFT JOIN i_contracttype c ON v.contractType = c.id
+		LEFT JOIN i_client_contract_version ccv ON v.vendorContractVersion = ccv.id*/
 		LEFT JOIN biz_workflow_instance instance ON v.id = instance.bizObjectId
 		LEFT JOIN biz_workitem workitem ON instance.id = workitem.instanceId
 		WHERE
