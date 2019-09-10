@@ -6,10 +6,7 @@ import com.authine.cloudpivot.ext.queryVo.ProjectSummaryParam;
 import com.authine.cloudpivot.ext.queryVo.QueryDeliverable;
 import com.authine.cloudpivot.ext.service.DeliverableService;
 import com.authine.cloudpivot.ext.service.IProjectSummaryService;
-import com.authine.cloudpivot.ext.vo.DeliverableContract;
-import com.authine.cloudpivot.ext.vo.DeliverableVO;
-import com.authine.cloudpivot.ext.vo.PageResult;
-import com.authine.cloudpivot.ext.vo.ProjectSummaryVO;
+import com.authine.cloudpivot.ext.vo.*;
 import com.authine.cloudpivot.web.api.controller.base.BaseController;
 import com.authine.cloudpivot.web.api.handler.CustomizedOrigin;
 import com.authine.cloudpivot.web.api.view.ResponseResult;
@@ -72,5 +69,100 @@ public class DeliverableController extends BaseController {
       return getOkResponseResult( 1,"关联成功");
    }
 
+   @ApiOperation(value = "关联客户合同",notes = "关联客户合同")
+   @PostMapping("/addClientContractInfo")
+   public ResponseResult<Integer>  addClientContractInfo(@RequestBody DeliverableContractParam deliverableContractParam){
+      String deliverableIds = deliverableContractParam.getDeliverableId();
+      String [] deliverableIdArr = deliverableIds.split(",");
+      Map<String, List<ClientContractVO> > deliverableMap = new HashMap<>();
+      for(int i=0;i<deliverableIdArr.length;i++){
+         deliverableMap.put(deliverableIdArr[i],deliverableContractParam.getClientContractVOS());
+      }
+      List<ClientContractVO> clientContractVOS = new ArrayList<>();
+      for(Map.Entry<String,List<ClientContractVO>> map:deliverableMap.entrySet()){
+         String deliverableId = map.getKey();
+         List<ClientContractVO> clientContractVOList = map.getValue();
+         for(ClientContractVO clientContractVO:clientContractVOList){
+            String uuid = UUID.randomUUID().toString().toUpperCase().replaceAll("-", "");
+            clientContractVO.setId(uuid);
+            clientContractVO.setParentId(deliverableId);
+            clientContractVOS.add(clientContractVO);
+         }
+      }
+      int returnCode = deliverableService.addClientContractInfo(clientContractVOS);
+      return getOkResponseResult( returnCode,"关联客户合同成功");
+   }
+
+   @ApiOperation(value = "供应商合同",notes = "关联供应商合同")
+   @PostMapping("/addVendorContractInfo")
+   public ResponseResult<Integer>  addVendorContractInfo(@RequestBody DeliverableContractParam deliverableContractParam){
+      String deliverableIds = deliverableContractParam.getDeliverableId();
+      String [] deliverableIdArr = deliverableIds.split(",");
+      Map<String, List<VendorContractVO> > deliverableMap = new HashMap<>();
+      for(int i=0;i<deliverableIdArr.length;i++){
+         deliverableMap.put(deliverableIdArr[i],deliverableContractParam.getVendorContractVOS());
+      }
+      List<VendorContractVO> vendorContractVOS = new ArrayList<>();
+      for(Map.Entry<String,List<VendorContractVO>> map:deliverableMap.entrySet()){
+         String deliverableId = map.getKey();
+         List<VendorContractVO> vendorContractVOList = map.getValue();
+         for(VendorContractVO vendorContractVO:vendorContractVOList){
+            String uuid = UUID.randomUUID().toString().toUpperCase().replaceAll("-", "");
+            vendorContractVO.setId(uuid);
+            vendorContractVO.setParentId(deliverableId);
+            vendorContractVOS.add(vendorContractVO);
+         }
+      }
+      int returnCode = deliverableService.addVendorContractInfo(vendorContractVOS);
+      return getOkResponseResult( returnCode,"关联供应商成功");
+   }
+
+   @ApiOperation(value = "客户收款",notes = "关联客户收款")
+   @PostMapping("/addClientPaymentInfo")
+   public ResponseResult<Integer>  addClientPaymentInfo(@RequestBody DeliverableContractParam deliverableContractParam){
+      String deliverableIds = deliverableContractParam.getDeliverableId();
+      String [] deliverableIdArr = deliverableIds.split(",");
+      Map<String, List<ClientPaymentVO> > deliverableMap = new HashMap<>();
+      for(int i=0;i<deliverableIdArr.length;i++){
+         deliverableMap.put(deliverableIdArr[i],deliverableContractParam.getClientPaymentVOS());
+      }
+      List<ClientPaymentVO> clientPaymentVOS = new ArrayList<>();
+      for(Map.Entry<String,List<ClientPaymentVO>> map:deliverableMap.entrySet()){
+         String deliverableId = map.getKey();
+         List<ClientPaymentVO> clientPaymentVOList = map.getValue();
+         for(ClientPaymentVO clientPaymentVO:clientPaymentVOList){
+            String uuid = UUID.randomUUID().toString().toUpperCase().replaceAll("-", "");
+            clientPaymentVO.setId(uuid);
+            clientPaymentVO.setParentId(deliverableId);
+            clientPaymentVOS.add(clientPaymentVO);
+         }
+      }
+      int returnCode = deliverableService.addClientPaymentInfo(clientPaymentVOS);
+      return getOkResponseResult( returnCode,"关联客户收款成功");
+   }
+
+   @ApiOperation(value = "供应商付款",notes = "供应商付款")
+   @PostMapping("/addVendorPaymentInfo")
+   public ResponseResult<Integer>  addVendorPaymentInfo(@RequestBody DeliverableContractParam deliverableContractParam){
+      String deliverableIds = deliverableContractParam.getDeliverableId();
+      String [] deliverableIdArr = deliverableIds.split(",");
+      Map<String, List<VendorPaymentVO> > deliverableMap = new HashMap<>();
+      for(int i=0;i<deliverableIdArr.length;i++){
+         deliverableMap.put(deliverableIdArr[i],deliverableContractParam.getVendorPaymentVOS());
+      }
+      List<VendorPaymentVO> vendorPaymentVOS = new ArrayList<>();
+      for(Map.Entry<String,List<VendorPaymentVO>> map:deliverableMap.entrySet()){
+         String deliverableId = map.getKey();
+         List<VendorPaymentVO> vendorPaymentVOList = map.getValue();
+         for(VendorPaymentVO vendorPaymentVO:vendorPaymentVOList){
+            String uuid = UUID.randomUUID().toString().toUpperCase().replaceAll("-", "");
+            vendorPaymentVO.setId(uuid);
+            vendorPaymentVO.setParentId(deliverableId);
+            vendorPaymentVOS.add(vendorPaymentVO);
+         }
+      }
+      int returnCode = deliverableService.addVendorPaymentInfo(vendorPaymentVOS);
+      return getOkResponseResult( returnCode,"关联供应商付款成功");
+   }
 
 }

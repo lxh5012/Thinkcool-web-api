@@ -61,6 +61,7 @@ public class VendorContractVO {
     @ApiModelProperty("填写profitCommercial url")
     private String profitCommercialUrl;
 
-
+    @ApiModelProperty("关联客户合同，保存子表数据时使用")
+    private String parentId;
 
 }

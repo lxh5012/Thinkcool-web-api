@@ -1,6 +1,7 @@
 package com.authine.cloudpivot.ext.vo;
 
 
+import io.swagger.annotations.ApiModelProperty;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -44,6 +45,8 @@ public class ClientPaymentVO {
     //子表每行数据的id
     private String id;
 
+    @ApiModelProperty("关联客户合同，保存子表数据时使用")
+    private String parentId;
 
 
 }
