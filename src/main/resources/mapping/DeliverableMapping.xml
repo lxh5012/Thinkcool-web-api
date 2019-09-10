@@ -105,7 +105,7 @@
         VALUES
         <foreach collection="list" item="clientPaymentInfo" separator=",">
             (
-                #{id},#{clientPaymentInfo.clientPO},#{clientPaymentInfo.clientPOvalue},
+                #{clientPaymentInfo.id},#{clientPaymentInfo.clientPO},#{clientPaymentInfo.clientPOvalue},
                 #{clientPaymentInfo.invoicingDateClient},#{clientPaymentInfo.clientInvoice},
                 #{clientPaymentInfo.clientInvoiceTotalAmountBF},#{clientPaymentInfo.clientInvoiceTotalAmountAF},
                 #{clientPaymentInfo.clientPaymentCheckDate},#{clientPaymentInfo.clientPaymentAging},
