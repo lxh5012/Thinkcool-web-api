@@ -2,7 +2,6 @@ package com.authine.cloudpivot.ext.controller;
 
 import com.authine.cloudpivot.ext.queryVo.QueryVendorContract;
 import com.authine.cloudpivot.ext.service.VendorContractService;
-import com.authine.cloudpivot.ext.utils.GenerationCodingUtils;
 import com.authine.cloudpivot.ext.vo.PageResult;
 import com.authine.cloudpivot.ext.vo.TestVO;
 import com.authine.cloudpivot.web.api.controller.base.BaseController;
@@ -58,13 +57,13 @@ public class VendorContractController extends BaseController {
         try {
             if (testVO.getJobCode() != null || !testVO.getJobCode().equals("") || !testVO.getJobCode().equals("null") || testVO.getContractType() != null || !testVO.getContractType().equals("") || !testVO.getContractType().equals("null")) {
 
-                if (testVO.getContractType().equals("客户补充合同")) {
+                if (testVO.getContractType().equals("供应商补充合同") || testVO.getContractType().equals("KOL供应商补充合同")) {
                     stringBuffer.append("P");
                     stringBuffer.append(str3);
                     stringBuffer.append(testVO.getJobCode());
                     stringBuffer.append("A");
                     stringBuffer.append(str1);
-                } else if (testVO.getContractType().equals("客户订单(适用于订单等同合同)")) {
+                } else if (testVO.getContractType().equals("供应商订单(适用于订单等同合同)") || testVO.getContractType().equals("KOL供应商订单(适用于订单等同合同)")) {
                     stringBuffer.append("P");
                     stringBuffer.append(str3);
                     stringBuffer.append(testVO.getJobCode());
