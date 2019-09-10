@@ -1,9 +1,7 @@
 package com.authine.cloudpivot.ext.mapper;
 
-import com.authine.cloudpivot.ext.queryVo.QueryClientPayment;
 import com.authine.cloudpivot.ext.queryVo.QueryDeliverable;
 import com.authine.cloudpivot.ext.vo.*;
-import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -20,7 +18,7 @@ public interface DeliverableMapper {
 
     public int addVendorContractInfo(List<VendorContractVO> vendorContractVOList);
 
-    public int addClientPaymentInfo(List<ClientPaymentVO> clientPaymentVOList);
+    public int addClientPaymentInfo(List<ClientPaymentFinVO> clientPaymentVOList);
 
-    public int addVendorPaymentInfo(List<VendorPaymentVO> vendorPaymentVOList);
+    public int addVendorPaymentInfo(List<StagePaymentVO> vendorPaymentVOList);
 }

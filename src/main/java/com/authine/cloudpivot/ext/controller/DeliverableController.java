@@ -145,22 +145,36 @@ public class DeliverableController extends BaseController {
    public ResponseResult<Integer>  addClientPaymentInfo(@RequestBody DeliverableContractParam deliverableContractParam){
       String deliverableIds = deliverableContractParam.getDeliverableId();
       String [] deliverableIdArr = deliverableIds.split(",");
-      Map<String, List<ClientPaymentVO> > deliverableMap = new HashMap<>();
+      Map<String, List<ClientPaymentFinVO> > deliverableMap = new HashMap<>();
       for(int i=0;i<deliverableIdArr.length;i++){
          deliverableMap.put(deliverableIdArr[i],deliverableContractParam.getClientPaymentVOS());
       }
-      List<ClientPaymentVO> clientPaymentVOS = new ArrayList<>();
-      for(Map.Entry<String,List<ClientPaymentVO>> map:deliverableMap.entrySet()){
+      List<ClientPaymentFinVO> clientPaymentVOSave = new ArrayList<>();
+      ClientPaymentFinVO clientPaymentFinVOTemp = null;
+      for(Map.Entry<String,List<ClientPaymentFinVO>> map:deliverableMap.entrySet()){
          String deliverableId = map.getKey();
-         List<ClientPaymentVO> clientPaymentVOList = map.getValue();
-         for(ClientPaymentVO clientPaymentVO:clientPaymentVOList){
-            String uuid = UUID.randomUUID().toString().toUpperCase().replaceAll("-", "");
-            clientPaymentVO.setId(uuid);
-            clientPaymentVO.setParentId(deliverableId);
-            clientPaymentVOS.add(clientPaymentVO);
+         List<ClientPaymentFinVO> clientPaymentFinVOList = map.getValue();
+         String uuid = null;
+         for(ClientPaymentFinVO clientPaymentFinVO:clientPaymentFinVOList){
+            uuid = UUID.randomUUID().toString().toUpperCase().replaceAll("-", "");
+            clientPaymentFinVOTemp = new ClientPaymentFinVO();
+            clientPaymentFinVOTemp.setId(uuid);
+            clientPaymentFinVOTemp.setParentId(deliverableId);
+            clientPaymentFinVOTemp.setClientPO(clientPaymentFinVO.getClientPO());
+            clientPaymentFinVOTemp.setClientPOvalue(clientPaymentFinVO.getClientPOvalue());
+            clientPaymentFinVOTemp.setInvoicingDateClient(clientPaymentFinVO.getInvoicingDateClient());
+            clientPaymentFinVOTemp.setClientInvoice(clientPaymentFinVO.getClientInvoice());
+            clientPaymentFinVOTemp.setAmountBeforeTax(clientPaymentFinVO.getAmountBeforeTax());
+            clientPaymentFinVOTemp.setAmountAfterTax(clientPaymentFinVO.getAmountAfterTax());
+            clientPaymentFinVOTemp.setClientPaymentCheckDate(clientPaymentFinVO.getClientPaymentCheckDate());
+            clientPaymentFinVOTemp.setClientPaymentAging(clientPaymentFinVO.getClientPaymentAging());
+            clientPaymentFinVOTemp.setClientaymentRemittanceDate(clientPaymentFinVO.getClientaymentRemittanceDate());
+            clientPaymentFinVOTemp.setClientPaymentOverDue(clientPaymentFinVO.getClientPaymentOverDue());
+
+            clientPaymentVOSave.add(clientPaymentFinVOTemp);
          }
       }
-      int returnCode = deliverableService.addClientPaymentInfo(clientPaymentVOS);
+      int returnCode = deliverableService.addClientPaymentInfo(clientPaymentVOSave);
       return getOkResponseResult( returnCode,"关联客户收款成功");
    }
 
@@ -169,22 +183,34 @@ public class DeliverableController extends BaseController {
    public ResponseResult<Integer>  addVendorPaymentInfo(@RequestBody DeliverableContractParam deliverableContractParam){
       String deliverableIds = deliverableContractParam.getDeliverableId();
       String [] deliverableIdArr = deliverableIds.split(",");
-      Map<String, List<VendorPaymentVO> > deliverableMap = new HashMap<>();
+      Map<String, List<StagePaymentVO> > deliverableMap = new HashMap<>();
       for(int i=0;i<deliverableIdArr.length;i++){
          deliverableMap.put(deliverableIdArr[i],deliverableContractParam.getVendorPaymentVOS());
       }
-      List<VendorPaymentVO> vendorPaymentVOS = new ArrayList<>();
-      for(Map.Entry<String,List<VendorPaymentVO>> map:deliverableMap.entrySet()){
+      List<StagePaymentVO> stagePaymentVOSave = new ArrayList<>();
+      StagePaymentVO stagePaymentVOTemp = null;
+      for(Map.Entry<String,List<StagePaymentVO>> map:deliverableMap.entrySet()){
          String deliverableId = map.getKey();
-         List<VendorPaymentVO> vendorPaymentVOList = map.getValue();
-         for(VendorPaymentVO vendorPaymentVO:vendorPaymentVOList){
-            String uuid = UUID.randomUUID().toString().toUpperCase().replaceAll("-", "");
-            vendorPaymentVO.setId(uuid);
-            vendorPaymentVO.setParentId(deliverableId);
-            vendorPaymentVOS.add(vendorPaymentVO);
+         List<StagePaymentVO> vendorPaymentVOList = map.getValue();
+         String uuid = null;
+         for(StagePaymentVO stagePaymentVO:vendorPaymentVOList){
+            uuid = UUID.randomUUID().toString().toUpperCase().replaceAll("-", "");
+
+            stagePaymentVOTemp.setId(uuid);
+            stagePaymentVOTemp.setParentId(deliverableId);
+            stagePaymentVOTemp.setPay(stagePaymentVO.getPay());
+            stagePaymentVOTemp.setVendorInvoice(stagePaymentVO.getVendorInvoice());
+            stagePaymentVOTemp.setVendorInvoicingDate(stagePaymentVO.getVendorInvoicingDate());
+            stagePaymentVOTemp.setInstallment(stagePaymentVO.getInstallment());
+            stagePaymentVOTemp.setPaymentVendorDate(stagePaymentVO.getPaymentVendorDate());
+            stagePaymentVOTemp.setIndex(stagePaymentVO.getIndex());
+            stagePaymentVOTemp.setPaymentCheckDate(stagePaymentVO.getPaymentCheckDate());
+            stagePaymentVOTemp.setActualPaymentDate(stagePaymentVO.getActualPaymentDate());
+
+            stagePaymentVOSave.add(stagePaymentVOTemp);
          }
       }
-      int returnCode = deliverableService.addVendorPaymentInfo(vendorPaymentVOS);
+      int returnCode = deliverableService.addVendorPaymentInfo(stagePaymentVOSave);
       return getOkResponseResult( returnCode,"关联供应商付款成功");
    }
 

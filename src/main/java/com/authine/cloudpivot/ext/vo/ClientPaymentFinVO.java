@@ -32,4 +32,6 @@ public class ClientPaymentFinVO {
     private Date   clientaymentRemittanceDate;
     @ApiModelProperty("客户付款逾期日")
     private Date clientPaymentOverDue;
+    @ApiModelProperty("关联客户收款，保存子表数据时使用")
+    private String parentId;
 }

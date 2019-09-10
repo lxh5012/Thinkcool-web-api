@@ -60,12 +60,12 @@ public class DeliverableServiceImpl implements DeliverableService {
     }
 
     @Override
-    public int addClientPaymentInfo(List<ClientPaymentVO> clientPaymentVOList) {
-        return deliverableMapper.addClientPaymentInfo(clientPaymentVOList);
+    public int addClientPaymentInfo(List<ClientPaymentFinVO> clientPaymentFinVOList) {
+        return deliverableMapper.addClientPaymentInfo(clientPaymentFinVOList);
     }
 
     @Override
-    public int addVendorPaymentInfo(List<VendorPaymentVO> vendorPaymentVOList) {
-        return deliverableMapper.addVendorPaymentInfo(vendorPaymentVOList);
+    public int addVendorPaymentInfo(List<StagePaymentVO> stagePaymentVOList) {
+        return deliverableMapper.addVendorPaymentInfo(stagePaymentVOList);
     }
 }
