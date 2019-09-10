@@ -25,13 +25,13 @@ public class ClientPaymentFinVO {
     @ApiModelProperty("客户发票总金额(税后)")
     private BigDecimal amountAfterTax;
     @ApiModelProperty("客户付款确认日")
-    private Date clientPaymentCheckDate;
+    private String clientPaymentCheckDate;
     @ApiModelProperty("客户付款账龄")
     private String clientPaymentAging;
     @ApiModelProperty("实际付款日")
-    private Date   clientaymentRemittanceDate;
+    private String   clientaymentRemittanceDate;
     @ApiModelProperty("客户付款逾期日")
-    private Date clientPaymentOverDue;
+    private String clientPaymentOverDue;
     @ApiModelProperty("关联客户收款，保存子表数据时使用")
     private String parentId;
 }

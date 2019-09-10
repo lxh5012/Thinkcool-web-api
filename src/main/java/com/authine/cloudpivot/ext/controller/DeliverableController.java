@@ -195,7 +195,7 @@ public class DeliverableController extends BaseController {
          String uuid = null;
          for(StagePaymentVO stagePaymentVO:vendorPaymentVOList){
             uuid = UUID.randomUUID().toString().toUpperCase().replaceAll("-", "");
-
+            stagePaymentVOTemp = new StagePaymentVO();
             stagePaymentVOTemp.setId(uuid);
             stagePaymentVOTemp.setParentId(deliverableId);
             stagePaymentVOTemp.setPay(stagePaymentVO.getPay());
