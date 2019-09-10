@@ -53,29 +53,38 @@ public class ClientContractController extends BaseController {
 
         int num3 = random.nextInt(999);
         String str3 = String.format("%03d", num3);
+
         try {
-            if (testVO.getContractType().equals("客户补充合同")) {
-                stringBuffer.append("R");
-                stringBuffer.append(str3);
-                stringBuffer.append(testVO.getJobCode());
-                stringBuffer.append("A");
-                stringBuffer.append(str1);
-            } else if (testVO.getContractType().equals("客户订单(适用于订单等同合同)")) {
-                stringBuffer.append("R");
-                stringBuffer.append(str3);
-                stringBuffer.append(testVO.getJobCode());
-                stringBuffer.append("P");
-                stringBuffer.append(str2);
+            if (testVO.getJobCode() != null || !testVO.getJobCode().equals("") || !testVO.getJobCode().equals("null") || testVO.getContractType() != null || !testVO.getContractType().equals("") || !testVO.getContractType().equals("null")) {
+
+                if (testVO.getContractType().equals("客户补充合同")) {
+                    stringBuffer.append("R");
+                    stringBuffer.append(str3);
+                    stringBuffer.append(testVO.getJobCode());
+                    stringBuffer.append("A");
+                    stringBuffer.append(str1);
+                } else if (testVO.getContractType().equals("客户订单(适用于订单等同合同)")) {
+                    stringBuffer.append("R");
+                    stringBuffer.append(str3);
+                    stringBuffer.append(testVO.getJobCode());
+                    stringBuffer.append("P");
+                    stringBuffer.append(str2);
+                } else {
+                    stringBuffer.append("R");
+                    stringBuffer.append(str3);
+                    stringBuffer.append(testVO.getJobCode());
+                }
+
+                return getOkResponseResult(stringBuffer.toString(), "编码生成成功");
+
             } else {
-                stringBuffer.append("R");
-                stringBuffer.append(str3);
-                stringBuffer.append(testVO.getJobCode());
+                return getOkResponseResult(stringBuffer.toString(), "传入参数异常，编码生成失败");
             }
 
-            return getOkResponseResult(stringBuffer.toString(), "编码处理成功");
         } catch (Exception e) {
             return getOkResponseResult(stringBuffer.toString(), "传入参数异常，编码生成失败");
         }
+
     }
 
 

@@ -39,17 +39,8 @@ public class VendorContractController extends BaseController {
         return getOkResponseResult(list, "查询成功");
     }
 
-    @ApiOperation(value = "根据 jobcode 自动生成供应商合同编码")
-    @PostMapping("/getAutomaticGenerationCoding")
-    public ResponseResult<String> getAutomaticGenerationCoding(String jobCode) {
-        GenerationCodingUtils generationCodingUtils = new GenerationCodingUtils();
-        String coding = generationCodingUtils.getGenerationCoding();
-        String generationCoding = "P" + coding + jobCode;
-        return getOkResponseResult(generationCoding, "查询成功");
-    }
 
-
-    @ApiOperation(value = "根据 jobcode 自动生成供应商合同编码")
+    @ApiOperation(value = "根据 jobcode contractType 自动生成供应商合同编码")
     @PostMapping("/getVendorAutomaticGenerationCoding")
     public ResponseResult<String> getVendorAutomaticGenerationCoding(@RequestBody TestVO testVO) {
 
@@ -65,25 +56,32 @@ public class VendorContractController extends BaseController {
         int num3 = random.nextInt(999);
         String str3 = String.format("%03d", num3);
         try {
-            if (testVO.getContractType().equals("供应商补充合同")) {
-                stringBuffer.append("P");
-                stringBuffer.append(str3);
-                stringBuffer.append(testVO.getJobCode());
-                stringBuffer.append("A");
-                stringBuffer.append(str1);
-            } else if (testVO.getContractType().equals("供应商订单(适用于订单等同合同)")) {
-                stringBuffer.append("P");
-                stringBuffer.append(str3);
-                stringBuffer.append(testVO.getJobCode());
-                stringBuffer.append("P");
-                stringBuffer.append(str2);
+            if (testVO.getJobCode() != null || !testVO.getJobCode().equals("") || !testVO.getJobCode().equals("null") || testVO.getContractType() != null || !testVO.getContractType().equals("") || !testVO.getContractType().equals("null")) {
+
+                if (testVO.getContractType().equals("客户补充合同")) {
+                    stringBuffer.append("P");
+                    stringBuffer.append(str3);
+                    stringBuffer.append(testVO.getJobCode());
+                    stringBuffer.append("A");
+                    stringBuffer.append(str1);
+                } else if (testVO.getContractType().equals("客户订单(适用于订单等同合同)")) {
+                    stringBuffer.append("P");
+                    stringBuffer.append(str3);
+                    stringBuffer.append(testVO.getJobCode());
+                    stringBuffer.append("P");
+                    stringBuffer.append(str2);
+                } else {
+                    stringBuffer.append("P");
+                    stringBuffer.append(str3);
+                    stringBuffer.append(testVO.getJobCode());
+                }
+
+                return getOkResponseResult(stringBuffer.toString(), "编码生成成功");
+
             } else {
-                stringBuffer.append("P");
-                stringBuffer.append(str3);
-                stringBuffer.append(testVO.getJobCode());
+                return getOkResponseResult(stringBuffer.toString(), "传入参数异常，编码生成失败");
             }
 
-            return getOkResponseResult(stringBuffer.toString(), "编码处理成功");
         } catch (Exception e) {
             return getOkResponseResult(stringBuffer.toString(), "传入参数异常，编码生成失败");
         }

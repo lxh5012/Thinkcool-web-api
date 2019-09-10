@@ -11,6 +11,7 @@
             t.ClientGroup AS clientGroup,
             t.ClientBrand AS clientBrand,
             t.ProjectName AS projectName,
+            t.ProjectType AS projectType,
             date_format(t.ProjectStartDate,'%Y/%m/%d') AS projectStartDate,
             date_format(t.ProjectEndDate,'%Y/%m/%d') AS projectEndDate,
             count(t.jobCode) AS deliverableNum,
