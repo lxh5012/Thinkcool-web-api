@@ -16,17 +16,17 @@ public class StagePaymentVO {
      @ApiModelProperty("供应商发票号")
      private  String vendorInvoice;
      @ApiModelProperty("供应商开票日期")
-     private String vendorInvoicingDate ;
+     private Date vendorInvoicingDate ;
      @ApiModelProperty("付款")
      private String installment;
      @ApiModelProperty("向供应商付款日期")
-     private String paymentVendorDate ;
+     private Date paymentVendorDate ;
      @ApiModelProperty("参数")
-     private  String index ;  
+     private  String index ;
      @ApiModelProperty("预计付款日期")
-     private String paymentCheckDate;
+     private Date paymentCheckDate;
      @ApiModelProperty("实际付款日期")
-     private String actualPaymentDate;
+     private Date actualPaymentDate;
      @ApiModelProperty("关联供应商付款，保存子表数据时使用")
      private String parentId;
 }
