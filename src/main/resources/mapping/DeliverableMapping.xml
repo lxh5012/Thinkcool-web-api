@@ -118,17 +118,22 @@
     <insert id="addVendorPaymentInfo" parameterType="java.util.List">
         INSERT INTO
         i_vendorpaymentinfo(
-            id,vendorInvoicingDate,Installment,PaymentDateSelectionToVendor,
-            index,PaymentCheckDateToVendor,ActualPaymentDateToVendor,
-            OfInstallment,VendorInvoice,parentId
+            id,vendorInvoicingDate,Installment,PaymentDateSelectionToVendor,paramIndex,PaymentCheckDateToVendor,
+            ActualPaymentDateToVendor,OfInstallment,VendorInvoice,parentId
         )
         VALUES
         <foreach collection="list" item="vendorPaymentInfo" separator=",">
             (
-            #{vendorPaymentInfo.id},#{vendorPaymentInfo.vendorInvoicingDate},#{vendorPaymentInfo.installment},
-            #{vendorPaymentInfo.paymentDateSelectionToVendor},
-            #{vendorPaymentInfo.index},#{vendorPaymentInfo.paymentCheckDateToVendor},#{vendorPaymentInfo.actualPaymentDateToVendor},
-            #{vendorPaymentInfo.ofInstallment},#{vendorPaymentInfo.vendorInvoice},#{vendorPaymentInfo.parentId}
+            #{vendorPaymentInfo.id},
+            #{vendorPaymentInfo.vendorInvoicingDate},
+            #{vendorPaymentInfo.installment},
+            #{vendorPaymentInfo.paymentVendorDate},
+            #{vendorPaymentInfo.index},
+            #{vendorPaymentInfo.paymentCheckDate},
+            #{vendorPaymentInfo.actualPaymentDate},
+            #{vendorPaymentInfo.pay},
+            #{vendorPaymentInfo.vendorInvoice},
+            #{vendorPaymentInfo.parentId}
             )
         </foreach>
     </insert>
