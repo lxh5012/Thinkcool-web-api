@@ -164,11 +164,11 @@ public class DeliverableController extends BaseController {
             clientPaymentFinVOTemp.setClientPOvalue(clientPaymentFinVO.getClientPOvalue());
             clientPaymentFinVOTemp.setInvoicingDateClient(clientPaymentFinVO.getInvoicingDateClient());
             clientPaymentFinVOTemp.setClientInvoice(clientPaymentFinVO.getClientInvoice());
-            clientPaymentFinVOTemp.setAmountBeforeTax(clientPaymentFinVO.getAmountBeforeTax());
-            clientPaymentFinVOTemp.setAmountAfterTax(clientPaymentFinVO.getAmountAfterTax());
+            clientPaymentFinVOTemp.setClientInvoiceTotalAmountBF(clientPaymentFinVO.getClientInvoiceTotalAmountBF());
+            clientPaymentFinVOTemp.setClientInvoiceTotalAmountAF(clientPaymentFinVO.getClientInvoiceTotalAmountAF());
             clientPaymentFinVOTemp.setClientPaymentCheckDate(clientPaymentFinVO.getClientPaymentCheckDate());
             clientPaymentFinVOTemp.setClientPaymentAging(clientPaymentFinVO.getClientPaymentAging());
-            clientPaymentFinVOTemp.setClientaymentRemittanceDate(clientPaymentFinVO.getClientaymentRemittanceDate());
+            clientPaymentFinVOTemp.setClientPaymentRemittanceDate(clientPaymentFinVO.getClientPaymentRemittanceDate());
             clientPaymentFinVOTemp.setClientPaymentOverDue(clientPaymentFinVO.getClientPaymentOverDue());
 
             clientPaymentVOSave.add(clientPaymentFinVOTemp);
