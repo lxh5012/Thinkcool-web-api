@@ -39,4 +39,10 @@ public class ClientPaymentController extends BaseController {
       return getOkResponseResult( list,"查询成功");
    }
 
+   @ApiOperation(value = "查询clientPaymentFin",notes = "查询clientPaymentFin")
+   @PostMapping("/getClientPaymentFinList")
+   public ResponseResult<PageResult>  getClientPaymentFinList(@RequestBody QueryClientPayment queryClientPayment){
+      PageResult list = clientPaymentService.getClientPaymentFinList(queryClientPayment);
+      return getOkResponseResult( list,"查询成功");
+   }
 }

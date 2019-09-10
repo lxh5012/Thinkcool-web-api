@@ -35,4 +35,13 @@ public class VendorPaymentController extends BaseController {
       return getOkResponseResult( list,"查询成功");
    }
 
+    @ApiOperation(value = "查询vendorPayment",notes = "查询vendorPayment")
+    @PostMapping("/getStagePaymentInfoList")
+    public ResponseResult<PageResult>  getStagePaymentInfoList(@RequestBody QueryVendorPayment queryvendorPayment){
+        PageResult list = vendorPaymentService.getVendorPaymentList(queryvendorPayment);
+        return getOkResponseResult( list,"查询成功");
+    }
+
+
+
 }

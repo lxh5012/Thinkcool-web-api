@@ -4,6 +4,7 @@ import com.authine.cloudpivot.ext.PageUtils;
 import com.authine.cloudpivot.ext.mapper.ClientPaymentMapper;
 import com.authine.cloudpivot.ext.queryVo.QueryClientPayment;
 import com.authine.cloudpivot.ext.service.ClientPaymentService;
+import com.authine.cloudpivot.ext.vo.ClientPaymentFinVO;
 import com.authine.cloudpivot.ext.vo.ClientPaymentVO;
 import com.authine.cloudpivot.ext.vo.PageResult;
 import com.github.pagehelper.PageHelper;
@@ -27,4 +28,16 @@ public class ClientPaymentServiceImpl implements ClientPaymentService {
         PageInfo<ClientPaymentVO> clientPaymentVOVOPageInfo = new PageInfo<>(clientPaymentList);
         return PageUtils.getPageResult(clientPaymentVOVOPageInfo);
     }
+
+    @Override
+    public PageResult getClientPaymentFinList(QueryClientPayment queryClientPayment) {
+        int pageNum =queryClientPayment.getPage();
+        int pageSize = queryClientPayment.getPageSize();
+        PageHelper.startPage(pageNum, pageSize);
+        List<ClientPaymentFinVO> clientPaymentFinList =clientPaymentMapper.getClientPaymentFinList(queryClientPayment);
+        PageInfo<ClientPaymentFinVO> clientPaymentVOVOPageInfo = new PageInfo<>(clientPaymentFinList);
+        return PageUtils.getPageResult(clientPaymentVOVOPageInfo);
+    }
+
+
 }

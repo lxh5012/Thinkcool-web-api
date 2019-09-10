@@ -78,18 +78,29 @@ public class DeliverableController extends BaseController {
       for(int i=0;i<deliverableIdArr.length;i++){
          deliverableMap.put(deliverableIdArr[i],deliverableContractParam.getClientContractVOS());
       }
-      List<ClientContractVO> clientContractVOS = new ArrayList<>();
+      List<ClientContractVO> clientContractVOSSave = new ArrayList<>();
+      ClientContractVO clientContractVOTemp = null;
       for(Map.Entry<String,List<ClientContractVO>> map:deliverableMap.entrySet()){
          String deliverableId = map.getKey();
          List<ClientContractVO> clientContractVOList = map.getValue();
+         String uuid = null;
          for(ClientContractVO clientContractVO:clientContractVOList){
-            String uuid = UUID.randomUUID().toString().toUpperCase().replaceAll("-", "");
-            clientContractVO.setId(uuid);
-            clientContractVO.setParentId(deliverableId);
-            clientContractVOS.add(clientContractVO);
+            uuid = UUID.randomUUID().toString().toUpperCase().replaceAll("-", "");
+            clientContractVOTemp = new ClientContractVO();
+            clientContractVOTemp.setId(uuid);
+            clientContractVOTemp.setParentId(deliverableId);
+            clientContractVOTemp.setClientContractStarttime(clientContractVO.getClientContractStarttime());
+            clientContractVOTemp.setClientContractEndtime(clientContractVO.getClientContractEndtime());
+            clientContractVOTemp.setClientContractStatus(clientContractVO.getClientContractStatus());
+            clientContractVOTemp.setContractType(clientContractVO.getContractType());
+            clientContractVOTemp.setClientName(clientContractVO.getClientName());
+            clientContractVOTemp.setClientContractVersion(clientContractVO.getClientContractVersion());
+            clientContractVOTemp.setClientContractCode(clientContractVO.getClientContractCode());
+            clientContractVOTemp.setContractValue(clientContractVO.getContractValue());
+            clientContractVOSSave.add(clientContractVOTemp);
          }
       }
-      int returnCode = deliverableService.addClientContractInfo(clientContractVOS);
+      int returnCode = deliverableService.addClientContractInfo(clientContractVOSSave);
       return getOkResponseResult( returnCode,"关联客户合同成功");
    }
 
@@ -103,14 +114,16 @@ public class DeliverableController extends BaseController {
          deliverableMap.put(deliverableIdArr[i],deliverableContractParam.getVendorContractVOS());
       }
       List<VendorContractVO> vendorContractVOS = new ArrayList<>();
+      VendorContractVO vendorContractVOTemp = null;
       for(Map.Entry<String,List<VendorContractVO>> map:deliverableMap.entrySet()){
          String deliverableId = map.getKey();
          List<VendorContractVO> vendorContractVOList = map.getValue();
          for(VendorContractVO vendorContractVO:vendorContractVOList){
+            vendorContractVOTemp = new VendorContractVO();
             String uuid = UUID.randomUUID().toString().toUpperCase().replaceAll("-", "");
-            vendorContractVO.setId(uuid);
-            vendorContractVO.setParentId(deliverableId);
-            vendorContractVOS.add(vendorContractVO);
+            vendorContractVOTemp.setId(uuid);
+            vendorContractVOTemp.setParentId(deliverableId);
+            vendorContractVOS.add(vendorContractVOTemp);
          }
       }
       int returnCode = deliverableService.addVendorContractInfo(vendorContractVOS);

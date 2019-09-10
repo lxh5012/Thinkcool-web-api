@@ -68,11 +68,11 @@
                             ClientContractEndDate,ContractValue,parentId
         )
         VALUES
-        <foreach collection="list" item="deliverableContract" separator=",">
+        <foreach collection="list" item="clientContractInfo" separator=",">
             (
-                #{id},#{ClientContractStatus},#{ContractType},#{ClientName},
-                #{ClientContractVersion},#{ClientContractCode},
-                #{ClientContractStartDate},#{ClientContractEndDate},#{ContractValue},#{parentId}
+                #{clientContractInfo.id},#{clientContractInfo.clientContractStatus},#{clientContractInfo.contractType},
+                #{clientContractInfo.clientName},#{clientContractInfo.clientContractVersion},#{clientContractInfo.clientContractCode},
+                #{clientContractInfo.clientContractStarttime},#{clientContractInfo.clientContractEndtime},#{clientContractInfo.contractValue},#{clientContractInfo.parentId}
             )
         </foreach>
     </insert>
@@ -85,11 +85,12 @@
             VendorContractEndDate,VenderContracgtSigningDate,ContractValue,parentId
         )
         VALUES
-        <foreach collection="list" item="deliverableContract" separator=",">
+        <foreach collection="list" item="vendorContractInfo" separator=",">
             (
-            #{id},#{VendorContractStatus},#{ContractType},#{VendorName},
-            #{VendorContractVersion},#{VendorContractCode},#{VendorContractStartDate},
-            #{VendorContractEndDate},#{VenderContracgtSigningDate},#{ContractValue},#{parentId}
+            #{vendorContractInfo.id},#{vendorContractInfo.vendorContractStatus},#{vendorContractInfo.contractType},
+            #{vendorContractInfo.vendorName},#{vendorContractInfo.vendorContractVersion},#{vendorContractInfo.vendorContractCode},
+            #{vendorContractInfo.vendorContractStartDate},#{vendorContractInfo.vendorContractEndDate},#{vendorContractInfo.venderContracgtSigningDate}
+            ,#{vendorContractInfo.vendorContractInfoContractValue},#{vendorContractInfo.parentId}
             )
         </foreach>
     </insert>
@@ -102,11 +103,14 @@
             ClientContractStartDate,ClientPaymentAging,ClientPaymentRemittanceDate,ClientPaymentOverDue,parentId
         )
         VALUES
-        <foreach collection="list" item="deliverableContract" separator=",">
+        <foreach collection="list" item="clientPaymentInfo" separator=",">
             (
-                #{id},#{ClientPO},#{ClientPOValue},#{InvoicingDateToClient},#{ClientInvoice},
-                #{ClientInvoiceTotalAmountBF},#{ClientInvoiceTotalAmountAF},#{ClientPaymentCheckDate},
-                #{ClientContractStartDate},#{ClientPaymentAging},#{ClientPaymentRemittanceDate},#{ClientPaymentOverDue},#{parentId}
+                #{id},#{clientPaymentInfo.clientPO},#{clientPaymentInfo.clientPOValue},#{clientPaymentInfo.invoicingDateToClient},
+                #{clientPaymentInfo.clientInvoice},
+                #{clientPaymentInfo.clientInvoiceTotalAmountBF},#{clientPaymentInfo.clientInvoiceTotalAmountAF},
+                #{clientPaymentInfo.clientPaymentCheckDate},
+                #{clientPaymentInfo.clientContractStartDate},#{clientPaymentInfo.clientPaymentAging},
+            #{clientPaymentInfo.clientPaymentRemittanceDate},#{clientPaymentInfo.clientPaymentOverDue},#{clientPaymentInfo.parentId}
             )
         </foreach>
     </insert>
@@ -119,11 +123,11 @@
             OfInstallment,VendorInvoice,parentId
         )
         VALUES
-        <foreach collection="list" item="deliverableContract" separator=",">
+        <foreach collection="list" item="vendorPaymentInfo" separator=",">
             (
-            #{id},#{vendorInvoicingDate},#{Installment},#{PaymentDateSelectionToVendor},
-            #{index},#{PaymentCheckDateToVendor},#{ActualPaymentDateToVendor},
-            #{OfInstallment},#{VendorInvoice},#{parentId}
+            #{vendorPaymentInfo.id},#{vendorPaymentInfo.vendorInvoicingDate},#{vendorPaymentInfo.installment},#{vendorPaymentInfo.paymentDateSelectionToVendor},
+            #{vendorPaymentInfo.index},#{vendorPaymentInfo.paymentCheckDateToVendor},#{vendorPaymentInfo.actualPaymentDateToVendor},
+            #{vendorPaymentInfo.ofInstallment},#{vendorPaymentInfo.vendorInvoice},#{vendorPaymentInfo.parentId}
             )
         </foreach>
     </insert>

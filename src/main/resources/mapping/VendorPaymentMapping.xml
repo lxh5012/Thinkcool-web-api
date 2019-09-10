@@ -1,6 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.authine.cloudpivot.ext.mapper.VendorPaymentMapper">
+    <resultMap id="StagePayBaseResultMap" type="com.authine.cloudpivot.ext.vo.StagePaymentVO">
+        <id column="id" property="id" jdbcType="VARCHAR"/>
+        <result column="pay" property="pay" jdbcType="VARCHAR"/>
+        <result column="VendorInvoice" property="vendorInvoice" jdbcType="VARCHAR"/>
+        <result column="vendorInvoicingDate" property="vendorInvoicingDate" jdbcType="VARCHAR"/>
+        <result column="installment" property="installment" jdbcType="VARCHAR"/>
+        <result column="PaymentVendorDate" property="paymentVendorDate" jdbcType="DATE"/>
+        <result column="index" property="index" jdbcType="VARCHAR"/>
+        <result column="PaymentCheckDate" property="paymentCheckDate" jdbcType="DATE"/>
+        <result column="ActualPaymentDate" property="actualPaymentDate" jdbcType="DATE"/>
+    </resultMap>
 
     <select id="getVendorPaymentList" resultType="com.authine.cloudpivot.ext.vo.VendorPaymentVO">
            select a.id as bizid,b.id as id,a.Jobcode,a.ProjectName,date_format(b.vendorInvoicingDate,'%Y/%m/%d') as vendorInvoicingDate,b.installment,date_format(b.PaymentVendorDate,'%Y/%m/%d') as PaymentVendorDate,b.index,date_format(b.PaymentCheckDate,'%Y/%m/%d') as PaymentCheckDate,date_format(b.ActualPaymentDate,'%Y/%m/%d') as ActualPaymentDate
@@ -25,5 +36,23 @@
         b.ActualPaymentDate >= STR_TO_DATE(#{queryVendorPayment.ActualPaymentDate},'%Y-%m-%d')  and
     </if>
     1=1
+    </select>
+    <select id="getStagePaymentInfoList" resultMap="StagePayBaseResultMap" parameterType="com.authine.cloudpivot.ext.queryVo.QueryVendorPayment">
+        SELECT
+            stage.id,
+            stage.pay, -- 付款期数
+            stage.VendorInvoice VendorInvoice, -- 供应商发票号
+            date_format(stage.vendorInvoicingDate,'%Y/%m/%d') vendorInvoicingDate,-- 供应商开票日期
+            stage.installment installment, -- 付款
+            date_format(stage.PaymentVendorDate,'%Y/%m/%d') PaymentVendorDate , -- 向供应商付款日期
+            stage.`index` , -- 参数
+            date_format(stage.PaymentCheckDate,'%Y/%m/%d') PaymentCheckDate, -- 预计付款日期
+            date_format(stage.ActualPaymentDate,'%Y/%m/%d') ActualPaymentDate -- 实际付款日期
+        FROM
+        i_stagepaymentinfo stage
+        LEFT JOIN i_vendorpayment vendor
+        ON stage.parentId =vendor.id
+        WHERE vendor.Jobcode = #{jobcode}
+
     </select>
 </mapper>

@@ -6,4 +6,5 @@ import org.apache.ibatis.annotations.Param;
 
 public interface ClientPaymentService {
     public PageResult getClientPaymentList(@Param("queryClientPayment") QueryClientPayment queryClientPaymentt);
+    public PageResult getClientPaymentFinList( QueryClientPayment queryClientPaymentt);
 }

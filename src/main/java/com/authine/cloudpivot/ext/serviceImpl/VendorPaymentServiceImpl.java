@@ -28,4 +28,10 @@ public class VendorPaymentServiceImpl implements VendorPaymentService {
         return PageUtils.getPageResult(VendorPaymentVOVOPageInfo);
     }
 
+    @Override
+    public PageResult getStagePaymentInfoList(QueryVendorPayment queryVendorPayment) {
+        return null;
+    }
+
+
 }
