@@ -6,7 +6,7 @@
     <select id="queryProjectTask" parameterType="com.authine.cloudpivot.ext.vo.SummaryTaskVO" resultType="com.authine.cloudpivot.ext.vo.SummaryTaskVO">
         SELECT
             t.Jobcode AS jobCode,
-            (SELECT b.`name` from i_ProjectTeamBU b where b.id = t.bu ) as bu,
+            (SELECT b.`name` from i_ProjectTeamBU b where b.name = t.bu ) as bu,
             t.ContractLegalEntity AS contractLegalEntity,
             t.ClientGroup AS clientGroup,
             t.ClientBrand AS clientBrand,
@@ -18,9 +18,9 @@
             (SELECT COUNT(1) FROM  i_dispatchsheet dis  WHERE  dis.Jobcode = t.jobCode ) AS taskNum,
             (SELECT	COUNT(1) FROM i_dispatchsheet dis WHERE dis.sequenceStatus = 'COMPLETED' AND dis.Jobcode = t.jobCode) AS finishedNum
         FROM	i_deliverable t
-        where   1=1
+        where   1=1 and JobCode is not null and JobCode !=''
         <if test="bu != null and bu != ''">
-            AND  t.bu = (SELECT  b.id from i_ProjectTeamBU b where b.`name`= #{bu, jdbcType=VARCHAR} )
+            AND  t.bu = (SELECT  b.name from i_ProjectTeamBU b where b.`name`= #{bu, jdbcType=VARCHAR} )
         </if>
         <if test="contractLegalEntity != null and contractLegalEntity != ''">
             AND  t.ContractLegalEntity = #{contractLegalEntity, jdbcType=VARCHAR}
@@ -32,7 +32,7 @@
             AND  t.ClientBrand = #{clientBrand, jdbcType=VARCHAR}
         </if>
         <if test="jobCode != null and jobCode != ''">
-            AND t.Jobcode = (select  p.id  from i_project_summary p where  p.JobCode = #{jobCode, jdbcType=VARCHAR})
+            AND t.Jobcode = (select  p.JobCode  from i_project_summary p where  p.JobCode = #{jobCode, jdbcType=VARCHAR})
         </if>
         <if test="projectName != null and projectName != ''">
             AND  t.ProjectName = #{projectName, jdbcType=VARCHAR}
@@ -94,9 +94,9 @@
     <select id="queryTaskDetial"  parameterType="com.authine.cloudpivot.ext.vo.TaskDetialVO" resultType="com.authine.cloudpivot.ext.vo.TaskDetialVO">
         SELECT
         t.Jobcode AS jobId,
-        (SELECT p.JobCode FROM i_project_summary p WHERE p.id = t.Jobcode ) AS jobCode,
-        (SELECT c.`name` FROM i_category c WHERE c.id = t.DeliverableCategory ) AS deliverableCategory,
-        (SELECT d.DeliverableDescription FROM i_deliverable d WHERE d.id = t.DeliverableDescription ) AS deliverableDescription,
+        (SELECT p.JobCode FROM i_project_summary p WHERE p.JobCode = t.Jobcode ) AS jobCode,
+        (SELECT c.`name` FROM i_category c WHERE c.name = t.DeliverableCategory ) AS deliverableCategory,
+        (SELECT d.DeliverableDescription FROM i_deliverable d WHERE d.DeliverableDescription = t.DeliverableDescription ) AS deliverableDescription,
         t.TaskDistributor AS taskDistributors,
         t.Taskowner AS taskOwners,
         t.Quantity AS quantity,
@@ -176,4 +176,7 @@
         ORDER BY d.createdtime desc
     </select>
 
+    <select id="queryProjectTeamBuList" resultType="java.lang.String">
+        select name from i_projectteambu
+    </select>
 </mapper>

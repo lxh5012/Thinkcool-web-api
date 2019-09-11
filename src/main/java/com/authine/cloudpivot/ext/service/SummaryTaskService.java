@@ -15,4 +15,6 @@ public interface SummaryTaskService {
     public PageResult queryTaskDetial(TaskDetialVO taskDetialVO);
 
     public PageResult acceptTaskList(AcceptTaskVO acceptTaskVO);
+
+    List queryProjectTeamBuList();
 }
