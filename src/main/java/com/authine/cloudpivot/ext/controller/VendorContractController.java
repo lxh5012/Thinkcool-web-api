@@ -10,6 +10,7 @@ import com.authine.cloudpivot.web.api.view.ResponseResult;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -54,8 +55,9 @@ public class VendorContractController extends BaseController {
 
         int num3 = random.nextInt(999);
         String str3 = String.format("%03d", num3);
+
         try {
-            if (testVO.getJobCode() != null || !testVO.getJobCode().equals("") || !testVO.getJobCode().equals("null") || testVO.getContractType() != null || !testVO.getContractType().equals("") || !testVO.getContractType().equals("null")) {
+            if (StringUtils.isNotBlank(testVO.getJobCode()) && StringUtils.isNotBlank(testVO.getContractType())) {
 
                 if (testVO.getContractType().equals("供应商补充合同") || testVO.getContractType().equals("KOL供应商补充合同")) {
                     stringBuffer.append("P");
