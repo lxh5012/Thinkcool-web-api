@@ -20,4 +20,6 @@ public interface  SummaryTaskMapper {
 
     public List<AcceptTaskVO> acceptTaskList(AcceptTaskVO acceptTaskVO);
 
+    List queryProjectTeamBuList();
+
 }

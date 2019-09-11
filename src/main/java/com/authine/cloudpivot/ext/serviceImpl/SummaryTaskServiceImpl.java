@@ -55,18 +55,18 @@ public class SummaryTaskServiceImpl implements SummaryTaskService {
 
     @Override
     public PageResult queryDeliverableTask(DeliverableTaskVO deliverableTaskVO) {
-        int pageNum =deliverableTaskVO.getPage();
+        int pageNum = deliverableTaskVO.getPage();
         int pageSize = deliverableTaskVO.getPageSize();
         PageHelper.startPage(pageNum, pageSize);
         List<DeliverableTaskVO> deliverableTaskList = summaryTaskMapper.queryDeliverableTask(deliverableTaskVO);
         //获取deliverableTaskList所有deadline的集合
         Date maxDate = new Date();
-        if(CollectionUtils.isNotEmpty(deliverableTaskList) && Objects.nonNull(deliverableTaskList.get(0))){
+        if (CollectionUtils.isNotEmpty(deliverableTaskList) && Objects.nonNull(deliverableTaskList.get(0))) {
             maxDate = deliverableTaskList.get(0).getDeadline();
         }
-        for (DeliverableTaskVO  deliverableTask: deliverableTaskList) {
-            if(Objects.nonNull(deliverableTask) && Objects.nonNull(deliverableTask.getDeadline()) ){
-                if(Objects.isNull(maxDate) || maxDate.before(deliverableTask.getDeadline())){
+        for (DeliverableTaskVO deliverableTask : deliverableTaskList) {
+            if (Objects.nonNull(deliverableTask) && Objects.nonNull(deliverableTask.getDeadline())) {
+                if (Objects.isNull(maxDate) || maxDate.before(deliverableTask.getDeadline())) {
                     maxDate = deliverableTask.getDeadline();
                 }
             }
@@ -74,12 +74,12 @@ public class SummaryTaskServiceImpl implements SummaryTaskService {
         //将日期转换为制定形式
         SimpleDateFormat format = new SimpleDateFormat("yyyy/MM/dd");
         String resDate = "";
-        if(Objects.nonNull(maxDate)){
+        if (Objects.nonNull(maxDate)) {
             resDate = format.format(maxDate);
         }
         StringBuffer dispatchUrl = new StringBuffer();
         dispatchUrl.append(ConstantString.Deliverable_Task_Start_Url);
-        for (DeliverableTaskVO  deliverableTask: deliverableTaskList) {
+        for (DeliverableTaskVO deliverableTask : deliverableTaskList) {
             deliverableTask.setDeadlineShow(resDate);
             deliverableTask.setDispatchUrl(dispatchUrl.toString());
         }
@@ -89,17 +89,17 @@ public class SummaryTaskServiceImpl implements SummaryTaskService {
 
     @Override
     public PageResult queryTaskDetial(TaskDetialVO taskDetialVO) {
-        int pageNum =Objects.isNull(taskDetialVO.getPage())?1:taskDetialVO.getPage();
-        int pageSize =  Objects.isNull(taskDetialVO.getPageSize())?10:taskDetialVO.getPageSize();
+        int pageNum = Objects.isNull(taskDetialVO.getPage()) ? 1 : taskDetialVO.getPage();
+        int pageSize = Objects.isNull(taskDetialVO.getPageSize()) ? 10 : taskDetialVO.getPageSize();
         PageHelper.startPage(pageNum, pageSize);
         List<TaskDetialVO> taskDetialList = summaryTaskMapper.queryTaskDetial(taskDetialVO);
-        for (TaskDetialVO res: taskDetialList) {
-            if(Objects.nonNull(res.getTaskDistributors())){
+        for (TaskDetialVO res : taskDetialList) {
+            if (Objects.nonNull(res.getTaskDistributors())) {
                 String taskDistributors = res.getTaskDistributors();
                 String userNames = getUserNameById(taskDistributors);
                 res.setTaskDistributorUserName(userNames);
             }
-            if(Objects.nonNull(res.getTaskOwners())){
+            if (Objects.nonNull(res.getTaskOwners())) {
                 String TaskOwners = res.getTaskOwners();
                 String userNames = getUserNameById(res.getTaskOwners());
                 res.setTaskOwnerUserName(userNames);
@@ -117,32 +117,32 @@ public class SummaryTaskServiceImpl implements SummaryTaskService {
 
     @Override
     public PageResult acceptTaskList(AcceptTaskVO acceptTaskVO) {
-        int pageNum =acceptTaskVO.getPage();
+        int pageNum = acceptTaskVO.getPage();
         int pageSize = acceptTaskVO.getPageSize();
         PageHelper.startPage(pageNum, pageSize);
         List<AcceptTaskVO> acceptTaskList = summaryTaskMapper.acceptTaskList(acceptTaskVO);
-        if(CollectionUtils.isNotEmpty(acceptTaskList)){
+        if (CollectionUtils.isNotEmpty(acceptTaskList)) {
             Date maxDate = new Date();
-            if(Objects.nonNull(acceptTaskList.get(0))){
+            if (Objects.nonNull(acceptTaskList.get(0))) {
                 maxDate = acceptTaskList.get(0).getDeadline();
             }
-            for (AcceptTaskVO res: acceptTaskList) {
-                if(Objects.nonNull(res)){
-                    if(Objects.nonNull(res.getTaskDistributors())){
+            for (AcceptTaskVO res : acceptTaskList) {
+                if (Objects.nonNull(res)) {
+                    if (Objects.nonNull(res.getTaskDistributors())) {
                         String taskDistributors = res.getTaskDistributors();
                         String userNames = getUserNameById(taskDistributors);
                         res.setTaskDistributorNames(userNames);
                     }
                     //接单处理按钮链接
-                    if(Objects.nonNull(res.getWorkItemId()) && Objects.nonNull(res.getWorkflowInstanceId())){
+                    if (Objects.nonNull(res.getWorkItemId()) && Objects.nonNull(res.getWorkflowInstanceId())) {
                         //获取请求IP和端口号
                         String approveUrl = getUnfinshRequestUrl(res.getWorkItemId(), res.getWorkflowInstanceId());
                         res.setTaskUrl(approveUrl);
                         log.info("-------------接单URL---------------");
                         log.info(approveUrl.toString());
                     }
-                    if(Objects.nonNull(res) && Objects.nonNull(res.getDeadline()) ){
-                        if(Objects.isNull(maxDate) || maxDate.before(res.getDeadline())){
+                    if (Objects.nonNull(res) && Objects.nonNull(res.getDeadline())) {
+                        if (Objects.isNull(maxDate) || maxDate.before(res.getDeadline())) {
                             maxDate = res.getDeadline();
                         }
                     }
@@ -151,11 +151,11 @@ public class SummaryTaskServiceImpl implements SummaryTaskService {
             //将日期转换为制定形式
             SimpleDateFormat format = new SimpleDateFormat("yyyy/MM/dd");
             String resDate = "";
-            if(Objects.nonNull(resDate)){
+            if (Objects.nonNull(resDate)) {
                 resDate = format.format(maxDate);
             }
 
-            for (AcceptTaskVO res: acceptTaskList) {
+            for (AcceptTaskVO res : acceptTaskList) {
                 res.setDeadlineShow(resDate);
             }
         }
@@ -164,15 +164,20 @@ public class SummaryTaskServiceImpl implements SummaryTaskService {
     }
 
 
-    private String getUnfinshRequestUrl(String workItemId, String workflowInstanceId){
-      //  String ip = NetworkUtil.getIPAddress(request);
+    @Override
+    public List queryProjectTeamBuList() {
+        return summaryTaskMapper.queryProjectTeamBuList();
+    }
+
+    private String getUnfinshRequestUrl(String workItemId, String workflowInstanceId) {
+        //  String ip = NetworkUtil.getIPAddress(request);
         int port = request.getServerPort();
         StringBuffer approveUrl = new StringBuffer();
         approveUrl.append(ConstantString.IP);
         approveUrl.append("/form/detail?");
-        if(Objects.nonNull(workflowInstanceId)){
-                approveUrl.append("workflowInstanceId=" + workflowInstanceId);
-            if(Objects.nonNull(workItemId)){
+        if (Objects.nonNull(workflowInstanceId)) {
+            approveUrl.append("workflowInstanceId=" + workflowInstanceId);
+            if (Objects.nonNull(workItemId)) {
                 approveUrl.append("&");
                 approveUrl.append("workitemId=" + workItemId);
             }
@@ -183,13 +188,13 @@ public class SummaryTaskServiceImpl implements SummaryTaskService {
     }
 
 
-    private String getUserNameById(String userIds){
-        if(Objects.nonNull(userIds)){
+    private String getUserNameById(String userIds) {
+        if (Objects.nonNull(userIds)) {
             StringBuffer userNames = new StringBuffer();
             JSONArray jsonArray = JSONArray.fromObject(userIds);
-            List<Map<String,Object>> mapList = (List)jsonArray;
-            for (Map<String,Object>  map: mapList) {
-                if(Objects.nonNull(map)){
+            List<Map<String, Object>> mapList = (List) jsonArray;
+            for (Map<String, Object> map : mapList) {
+                if (Objects.nonNull(map)) {
                     String userId = map.get("id").toString();
                     UserModel userModel = getOrganizationFacade().getUser(userId);
                     userNames = userNames.append(userModel.getName() + ",");
