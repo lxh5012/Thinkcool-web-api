@@ -1,7 +1,6 @@
 package com.authine.cloudpivot.ext.controller;
 
-import com.authine.cloudpivot.engine.api.facade.OrganizationFacade;
-import com.authine.cloudpivot.engine.api.model.organization.UserModel;
+
 import com.authine.cloudpivot.ext.queryVo.ProjectSummaryParam;
 import com.authine.cloudpivot.ext.queryVo.QueryDeliverable;
 import com.authine.cloudpivot.ext.service.DeliverableService;
@@ -57,6 +56,8 @@ public class ProjectManageController  extends BaseController {
    @PostMapping("/queryProjectSummary")
    public ResponseResult<PageResult>  queryProjectSummary(@RequestBody ProjectSummaryParam projectSummaryParam)  {
       log.info("ProjectManageController|projectSummaryParam|"+projectSummaryParam.toString());
+      String userId = this.getUserId();
+      projectSummaryParam.setParticipant(userId);
       PageResult pageResult = projectSummaryServiceImpl.queryProjectSummaryPage(projectSummaryParam);
       return getOkResponseResult( pageResult,"查询成功");
    }
@@ -124,26 +125,32 @@ public class ProjectManageController  extends BaseController {
       if(Objects.isNull(projectSummaryVO)){
          return getErrResponseResult( null,-1l,"获取项目信息失败");
       }
+      if(StringUtils.isBlank(projectSummaryVO.getJobCode())){
+         return getErrResponseResult( null,-1l,"项目代码为空");
+      }
       queryDeliverable.setJobcode(projectSummaryVO.getJobCode());
       PageResult pageResult = deliverableService.queryDeliverables(queryDeliverable);
       return getOkResponseResult( pageResult,"获取成功");
    }
    @ApiOperation(value = "获取projectSummary代办url",notes = "获取projectSummary代办url")
    @PostMapping("/getProjectWorkItemUrl")
-   public ResponseResult<String> getProjectWorkItemUrl(@RequestBody ProjectSummaryParam projectSummaryParam){
+   public ResponseResult<Map<String,String> > getProjectWorkItemUrl(@RequestBody ProjectSummaryParam projectSummaryParam){
       String userId = this.getUserId();
-      OrganizationFacade organizationFacade = getOrganizationFacade();
-      UserModel userModel = organizationFacade.getUserByUserId(userId);
-      if (Objects.isNull(userModel)){
-         return getErrResponseResult( "",-1l,"用户不存在");
-      }
-      projectSummaryParam.setParticipant(userModel.getId());
+      log.info("ProjectManageController|getProjectWorkItemUrl|userId"+userId+"|id|"+projectSummaryParam.getId());
+//      OrganizationFacade organizationFacade = getOrganizationFacade();
+//      UserModel userModel = organizationFacade.getUserByUserId(userId);
+//      if (Objects.isNull(userModel)){
+//         return getErrResponseResult( "",-1l,"用户不存在");
+//      }
+      projectSummaryParam.setParticipant(userId);
       ProjectSummaryVO projectSummaryVO = projectSummaryServiceImpl.getWorItemInfoByProjectId(projectSummaryParam);
       if(Objects.isNull(projectSummaryVO)){
-         return getErrResponseResult( "",-1l,"代办任务不存在");
+         return getErrResponseResult( null,-1l,"代办任务不存在");
       }
       String projectWorkItemUrl = ThinkoolProjectUtils.getWoritemUrl(projectSummaryVO.getWorkItemId(),projectSummaryVO.getInstanceId());
-      return getOkResponseResult( projectWorkItemUrl,"获取成功");
+      Map<String,String> resultMap = new HashMap<>();
+      resultMap.put("formUrl",projectWorkItemUrl);
+      return getOkResponseResult( resultMap,"获取成功");
    }
 
 }

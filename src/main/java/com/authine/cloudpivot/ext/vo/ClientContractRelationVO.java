@@ -1,20 +1,12 @@
 package com.authine.cloudpivot.ext.vo;
 
-
 import io.swagger.annotations.ApiModelProperty;
-import lombok.AllArgsConstructor;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import javax.xml.crypto.Data;
-
-
-@Getter
 @Setter
-@NoArgsConstructor
-@AllArgsConstructor
-public class ClientContractVO {
+@Getter
+public class ClientContractRelationVO {
 
     @ApiModelProperty("主键ID")
     private String id;
@@ -58,4 +50,9 @@ public class ClientContractVO {
     @ApiModelProperty("填写profitCommercial url")
     private String profitCommercialUrl;
 
+    @ApiModelProperty("关联客户合同，保存子表数据时使用")
+    private String parentId;
+
+    @ApiModelProperty("关联客户合同，保存子表数据时使用合同id")
+    private String clientContractId;
 }

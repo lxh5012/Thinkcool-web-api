@@ -6,11 +6,9 @@ import lombok.Setter;
 
 import java.math.BigDecimal;
 
-
 @Setter
 @Getter
-public class ClientPaymentFinVO {
-
+public class ClientPaymentFinRelationVO {
     @ApiModelProperty("id")
     private String id;
 
@@ -44,4 +42,8 @@ public class ClientPaymentFinVO {
     @ApiModelProperty("客户付款逾期日")
     private String clientPaymentOverDue;
 
+    @ApiModelProperty("关联客户收款，保存子表数据时使用")
+    private String parentId;
+
+    private String clientPayFinId;
 }

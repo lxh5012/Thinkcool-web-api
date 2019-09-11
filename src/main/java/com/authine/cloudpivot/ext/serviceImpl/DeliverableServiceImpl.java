@@ -38,8 +38,64 @@ public class DeliverableServiceImpl implements DeliverableService {
         int pageSize = queryDeliverable.getPageSize() == 0?10:queryDeliverable.getPageSize();
         PageHelper.startPage(pageNum, pageSize);
         List<DeliverableVO> queryDeliverableVOList = deliverableMapper.queryDeliverables(queryDeliverable);
-
-
+        for(DeliverableVO deliverableVO:queryDeliverableVOList){
+            // 获取关联客户合同信息
+            ClientContractRelationVO clientContractRelationVO = new ClientContractRelationVO();
+            clientContractRelationVO.setParentId(deliverableVO.getId());
+            List<ClientContractRelationVO> clientContractRelationVOS = deliverableMapper.getClientContractRelation(clientContractRelationVO);
+            StringBuffer clientContractContent = new StringBuffer("");
+            for (int i=0;i<clientContractRelationVOS.size();i++){
+                ClientContractRelationVO clientContractRelationVOTemp = clientContractRelationVOS.get(i);
+                if(i!=clientContractRelationVOS.size()-1){
+                    clientContractContent.append(clientContractRelationVOTemp.getClientName()).append(clientContractRelationVOTemp.getClientContractCode()).append("/");
+                }else{
+                    clientContractContent.append(clientContractRelationVOTemp.getClientName()).append(clientContractRelationVOTemp.getClientContractCode());
+                }
+            }
+            deliverableVO.setClientContractContent(clientContractContent.toString());
+            // 获取关联供应商合同信息 todo
+            VendorContractRelationVO vendorContractRelationVO = new VendorContractRelationVO();
+            vendorContractRelationVO.setParentId(deliverableVO.getId());
+            List<VendorContractRelationVO> vendorContractRelationVOS = deliverableMapper.getVendorContractRelation(vendorContractRelationVO);
+            StringBuffer vendorContractContent = new StringBuffer("");
+            for (int i=0;i<vendorContractRelationVOS.size();i++){
+                VendorContractRelationVO vendorContractRelationVOTemp = vendorContractRelationVOS.get(i);
+                if(i!=clientContractRelationVOS.size()-1){
+                    vendorContractContent.append(vendorContractRelationVOTemp.getVendorName()).append(vendorContractRelationVOTemp.getVendorContractCode()).append("/");
+                }else{
+                    vendorContractContent.append(vendorContractRelationVOTemp.getVendorName()).append(vendorContractRelationVOTemp.getVendorContractCode());
+                }
+            }
+            deliverableVO.setVendorContractContent(vendorContractContent.toString());
+            // 获取关联客户收款信息 todo
+            ClientPaymentFinRelationVO clientPaymentFinRelationVO = new ClientPaymentFinRelationVO();
+            clientContractRelationVO.setParentId(deliverableVO.getId());
+            List<ClientPaymentFinRelationVO> clientPaymentFinVOList = deliverableMapper.getClientPaymentFinVO(clientPaymentFinRelationVO);
+            StringBuffer clientPaymentContent = new StringBuffer("");
+            for (int i=0;i<clientPaymentFinVOList.size();i++){
+                ClientPaymentFinRelationVO clientPaymentFinVOTemp = clientPaymentFinVOList.get(i);
+                if(i!=clientContractRelationVOS.size()-1){
+                    clientPaymentContent.append(clientPaymentFinVOTemp.getClientPO()).append("/");
+                }else{
+                    clientPaymentContent.append(clientPaymentFinVOTemp.getClientPO());
+                }
+            }
+            deliverableVO.setClientPaymentContent(clientPaymentContent.toString());
+            // 获取关联供应商付款信息 todo
+            VendorPaymentRelationVO vendorPaymentRelationVO = new VendorPaymentRelationVO();
+            vendorPaymentRelationVO.setParentId(deliverableVO.getId());
+            List<VendorPaymentRelationVO> vendorPaymentRelationVOS = deliverableMapper.getStagePaymentVO(vendorPaymentRelationVO);
+            StringBuffer vendorPaymentContent = new StringBuffer("");
+            for (int i=0;i<vendorPaymentRelationVOS.size();i++){
+                VendorPaymentRelationVO vendorPaymentRelationVOTemp = vendorPaymentRelationVOS.get(i);
+                if(i!=clientContractRelationVOS.size()-1){
+                    vendorPaymentContent.append(vendorPaymentRelationVOTemp.getPay()).append(vendorPaymentRelationVOTemp.getVendorInvoice()).append("/");
+                }else{
+                    vendorPaymentContent.append(vendorPaymentRelationVOTemp.getPay()).append(vendorPaymentRelationVOTemp.getVendorInvoice());
+                }
+            }
+            deliverableVO.setVendorPaymentContent(vendorPaymentContent.toString());
+        }
         PageInfo<DeliverableVO> queryDeliverableVOPageInfo =new PageInfo<>(queryDeliverableVOList);
         PageResult pageResult = PageUtils.getPageResult(queryDeliverableVOPageInfo);
         return pageResult ;
@@ -51,22 +107,22 @@ public class DeliverableServiceImpl implements DeliverableService {
     }
 
     @Override
-    public int addClientContractInfo(List<ClientContractVO> clientContractVOList) {
-        return deliverableMapper.addClientContractInfo(clientContractVOList);
+    public int addClientContractInfo(List<ClientContractRelationVO> clientContractRelationVOList) {
+        return deliverableMapper.addClientContractInfo(clientContractRelationVOList);
     }
 
     @Override
-    public int addVendorContractInfo(List<VendorContractVO> vendorContractVOList) {
-        return deliverableMapper.addVendorContractInfo(vendorContractVOList);
+    public int addVendorContractInfo(List<VendorContractRelationVO> vendorContractRelationVOList) {
+        return deliverableMapper.addVendorContractInfo(vendorContractRelationVOList);
     }
 
     @Override
-    public int addClientPaymentInfo(List<ClientPaymentFinVO> clientPaymentFinVOList) {
+    public int addClientPaymentInfo(List<ClientPaymentFinRelationVO> clientPaymentFinVOList) {
         return deliverableMapper.addClientPaymentInfo(clientPaymentFinVOList);
     }
 
     @Override
-    public int addVendorPaymentInfo(List<StagePaymentVO> stagePaymentVOList) {
+    public int addVendorPaymentInfo(List<VendorPaymentRelationVO> stagePaymentVOList) {
         return deliverableMapper.addVendorPaymentInfo(stagePaymentVOList);
     }
 
@@ -78,6 +134,26 @@ public class DeliverableServiceImpl implements DeliverableService {
     @Override
     public int updateRelationInfo(DeliverableContractParam deliverableContractParam) {
         return deliverableMapper.updateRelationInfo(deliverableContractParam);
+    }
+
+    @Override
+    public List<ClientContractRelationVO> getClientContractRelation(ClientContractRelationVO clientContractRelationVO) {
+        return deliverableMapper.getClientContractRelation(clientContractRelationVO);
+    }
+
+    @Override
+    public List<VendorContractRelationVO> getVendorContractRelation(VendorContractRelationVO vendorContractRelationVO) {
+        return deliverableMapper.getVendorContractRelation(vendorContractRelationVO);
+    }
+
+    @Override
+    public List<ClientPaymentFinRelationVO> getClientPaymentFinVO(ClientPaymentFinRelationVO clientPaymentFinRelationVO) {
+        return deliverableMapper.getClientPaymentFinVO(clientPaymentFinRelationVO);
+    }
+
+    @Override
+    public List<VendorPaymentRelationVO> getStagePaymentVO(VendorPaymentRelationVO vendorPaymentRelationVO) {
+        return deliverableMapper.getStagePaymentVO(vendorPaymentRelationVO);
     }
 
 

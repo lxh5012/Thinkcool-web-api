@@ -7,15 +7,11 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import javax.xml.crypto.Data;
-
-
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class VendorContractVO {
-
+public class VendorContractRelationVO {
     @ApiModelProperty("主键ID")
     private String id;
 
@@ -61,4 +57,10 @@ public class VendorContractVO {
     @ApiModelProperty("填写profitCommercial url")
     private String profitCommercialUrl;
 
+    @ApiModelProperty("关联供应商合同，保存子表数据时使用")
+    private String parentId;
+
+    @ApiModelProperty("关联供应商合同，保存子表数据时使用")
+    private String vendorContractId;
 }
+

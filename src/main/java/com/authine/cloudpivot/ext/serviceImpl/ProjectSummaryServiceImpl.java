@@ -55,6 +55,9 @@ public class ProjectSummaryServiceImpl implements IProjectSummaryService {
                 projectSummaryVO.setClientContractFlag(Boolean.TRUE);
             }
 
+            if(Objects.nonNull(projectSummaryVO.getProjectMargin())){
+                projectSummaryVO.setCommercialFlag(Boolean.FALSE);
+            }
             //1、编写项目利润和商务信息 and 2、客户合同结束后
             if(projectSummaryVO.getClientPayFlag() && !Objects.isNull(projectSummaryVO.getProjectMargin())){
                 projectSummaryVO.setClientPayFlag(Boolean.TRUE);

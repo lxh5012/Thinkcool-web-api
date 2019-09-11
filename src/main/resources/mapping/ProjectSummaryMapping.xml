@@ -68,8 +68,8 @@
           WHEN 1 THEN
         TRUE ELSE FALSE
           END clientPayFlag
-         -- workitem.id AS workItemId,
-         -- instance.id AS instanceId
+        --  workitem.id AS workItemId,
+        --  instance.id AS instanceId
         FROM
         i_project_summary t
         LEFT JOIN i_projectteambu p ON t.BU = p.id
@@ -106,6 +106,7 @@
             <if test="projectEndDate != null and projectEndDate != '' ">
                 AND  t.ProjectEndDate <![CDATA[>=]]>  #{projectEndDate, jdbcType=DATE}
             </if>
+           order by t.createdTime desc
 
     </select>
 

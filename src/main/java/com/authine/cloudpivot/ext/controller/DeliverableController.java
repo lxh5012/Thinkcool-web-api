@@ -1,5 +1,6 @@
 package com.authine.cloudpivot.ext.controller;
 
+import com.authine.cloudpivot.engine.api.model.runtime.AttachmentModel;
 import com.authine.cloudpivot.ext.queryVo.ContractFinVO;
 import com.authine.cloudpivot.ext.queryVo.DeliverableContractParam;
 import com.authine.cloudpivot.ext.queryVo.QueryDeliverable;
@@ -12,6 +13,7 @@ import com.authine.cloudpivot.web.api.view.ResponseResult;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
@@ -90,49 +92,34 @@ public class DeliverableController extends BaseController {
          deliverableMap.put(deliverableIdArr[i],deliverableContractParam.getClientContractVOS());
       }
       //保存关联合同信息数据
-      List<ClientContractVO> clientContractVOSSave = new ArrayList<>();
-      ClientContractVO clientContractVOTemp = null;
-      List<DeliverableContractParam> deliverableContractParams = new ArrayList<>();
+      List<ClientContractRelationVO> clientContractRelationVOS = new ArrayList<>();
+      ClientContractRelationVO clientContractRelationVO = null;
       for(Map.Entry<String,List<ClientContractVO>> map:deliverableMap.entrySet()){
          String deliverableId = map.getKey();
          List<ClientContractVO> clientContractVOList = map.getValue();
          int cnt = clientContractVOList.size();
-         String uuid = null;
-         StringBuffer clientContractContent = new StringBuffer("");
+         String objectId = null;
          for(int i=0;i<cnt;i++){
                ClientContractVO clientContractVO = clientContractVOList.get(i);
-               uuid = UUID.randomUUID().toString().toUpperCase().replaceAll("-", "");
-               clientContractVOTemp = new ClientContractVO();
-               clientContractVOTemp.setId(uuid);
-               clientContractVOTemp.setParentId(deliverableId);
-               clientContractVOTemp.setClientContractStarttime(clientContractVO.getClientContractStarttime());
-               clientContractVOTemp.setClientContractEndtime(clientContractVO.getClientContractEndtime());
-               clientContractVOTemp.setClientContractStatus(clientContractVO.getClientContractStatus());
-               clientContractVOTemp.setContractType(clientContractVO.getContractType());
-               clientContractVOTemp.setClientName(clientContractVO.getClientName());
-               clientContractVOTemp.setClientContractVersion(clientContractVO.getClientContractVersion());
-               clientContractVOTemp.setClientContractCode(clientContractVO.getClientContractCode());
-               clientContractVOTemp.setContractValue(clientContractVO.getContractValue());
-               clientContractVOSSave.add(clientContractVOTemp);
-               if(i!=cnt-1){
-                  clientContractContent.append(clientContractVO.getClientName()).append(clientContractVO.getClientContractCode()).append("/");
-               }else{
-                  clientContractContent.append(clientContractVO.getClientName()).append(clientContractVO.getClientContractCode());
+               objectId = UUID.randomUUID().toString().toUpperCase().replaceAll("-", "");
+               clientContractRelationVO = new ClientContractRelationVO();
+               BeanUtils.copyProperties(clientContractVO,clientContractRelationVO);
+               clientContractRelationVO.setParentId(deliverableId);
+               clientContractRelationVO.setClientContractId(clientContractVO.getId());
+               clientContractRelationVO.setId(objectId);
+               List<ClientContractRelationVO> clientContractRelationVOTemp = deliverableService.getClientContractRelation(clientContractRelationVO);
+               if(clientContractRelationVOTemp.size()>0){
+                  clientContractRelationVOS.add(clientContractRelationVO);
                }
          }
+      }
 
-         // 组装关联合同信息
-         DeliverableContractParam deliverableContractParamSave = new DeliverableContractParam();
-         deliverableContractParamSave.setDeliverableId(deliverableId);
-         deliverableContractParamSave.setClientContractContent(clientContractContent.toString());
-         deliverableContractParamSave.setType("clientContract");
-         deliverableContractParams.add(deliverableContractParamSave);
+      int returnCode = 0;
+      if(clientContractRelationVOS.size()>0){
+          returnCode = deliverableService.addClientContractInfo(clientContractRelationVOS);
       }
-      int returnCode = deliverableService.addClientContractInfo(clientContractVOSSave);
-      //更新Deliverable表中关联合同信息字段
-      for(DeliverableContractParam temp:deliverableContractParams){
-         deliverableService.updateRelationInfo(temp);
-      }
+      //保存附件
+      AttachmentModel resourceModel = getBizObjectFacade().getAttachmentByRefId("971e2865ce6d4d31990459a7d18fd859");
       return getOkResponseResult( returnCode,"关联客户合同成功");
    }
 
@@ -145,30 +132,29 @@ public class DeliverableController extends BaseController {
       for(int i=0;i<deliverableIdArr.length;i++){
          deliverableMap.put(deliverableIdArr[i],deliverableContractParam.getVendorContractVOS());
       }
-      List<VendorContractVO> vendorContractVOS = new ArrayList<>();
-      VendorContractVO vendorContractVOTemp = null;
+      List<VendorContractRelationVO> vendorContractRelationVOS = new ArrayList<>();
+      VendorContractRelationVO vendorContractRelationVO = null;
       for(Map.Entry<String,List<VendorContractVO>> map:deliverableMap.entrySet()){
          String deliverableId = map.getKey();
          List<VendorContractVO> vendorContractVOList = map.getValue();
          for(VendorContractVO vendorContractVO:vendorContractVOList){
-            vendorContractVOTemp = new VendorContractVO();
-            String uuid = UUID.randomUUID().toString().toUpperCase().replaceAll("-", "");
-            vendorContractVOTemp.setId(uuid);
-            vendorContractVOTemp.setParentId(deliverableId);
-            vendorContractVOTemp.setVendorContractStatus(vendorContractVO.getVendorContractStatus());
-            vendorContractVOTemp.setContractType(vendorContractVO.getContractType());
-            vendorContractVOTemp.setVendorName(vendorContractVO.getVendorName());
-            vendorContractVOTemp.setVendorContractVersion(vendorContractVO.getVendorContractVersion());
-            vendorContractVOTemp.setVendorContractCode(vendorContractVO.getVendorContractCode());
-            vendorContractVOTemp.setVendorContractStarttime(vendorContractVO.getVendorContractStarttime());
-            vendorContractVOTemp.setVendorContractEndtime(vendorContractVO.getVendorContractEndtime());
-            vendorContractVOTemp.setVenderContracgtSigningDate(vendorContractVO.getVenderContracgtSigningDate());
-            vendorContractVOTemp.setContractValue(vendorContractVO.getContractValue());
+            vendorContractRelationVO = new VendorContractRelationVO();
+            BeanUtils.copyProperties(vendorContractVO,vendorContractRelationVO);
+            vendorContractRelationVO.setParentId(deliverableId);
+            String objectId = UUID.randomUUID().toString().toUpperCase().replaceAll("-", "");
+            vendorContractRelationVO.setId(objectId);
+            vendorContractRelationVO.setVendorContractId(vendorContractVO.getId());
 
-            vendorContractVOS.add(vendorContractVOTemp);
+            List<VendorContractRelationVO> vendorContractRelationVOList = deliverableService.getVendorContractRelation(vendorContractRelationVO);
+            if(vendorContractRelationVOList.size()<1){
+               vendorContractRelationVOS.add(vendorContractRelationVO);
+            }
          }
       }
-      int returnCode = deliverableService.addVendorContractInfo(vendorContractVOS);
+      int returnCode = 0;
+      if(vendorContractRelationVOS.size()>0){
+         returnCode = deliverableService.addVendorContractInfo(vendorContractRelationVOS);
+      }
       return getOkResponseResult( returnCode,"关联供应商成功");
    }
 
@@ -181,32 +167,32 @@ public class DeliverableController extends BaseController {
       for(int i=0;i<deliverableIdArr.length;i++){
          deliverableMap.put(deliverableIdArr[i],deliverableContractParam.getClientPaymentVOS());
       }
-      List<ClientPaymentFinVO> clientPaymentVOSave = new ArrayList<>();
-      ClientPaymentFinVO clientPaymentFinVOTemp = null;
+      List<ClientPaymentFinRelationVO> clientPaymentFinRelationVOS = new ArrayList<>();
+      ClientPaymentFinRelationVO clientPaymentFinRelationVO = null;
       for(Map.Entry<String,List<ClientPaymentFinVO>> map:deliverableMap.entrySet()){
          String deliverableId = map.getKey();
          List<ClientPaymentFinVO> clientPaymentFinVOList = map.getValue();
-         String uuid = null;
+         String objectId = null;
          for(ClientPaymentFinVO clientPaymentFinVO:clientPaymentFinVOList){
-            uuid = UUID.randomUUID().toString().toUpperCase().replaceAll("-", "");
-            clientPaymentFinVOTemp = new ClientPaymentFinVO();
-            clientPaymentFinVOTemp.setId(uuid);
-            clientPaymentFinVOTemp.setParentId(deliverableId);
-            clientPaymentFinVOTemp.setClientPO(clientPaymentFinVO.getClientPO());
-            clientPaymentFinVOTemp.setClientPOvalue(clientPaymentFinVO.getClientPOvalue());
-            clientPaymentFinVOTemp.setInvoicingDateClient(clientPaymentFinVO.getInvoicingDateClient());
-            clientPaymentFinVOTemp.setClientInvoice(clientPaymentFinVO.getClientInvoice());
-            clientPaymentFinVOTemp.setClientInvoiceTotalAmountBF(clientPaymentFinVO.getClientInvoiceTotalAmountBF());
-            clientPaymentFinVOTemp.setClientInvoiceTotalAmountAF(clientPaymentFinVO.getClientInvoiceTotalAmountAF());
-            clientPaymentFinVOTemp.setClientPaymentCheckDate(clientPaymentFinVO.getClientPaymentCheckDate());
-            clientPaymentFinVOTemp.setClientPaymentAging(clientPaymentFinVO.getClientPaymentAging());
-            clientPaymentFinVOTemp.setClientPaymentRemittanceDate(clientPaymentFinVO.getClientPaymentRemittanceDate());
-            clientPaymentFinVOTemp.setClientPaymentOverDue(clientPaymentFinVO.getClientPaymentOverDue());
-
-            clientPaymentVOSave.add(clientPaymentFinVOTemp);
+            clientPaymentFinRelationVO = new ClientPaymentFinRelationVO();
+            BeanUtils.copyProperties(clientPaymentFinVO,clientPaymentFinRelationVO);
+            objectId = UUID.randomUUID().toString().toUpperCase().replaceAll("-", "");
+            clientPaymentFinRelationVO.setId(objectId);
+            clientPaymentFinRelationVO.setParentId(deliverableId);
+            clientPaymentFinRelationVO.setClientPayFinId(clientPaymentFinVO.getId());
+            // 检查是否已经关联 todo
+            List<ClientPaymentFinRelationVO> clientPaymentFinRelationVOList = deliverableService.getClientPaymentFinVO(clientPaymentFinRelationVO);
+            if(clientPaymentFinRelationVOList.size()<1){
+               clientPaymentFinRelationVOS.add(clientPaymentFinRelationVO);
+            }
          }
       }
-      int returnCode = deliverableService.addClientPaymentInfo(clientPaymentVOSave);
+      int returnCode = 0;
+      if(clientPaymentFinRelationVOS.size()>0){
+         returnCode = deliverableService.addClientPaymentInfo(clientPaymentFinRelationVOS);
+      }
+
+
       return getOkResponseResult( returnCode,"关联客户收款成功");
    }
 
@@ -219,30 +205,32 @@ public class DeliverableController extends BaseController {
       for(int i=0;i<deliverableIdArr.length;i++){
          deliverableMap.put(deliverableIdArr[i],deliverableContractParam.getVendorPaymentVOS());
       }
-      List<StagePaymentVO> stagePaymentVOSave = new ArrayList<>();
-      StagePaymentVO stagePaymentVOTemp = null;
+      List<VendorPaymentRelationVO> vendorPaymentRelationVOS = new ArrayList<>();
+      VendorPaymentRelationVO vendorPaymentRelationVO = null;
       for(Map.Entry<String,List<StagePaymentVO>> map:deliverableMap.entrySet()){
          String deliverableId = map.getKey();
          List<StagePaymentVO> vendorPaymentVOList = map.getValue();
-         String uuid = null;
+         String objectId = null;
          for(StagePaymentVO stagePaymentVO:vendorPaymentVOList){
-            uuid = UUID.randomUUID().toString().toUpperCase().replaceAll("-", "");
-            stagePaymentVOTemp = new StagePaymentVO();
-            stagePaymentVOTemp.setId(uuid);
-            stagePaymentVOTemp.setParentId(deliverableId);
-            stagePaymentVOTemp.setPay(stagePaymentVO.getPay());
-            stagePaymentVOTemp.setVendorInvoice(stagePaymentVO.getVendorInvoice());
-            stagePaymentVOTemp.setVendorInvoicingDate(stagePaymentVO.getVendorInvoicingDate());
-            stagePaymentVOTemp.setInstallment(stagePaymentVO.getInstallment());
-            stagePaymentVOTemp.setPaymentVendorDate(stagePaymentVO.getPaymentVendorDate());
-            stagePaymentVOTemp.setIndex(stagePaymentVO.getIndex());
-            stagePaymentVOTemp.setPaymentCheckDate(stagePaymentVO.getPaymentCheckDate());
-            stagePaymentVOTemp.setActualPaymentDate(stagePaymentVO.getActualPaymentDate());
+            vendorPaymentRelationVO = new VendorPaymentRelationVO();
+            BeanUtils.copyProperties(stagePaymentVO,vendorPaymentRelationVO);
+            objectId = UUID.randomUUID().toString().toUpperCase().replaceAll("-", "");
+            vendorPaymentRelationVO.setId(objectId);
+            vendorPaymentRelationVO.setStagePaymentId(stagePaymentVO.getId());
+            vendorPaymentRelationVO.setParentId(deliverableId);
+            //判断是否已关联 todo
+            List<VendorPaymentRelationVO> vendorPaymentRelationVOList = deliverableService.getStagePaymentVO(vendorPaymentRelationVO);
+            if(vendorPaymentRelationVOList.size()<1){
+               vendorPaymentRelationVOS.add(vendorPaymentRelationVO);
+            }
 
-            stagePaymentVOSave.add(stagePaymentVOTemp);
          }
       }
-      int returnCode = deliverableService.addVendorPaymentInfo(stagePaymentVOSave);
+      int returnCode = 0;
+      if(vendorPaymentRelationVOS.size()>0){
+         returnCode = deliverableService.addVendorPaymentInfo(vendorPaymentRelationVOS);
+      }
+
       return getOkResponseResult( returnCode,"关联供应商付款成功");
    }
 
