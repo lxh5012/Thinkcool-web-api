@@ -35,11 +35,11 @@
 			</if>
 
 			<if test="queryVendorContract.starttimeStart !=null and queryVendorContract.starttimeStart !='' ">
-				v.VendorContractStarttime &gt;= STR_TO_DATE(#{queryVendorContract.starttimeStart},'%Y-%m-%d')  and
+				v.VendorContractStarttime &gt;= STR_TO_DATE(#{queryVendorContract.starttimeStart},'%Y/%m/%d')  and
 			</if>
 
 			<if test="queryVendorContract.starttimeEnd !=null and queryVendorContract.starttimeEnd !=''">
-				v.VendorContractStarttime &lt;= STR_TO_DATE(#{queryVendorContract.starttimeEnd},'%Y-%m-%d')  and
+				v.VendorContractStarttime &lt;= STR_TO_DATE(#{queryVendorContract.starttimeEnd},'%Y/%m/%d')  and
 			</if>
 
 			<if test="queryVendorContract.contractValue1 !=null and queryVendorContract.contractValue1 !='' ">

@@ -49,11 +49,11 @@
 			</if>
 
 			<if test="starttimeStart != null and starttimeStart != '' ">
-				c.ClientContractPeriodStart &gt;= STR_TO_DATE(#{starttimeStart},'%Y-%m-%d')  and
+				c.ClientContractPeriodStart &gt;= STR_TO_DATE(#{starttimeStart},'%Y/%m/%d')  and
 			</if>
 
 			<if test="starttimeEnd != null and starttimeEnd != ''">
-				c.ClientContractPeriodStart &lt;= STR_TO_DATE(#{starttimeEnd},'%Y-%m-%d')  and
+				c.ClientContractPeriodStart &lt;= STR_TO_DATE(#{starttimeEnd},'%Y/%m/%d')  and
 			</if>
 
 			<if test="contractValue1 != null and contractValue1 != '' ">
