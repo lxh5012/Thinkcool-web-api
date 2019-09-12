@@ -95,6 +95,7 @@ public class DeliverableServiceImpl implements DeliverableService {
                 }
             }
             deliverableVO.setVendorPaymentContent(vendorPaymentContent.toString());
+            deliverableVO.setFormUrl(ThinkoolProjectUtils.getFormUrl("Deliverable",deliverableVO.getId(),"Deliverable","2c93208b6c9e0bc6016c9e36d7ac0011","ProjectSummary"));
         }
         PageInfo<DeliverableVO> queryDeliverableVOPageInfo =new PageInfo<>(queryDeliverableVOList);
         PageResult pageResult = PageUtils.getPageResult(queryDeliverableVOPageInfo);

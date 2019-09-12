@@ -72,6 +72,7 @@ public class DeliverableVO {
     @ApiModelProperty("供应商付款内容")
     private String vendorPaymentContent;
 
-
+    @ApiModelProperty("表单编辑url")
+    private String formUrl;
 
 }

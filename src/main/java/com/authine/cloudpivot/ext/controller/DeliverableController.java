@@ -13,6 +13,7 @@ import com.authine.cloudpivot.web.api.view.ResponseResult;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
+import net.sf.json.JSONArray;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
@@ -78,6 +79,8 @@ public class DeliverableController extends BaseController {
    public ResponseResult<Integer>  addClientContractInfo(@RequestBody DeliverableContractParam deliverableContractParam){
       String deliverableIds = deliverableContractParam.getDeliverableId();
       String [] deliverableIdArr = deliverableIds.split(",");
+      JSONArray clientContractVOS = JSONArray.fromObject(deliverableContractParam.getClientContractVOS());
+      log.info("DeliverableController|addClientContractInfo|deliverableIds|"+deliverableIds+"|clientContractVOS|"+clientContractVOS.toString());
       Map<String, List<ClientContractVO> > deliverableMap = new HashMap<>();
       List<String> contractIds = new ArrayList<>();
       // 通过合同id获取数据 todo
@@ -128,6 +131,8 @@ public class DeliverableController extends BaseController {
    public ResponseResult<Integer>  addVendorContractInfo(@RequestBody DeliverableContractParam deliverableContractParam){
       String deliverableIds = deliverableContractParam.getDeliverableId();
       String [] deliverableIdArr = deliverableIds.split(",");
+      JSONArray vendorContractVOS = JSONArray.fromObject(deliverableContractParam.getVendorContractVOS());
+      log.info("DeliverableController|addVendorContractInfo|deliverableIds|"+deliverableIds+"|vendorContractVOS|"+vendorContractVOS.toString());
       Map<String, List<VendorContractVO> > deliverableMap = new HashMap<>();
       for(int i=0;i<deliverableIdArr.length;i++){
          deliverableMap.put(deliverableIdArr[i],deliverableContractParam.getVendorContractVOS());
@@ -163,6 +168,8 @@ public class DeliverableController extends BaseController {
    public ResponseResult<Integer>  addClientPaymentInfo(@RequestBody DeliverableContractParam deliverableContractParam){
       String deliverableIds = deliverableContractParam.getDeliverableId();
       String [] deliverableIdArr = deliverableIds.split(",");
+      JSONArray clientPaymentVOS = JSONArray.fromObject(deliverableContractParam.getClientPaymentVOS());
+      log.info("DeliverableController|addClientPaymentInfo|deliverableIds|"+deliverableIds+"|clientPaymentVOS|"+clientPaymentVOS.toString());
       Map<String, List<ClientPaymentFinVO> > deliverableMap = new HashMap<>();
       for(int i=0;i<deliverableIdArr.length;i++){
          deliverableMap.put(deliverableIdArr[i],deliverableContractParam.getClientPaymentVOS());
@@ -201,6 +208,8 @@ public class DeliverableController extends BaseController {
    public ResponseResult<Integer>  addVendorPaymentInfo(@RequestBody DeliverableContractParam deliverableContractParam){
       String deliverableIds = deliverableContractParam.getDeliverableId();
       String [] deliverableIdArr = deliverableIds.split(",");
+      JSONArray vendorPaymentVOS = JSONArray.fromObject(deliverableContractParam.getVendorPaymentVOS());
+      log.info("DeliverableController|addVendorPaymentInfo|deliverableIds|"+deliverableIds+"|vendorPaymentVOS|"+vendorPaymentVOS.toString());
       Map<String, List<StagePaymentVO> > deliverableMap = new HashMap<>();
       for(int i=0;i<deliverableIdArr.length;i++){
          deliverableMap.put(deliverableIdArr[i],deliverableContractParam.getVendorPaymentVOS());

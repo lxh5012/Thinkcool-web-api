@@ -19,14 +19,16 @@ public class ThinkoolProjectUtils {
         return fromUrl.toString();
     }
 
-    public static String getFormUrl(String schemaCode,String objectId,String sheetCode){
+    public static String getFormUrl(String schemaCode,String objectId,String sheetCode,String parentId,String applicationName){
         StringBuffer fromUrl = new StringBuffer();
         fromUrl.append(THINKOOL_IP);
         fromUrl.append("/form/detail?");
         fromUrl.append("sheetCode=").append(sheetCode);
         fromUrl.append("&objectId=").append(objectId);
         fromUrl.append("&schemaCode=").append(schemaCode);
-        fromUrl.append("&return=/application/ProjectSummary/application-list/project_summary?parentId=2c93208b6c9e0bc6016c9e36d7ac0011");
+        fromUrl.append("&return=/application/").append(applicationName);
+        fromUrl.append("/application-list/project_summary?parentId=");
+        fromUrl.append(parentId);
         fromUrl.append("&code=project_summary");
         fromUrl.append("&openMode");
         fromUrl.append("&pcUrl");
