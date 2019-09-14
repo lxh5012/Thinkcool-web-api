@@ -14,6 +14,7 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import net.sf.json.JSONArray;
+import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
@@ -62,7 +63,7 @@ public class DeliverableController extends BaseController {
          List<ContractFinVO> contractFinVOS = map.getValue();
          for(ContractFinVO contractFinVO:contractFinVOS){
             deliverableContract = new DeliverableContract();
-            String uuid = UUID.randomUUID().toString().toUpperCase().replaceAll("-", "");
+            String uuid = UUID.randomUUID().toString().toLowerCase().replaceAll("-", "");
             deliverableContract.setId(uuid);
             deliverableContract.setDeliverableId(key);
             deliverableContract.setContractId(contractFinVO.getId());
@@ -83,7 +84,7 @@ public class DeliverableController extends BaseController {
       log.info("DeliverableController|addClientContractInfo|deliverableIds|"+deliverableIds+"|clientContractVOS|"+clientContractVOS.toString());
       Map<String, List<ClientContractVO> > deliverableMap = new HashMap<>();
       List<String> contractIds = new ArrayList<>();
-      // 通过合同id获取数据 todo
+      // 通过合同id获取数据
       List<ClientContractVO> clientContractVOListVal = deliverableContractParam.getClientContractVOS();
       for(ClientContractVO clientContractVO:clientContractVOListVal){
          contractIds.add(clientContractVO.getId());
@@ -94,35 +95,61 @@ public class DeliverableController extends BaseController {
       for(int i=0;i<deliverableIdArr.length;i++){
          deliverableMap.put(deliverableIdArr[i],deliverableContractParam.getClientContractVOS());
       }
-      //保存关联合同信息数据
+      Map<String,List<AttachmentModelVO>> clientContractAttachmentFile = new HashMap<>();
+      //组装关联合同信息数据
       List<ClientContractRelationVO> clientContractRelationVOS = new ArrayList<>();
       ClientContractRelationVO clientContractRelationVO = null;
+      String objectId = null;
       for(Map.Entry<String,List<ClientContractVO>> map:deliverableMap.entrySet()){
          String deliverableId = map.getKey();
          List<ClientContractVO> clientContractVOList = map.getValue();
          int cnt = clientContractVOList.size();
-         String objectId = null;
          for(int i=0;i<cnt;i++){
                ClientContractVO clientContractVO = clientContractVOList.get(i);
-               objectId = UUID.randomUUID().toString().toUpperCase().replaceAll("-", "");
+               String clientContractId = clientContractVO.getId();
+               objectId = UUID.randomUUID().toString().toLowerCase().replaceAll("-", "");
                clientContractRelationVO = new ClientContractRelationVO();
                BeanUtils.copyProperties(clientContractVO,clientContractRelationVO);
                clientContractRelationVO.setParentId(deliverableId);
-               clientContractRelationVO.setClientContractId(clientContractVO.getId());
+               clientContractRelationVO.setClientContractId(clientContractId);
                clientContractRelationVO.setId(objectId);
                List<ClientContractRelationVO> clientContractRelationVOTemp = deliverableService.getClientContractRelation(clientContractRelationVO);
-               if(clientContractRelationVOTemp.size()>0){
+               if(clientContractRelationVOTemp.size()<1){
                   clientContractRelationVOS.add(clientContractRelationVO);
+                  //获取合同中的附件
+                  List<AttachmentModelVO> attachmentModels = deliverableService.getAttachmentS(clientContractId);
+                  clientContractAttachmentFile.put(clientContractId,attachmentModels);
                }
          }
       }
 
       int returnCode = 0;
+      //保存合同关联信息
       if(clientContractRelationVOS.size()>0){
           returnCode = deliverableService.addClientContractInfo(clientContractRelationVOS);
       }
+      //组装附件信息
+      List<AttachmentModelVO> attachmentModelList = new ArrayList<>();
+      for(ClientContractRelationVO contractRelationVO:clientContractRelationVOS){
+         List<AttachmentModelVO> attachmentModels = clientContractAttachmentFile.get(contractRelationVO.getClientContractId());
+         for(AttachmentModel attachmentModel:attachmentModels){
+            AttachmentModelVO attachmentModelTemp = new AttachmentModelVO();
+            BeanUtils.copyProperties(attachmentModel,attachmentModelTemp);
+            objectId = UUID.randomUUID().toString().toLowerCase().replaceAll("-", "");
+            attachmentModelTemp.setId(objectId);
+            attachmentModelTemp.setSchemaCode("ClientContractInfo");
+            attachmentModelTemp.setParentSchemaCode("Deliverable");
+            attachmentModelTemp.setBizObjectId(contractRelationVO.getId());
+            attachmentModelTemp.setParentBizObjectId(contractRelationVO.getParentId());
+            attachmentModelTemp.setCreatedBy(StringUtils.isNotBlank(getUserId())?getUserId():"2c9280a26706a73a016706a93ccf002b");
+
+            attachmentModelList.add(attachmentModelTemp);
+         }
+      }
       //保存附件
-      AttachmentModel resourceModel = getBizObjectFacade().getAttachmentByRefId("971e2865ce6d4d31990459a7d18fd859");
+      if(attachmentModelList.size()>0){
+         deliverableService.saveAttachment(attachmentModelList);
+      }
       return getOkResponseResult( returnCode,"关联客户合同成功");
    }
 
@@ -139,26 +166,53 @@ public class DeliverableController extends BaseController {
       }
       List<VendorContractRelationVO> vendorContractRelationVOS = new ArrayList<>();
       VendorContractRelationVO vendorContractRelationVO = null;
+      String objectId = null;
+      Map<String,List<AttachmentModelVO>> vendorContractAttachmentFile = new HashMap<>();
       for(Map.Entry<String,List<VendorContractVO>> map:deliverableMap.entrySet()){
          String deliverableId = map.getKey();
          List<VendorContractVO> vendorContractVOList = map.getValue();
          for(VendorContractVO vendorContractVO:vendorContractVOList){
+            String vendorContractId = vendorContractVO.getId();
             vendorContractRelationVO = new VendorContractRelationVO();
             BeanUtils.copyProperties(vendorContractVO,vendorContractRelationVO);
             vendorContractRelationVO.setParentId(deliverableId);
-            String objectId = UUID.randomUUID().toString().toUpperCase().replaceAll("-", "");
+            objectId = UUID.randomUUID().toString().toLowerCase().replaceAll("-", "");
             vendorContractRelationVO.setId(objectId);
-            vendorContractRelationVO.setVendorContractId(vendorContractVO.getId());
+            vendorContractRelationVO.setVendorContractId(vendorContractId);
 
             List<VendorContractRelationVO> vendorContractRelationVOList = deliverableService.getVendorContractRelation(vendorContractRelationVO);
             if(vendorContractRelationVOList.size()<1){
                vendorContractRelationVOS.add(vendorContractRelationVO);
+               //获取合同中的附件
+               List<AttachmentModelVO> attachmentModels = deliverableService.getAttachmentS(vendorContractId);
+               vendorContractAttachmentFile.put(vendorContractId,attachmentModels);
             }
          }
       }
       int returnCode = 0;
       if(vendorContractRelationVOS.size()>0){
          returnCode = deliverableService.addVendorContractInfo(vendorContractRelationVOS);
+      }
+      //保存附件
+      //组装附件信息
+      List<AttachmentModelVO> attachmentModelList = new ArrayList<>();
+      for(VendorContractRelationVO contractRelationVO:vendorContractRelationVOS){
+         List<AttachmentModelVO> attachmentModels = vendorContractAttachmentFile.get(contractRelationVO.getVendorContractId());
+         for(AttachmentModel attachmentModel:attachmentModels){
+            AttachmentModelVO attachmentModelTemp = new AttachmentModelVO();
+            BeanUtils.copyProperties(attachmentModel,attachmentModelTemp);
+            objectId = UUID.randomUUID().toString().toLowerCase().replaceAll("-", "");
+            attachmentModelTemp.setId(objectId);
+            attachmentModelTemp.setSchemaCode("VendorContractInfo");
+            attachmentModelTemp.setParentSchemaCode("Deliverable");
+            attachmentModelTemp.setBizObjectId(contractRelationVO.getId());
+            attachmentModelTemp.setParentBizObjectId(contractRelationVO.getParentId());
+            attachmentModelTemp.setCreatedBy(StringUtils.isNotBlank(getUserId())?getUserId():"2c9280a26706a73a016706a93ccf002b");
+            attachmentModelList.add(attachmentModelTemp);
+         }
+      }
+      if(attachmentModelList.size()>0){
+         deliverableService.saveAttachment(attachmentModelList);
       }
       return getOkResponseResult( returnCode,"关联供应商成功");
    }
@@ -183,11 +237,10 @@ public class DeliverableController extends BaseController {
          for(ClientPaymentFinVO clientPaymentFinVO:clientPaymentFinVOList){
             clientPaymentFinRelationVO = new ClientPaymentFinRelationVO();
             BeanUtils.copyProperties(clientPaymentFinVO,clientPaymentFinRelationVO);
-            objectId = UUID.randomUUID().toString().toUpperCase().replaceAll("-", "");
+            objectId = UUID.randomUUID().toString().toLowerCase().replaceAll("-", "");
             clientPaymentFinRelationVO.setId(objectId);
             clientPaymentFinRelationVO.setParentId(deliverableId);
             clientPaymentFinRelationVO.setClientPayFinId(clientPaymentFinVO.getId());
-            // 检查是否已经关联 todo
             List<ClientPaymentFinRelationVO> clientPaymentFinRelationVOList = deliverableService.getClientPaymentFinVO(clientPaymentFinRelationVO);
             if(clientPaymentFinRelationVOList.size()<1){
                clientPaymentFinRelationVOS.add(clientPaymentFinRelationVO);
@@ -223,11 +276,10 @@ public class DeliverableController extends BaseController {
          for(StagePaymentVO stagePaymentVO:vendorPaymentVOList){
             vendorPaymentRelationVO = new VendorPaymentRelationVO();
             BeanUtils.copyProperties(stagePaymentVO,vendorPaymentRelationVO);
-            objectId = UUID.randomUUID().toString().toUpperCase().replaceAll("-", "");
+            objectId = UUID.randomUUID().toString().toLowerCase().replaceAll("-", "");
             vendorPaymentRelationVO.setId(objectId);
             vendorPaymentRelationVO.setStagePaymentId(stagePaymentVO.getId());
             vendorPaymentRelationVO.setParentId(deliverableId);
-            //判断是否已关联 todo
             List<VendorPaymentRelationVO> vendorPaymentRelationVOList = deliverableService.getStagePaymentVO(vendorPaymentRelationVO);
             if(vendorPaymentRelationVOList.size()<1){
                vendorPaymentRelationVOS.add(vendorPaymentRelationVO);

@@ -75,4 +75,11 @@ public class DeliverableVO {
     @ApiModelProperty("表单编辑url")
     private String formUrl;
 
+    @ApiModelProperty("deliverable状态")
+    private Integer deliverableStatus;
+
+    @ApiModelProperty("deliverable状态显示")
+    private String deliverableStatusView;
+
+
 }

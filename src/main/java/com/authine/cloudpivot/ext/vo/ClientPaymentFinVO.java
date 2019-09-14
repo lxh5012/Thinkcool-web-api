@@ -44,4 +44,7 @@ public class ClientPaymentFinVO {
     @ApiModelProperty("客户付款逾期日")
     private String clientPaymentOverDue;
 
+    @ApiModelProperty("父Id")
+    private String clientPayId;
+
 }

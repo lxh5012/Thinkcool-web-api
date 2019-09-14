@@ -1,8 +1,10 @@
 package com.authine.cloudpivot.ext.service;
 
+import com.authine.cloudpivot.engine.api.model.runtime.AttachmentModel;
 import com.authine.cloudpivot.ext.queryVo.DeliverableContractParam;
 import com.authine.cloudpivot.ext.queryVo.QueryDeliverable;
 import com.authine.cloudpivot.ext.vo.*;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 
@@ -32,4 +34,8 @@ public interface DeliverableService {
     public List<ClientPaymentFinRelationVO> getClientPaymentFinVO(ClientPaymentFinRelationVO clientPaymentFinRelationVO);
 
     public List<VendorPaymentRelationVO> getStagePaymentVO(VendorPaymentRelationVO vendorPaymentRelationVO);
+
+    public  List<AttachmentModelVO> getAttachmentS(String bizObjectId);
+
+    public int saveAttachment(List<AttachmentModelVO> attachmentModelList);
 }

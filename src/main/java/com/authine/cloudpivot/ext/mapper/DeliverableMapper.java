@@ -1,8 +1,10 @@
 package com.authine.cloudpivot.ext.mapper;
 
+import com.authine.cloudpivot.engine.api.model.runtime.AttachmentModel;
 import com.authine.cloudpivot.ext.queryVo.DeliverableContractParam;
 import com.authine.cloudpivot.ext.queryVo.QueryDeliverable;
 import com.authine.cloudpivot.ext.vo.*;
+import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -34,4 +36,8 @@ public interface DeliverableMapper {
     public List<ClientPaymentFinRelationVO> getClientPaymentFinVO(ClientPaymentFinRelationVO clientPaymentFinRelationVO);
 
     public List<VendorPaymentRelationVO> getStagePaymentVO(VendorPaymentRelationVO vendorPaymentRelationVO);
+
+    public  List<AttachmentModelVO> getAttachmentS(@Param("bizObjectId") String bizObjectId);
+
+    public int saveAttachment(List<AttachmentModelVO> attachmentModelList);
 }

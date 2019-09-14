@@ -14,6 +14,7 @@
         <result column="ClientPaymentAging" property="clientPaymentAging" jdbcType="VARCHAR"/>
         <result column="ClientaymentRemittanceDate" property="clientPaymentRemittanceDate" jdbcType="DATE"/>
         <result column="ClientPaymentOverDue" property="clientPaymentOverDue" jdbcType="DATE"/>
+        <result column="clientPayId" property="clientPayId" jdbcType="VARCHAR"/>
     </resultMap>
 
     <select id="getClientPaymentList" resultType="com.authine.cloudpivot.ext.vo.ClientPaymentVO">
@@ -59,6 +60,8 @@
     <select id="getClientPaymentFinList" resultMap="ClientPayBaseResultMap" parameterType="com.authine.cloudpivot.ext.queryVo.QueryClientPayment">
      SELECT
           clpay.ClientPO,
+          clpay.id clientPayId,
+          clfin.id id,
           clfin.ClientPOvalue,
           clfin.InvoicingDateClient,
           clfin.ClientInvoice,

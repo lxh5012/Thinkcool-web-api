@@ -27,4 +27,6 @@ public class StagePaymentVO {
      private String  actualPaymentDate;
      @ApiModelProperty("关联供应商付款，保存子表数据时使用")
      private String parentId;
+
+     private String vendorPayId;
 }

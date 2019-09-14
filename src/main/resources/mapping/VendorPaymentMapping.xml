@@ -11,6 +11,7 @@
         <result column="index" property="index" jdbcType="VARCHAR"/>
         <result column="PaymentCheckDate" property="paymentCheckDate" jdbcType="DATE"/>
         <result column="ActualPaymentDate" property="actualPaymentDate" jdbcType="DATE"/>
+        <result column="vendorPayId" property="vendorPayId" jdbcType="VARCHAR"/>
     </resultMap>
 
     <select id="getVendorPaymentList" resultType="com.authine.cloudpivot.ext.vo.VendorPaymentVO">
@@ -40,6 +41,7 @@
     <select id="getStagePaymentInfoList" resultMap="StagePayBaseResultMap" parameterType="com.authine.cloudpivot.ext.queryVo.QueryVendorPayment">
         SELECT
             stage.id,
+            vendor.id vendorPayId,
             stage.pay, -- 付款期数
             stage.VendorInvoice VendorInvoice, -- 供应商发票号
             date_format(stage.vendorInvoicingDate,'%Y/%m/%d') vendorInvoicingDate,-- 供应商开票日期

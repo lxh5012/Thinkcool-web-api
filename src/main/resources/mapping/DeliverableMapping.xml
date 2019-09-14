@@ -17,10 +17,14 @@
         <result column="ClientTax" property="clientTax" jdbcType="DECIMAL"/>
         <result column="ClientUnitPrice" property="clientUnitPrice" jdbcType="DECIMAL"/>
 
+        <result column="deliverableStatus" property="deliverableStatus" jdbcType="INTEGER"/>
+        <result column="deliverableStatusView" property="deliverableStatusView" jdbcType="VARCHAR"/>
+
     </resultMap>
     <select id="getDeliverableList" resultType="com.authine.cloudpivot.ext.vo.DeliverableVO">
         SELECT ROUND(SUM(ClientPrice),2) as sumClientPrice,ROUND(SUM(UnitCost),2) as sumUnitCost from i_deliverable
     </select>
+
     <select id="queryDeliverables" resultMap="DeliverableMap" parameterType="com.authine.cloudpivot.ext.queryVo.QueryDeliverable">
               select
               id,
@@ -37,11 +41,19 @@
               clientContractContent,
               vendorContractContent,
               clientPaymentContent,
-              vendorPaymentContent
+              vendorPaymentContent,
+              deliverableStatus,
+              CASE
+              deliverableStatus
+              WHEN 1 THEN
+              '正常'
+              WHEN 0 THEN
+              '已作废'
+              ELSE ''
+              END deliverableStatusView
               from
               i_deliverable t
               where t.JobCode =#{Jobcode}
-
     </select>
 
 
@@ -142,9 +154,10 @@
         </foreach>
     </insert>
 
-    <update id="updateDeliverableStatus">
-        update i_deliverable set where  id=#{id}
+    <update id="updateDeliverableStatus" parameterType="com.authine.cloudpivot.ext.queryVo.QueryDeliverable">
+        update i_deliverable set deliverableStatus=#{deliverableStatus} where  id=#{deliverableId}
     </update>
+
     <select id="getClientContractRelation" resultType="com.authine.cloudpivot.ext.vo.ClientContractRelationVO">
         SELECT  id,
                 ClientName clientName,
@@ -157,6 +170,7 @@
             and clientContractId=#{clientContractId}
         </if>
     </select>
+
     <select id="getVendorContractRelation" resultType="com.authine.cloudpivot.ext.vo.VendorContractRelationVO">
         SELECT
             id,
@@ -171,6 +185,7 @@
             and vendorContractId=#{vendorContractId}
         </if>
     </select>
+
     <select id="getClientPaymentFinVO" resultType="com.authine.cloudpivot.ext.vo.ClientPaymentFinRelationVO">
         SELECT
           id,
@@ -183,6 +198,7 @@
             and clientPayFinId=#{clientPayFinId}
         </if>
     </select>
+
     <select id="getStagePaymentVO" resultType="com.authine.cloudpivot.ext.vo.VendorPaymentRelationVO">
         SELECT
          id,
@@ -196,10 +212,19 @@
             and stagePaymentId=#{stagePaymentId}
         </if>
     </select>
+
+    <select id="getAttachmentS" resultType="com.authine.cloudpivot.ext.vo.AttachmentModelVO" parameterType="String">
+          SELECT * FROM h_biz_attachment WHERE bizObjectId=#{bizObjectId}
+
+    </select>
     <insert id="saveAttachment">
         insert into h_biz_attachment (id,bizObjectId,bizPropertyCode,fileExtension,
-        fileSize,mimeType,name,parentBizObjectId,parentSchemaCode,refId,schemaCode)
-        values (#{id},#{bizObjectId},#{bizPropertyCode},#{fileExtension},#{fileSize},
-        #{mimeType},#{name},#{parentBizObjectId},#{parentSchemaCode},#{refId},#{schemaCode})
+        fileSize,mimeType,name,parentBizObjectId,parentSchemaCode,refId,schemaCode,createdTime,creater)
+        values
+        <foreach collection="list" item="attachment" separator=",">
+        (#{attachment.id},#{attachment.bizObjectId},#{attachment.bizPropertyCode},#{attachment.fileExtension},#{attachment.fileSize},
+        #{attachment.mimeType},#{attachment.name},#{attachment.parentBizObjectId},#{attachment.parentSchemaCode},#{attachment.refId},
+        #{attachment.schemaCode},now(),#{attachment.createdBy})
+        </foreach>
     </insert>
 </mapper>

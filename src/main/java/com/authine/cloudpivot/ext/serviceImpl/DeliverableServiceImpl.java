@@ -1,5 +1,6 @@
 package com.authine.cloudpivot.ext.serviceImpl;
 
+import com.authine.cloudpivot.engine.api.model.runtime.AttachmentModel;
 import com.authine.cloudpivot.ext.PageUtils;
 import com.authine.cloudpivot.ext.mapper.ClientPaymentMapper;
 import com.authine.cloudpivot.ext.mapper.DeliverableMapper;
@@ -155,6 +156,16 @@ public class DeliverableServiceImpl implements DeliverableService {
     @Override
     public List<VendorPaymentRelationVO> getStagePaymentVO(VendorPaymentRelationVO vendorPaymentRelationVO) {
         return deliverableMapper.getStagePaymentVO(vendorPaymentRelationVO);
+    }
+
+    @Override
+    public List<AttachmentModelVO> getAttachmentS(String bizObjectId) {
+        return deliverableMapper.getAttachmentS(bizObjectId);
+    }
+
+    @Override
+    public int saveAttachment(List<AttachmentModelVO> attachmentModelList) {
+        return deliverableMapper.saveAttachment(attachmentModelList);
     }
 
 
