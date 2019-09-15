@@ -26,7 +26,8 @@ public class DeliverableServiceImpl implements DeliverableService {
     @Autowired
     public DeliverableMapper deliverableMapper;
 
-
+    @Autowired
+    private DeliverableService deliverableService;
     @Override
     public DeliverableVO getDeliverableList() {
         DeliverableVO list = deliverableMapper.getDeliverableList();
@@ -47,52 +48,68 @@ public class DeliverableServiceImpl implements DeliverableService {
             StringBuffer clientContractContent = new StringBuffer("");
             for (int i=0;i<clientContractRelationVOS.size();i++){
                 ClientContractRelationVO clientContractRelationVOTemp = clientContractRelationVOS.get(i);
-                if(i!=clientContractRelationVOS.size()-1){
-                    clientContractContent.append(clientContractRelationVOTemp.getClientName()).append(clientContractRelationVOTemp.getClientContractCode()).append("/");
-                }else{
-                    clientContractContent.append(clientContractRelationVOTemp.getClientName()).append(clientContractRelationVOTemp.getClientContractCode());
+                String clientName = clientContractRelationVOTemp.getClientName();
+                String clientContractCode = clientContractRelationVOTemp.getClientContractCode();
+                if (StringUtils.isNotBlank(clientName)&&StringUtils.isNotBlank(clientContractCode)){
+                    if(i!=clientContractRelationVOS.size()-1){
+                        clientContractContent.append(clientName).append(clientContractCode).append("/");
+                    }else{
+                        clientContractContent.append(clientName).append(clientContractCode);
+                    }
                 }
             }
             deliverableVO.setClientContractContent(clientContractContent.toString());
-            // 获取关联供应商合同信息 todo
+            // 获取关联供应商合同信息
             VendorContractRelationVO vendorContractRelationVO = new VendorContractRelationVO();
             vendorContractRelationVO.setParentId(deliverableVO.getId());
             List<VendorContractRelationVO> vendorContractRelationVOS = deliverableMapper.getVendorContractRelation(vendorContractRelationVO);
             StringBuffer vendorContractContent = new StringBuffer("");
             for (int i=0;i<vendorContractRelationVOS.size();i++){
                 VendorContractRelationVO vendorContractRelationVOTemp = vendorContractRelationVOS.get(i);
-                if(i!=clientContractRelationVOS.size()-1){
-                    vendorContractContent.append(vendorContractRelationVOTemp.getVendorName()).append(vendorContractRelationVOTemp.getVendorContractCode()).append("/");
-                }else{
-                    vendorContractContent.append(vendorContractRelationVOTemp.getVendorName()).append(vendorContractRelationVOTemp.getVendorContractCode());
+                String vendorName = vendorContractRelationVOTemp.getVendorName();
+                String vendorContractCode = vendorContractRelationVOTemp.getVendorContractCode();
+                if(StringUtils.isNotBlank(vendorName)&&StringUtils.isNotBlank(vendorContractCode)){
+                    if(i!=clientContractRelationVOS.size()-1){
+                        vendorContractContent.append(vendorName).append(vendorContractCode).append("/");
+                    }else{
+                        vendorContractContent.append(vendorName).append(vendorContractCode);
+                    }
                 }
+
             }
             deliverableVO.setVendorContractContent(vendorContractContent.toString());
-            // 获取关联客户收款信息 todo
+            // 获取关联客户收款信息
             ClientPaymentFinRelationVO clientPaymentFinRelationVO = new ClientPaymentFinRelationVO();
             clientContractRelationVO.setParentId(deliverableVO.getId());
             List<ClientPaymentFinRelationVO> clientPaymentFinVOList = deliverableMapper.getClientPaymentFinVO(clientPaymentFinRelationVO);
             StringBuffer clientPaymentContent = new StringBuffer("");
             for (int i=0;i<clientPaymentFinVOList.size();i++){
                 ClientPaymentFinRelationVO clientPaymentFinVOTemp = clientPaymentFinVOList.get(i);
-                if(i!=clientContractRelationVOS.size()-1){
-                    clientPaymentContent.append(clientPaymentFinVOTemp.getClientPO()).append("/");
-                }else{
-                    clientPaymentContent.append(clientPaymentFinVOTemp.getClientPO());
+                String clientPo = clientPaymentFinVOTemp.getClientPO();
+                if(StringUtils.isNotBlank(clientPo)){
+                    if(i!=clientContractRelationVOS.size()-1){
+                        clientPaymentContent.append(clientPo).append("/");
+                    }else{
+                        clientPaymentContent.append(clientPo);
+                    }
                 }
             }
             deliverableVO.setClientPaymentContent(clientPaymentContent.toString());
-            // 获取关联供应商付款信息 todo
+            // 获取关联供应商付款信息
             VendorPaymentRelationVO vendorPaymentRelationVO = new VendorPaymentRelationVO();
             vendorPaymentRelationVO.setParentId(deliverableVO.getId());
             List<VendorPaymentRelationVO> vendorPaymentRelationVOS = deliverableMapper.getStagePaymentVO(vendorPaymentRelationVO);
             StringBuffer vendorPaymentContent = new StringBuffer("");
             for (int i=0;i<vendorPaymentRelationVOS.size();i++){
                 VendorPaymentRelationVO vendorPaymentRelationVOTemp = vendorPaymentRelationVOS.get(i);
-                if(i!=clientContractRelationVOS.size()-1){
-                    vendorPaymentContent.append(vendorPaymentRelationVOTemp.getPay()).append(vendorPaymentRelationVOTemp.getVendorInvoice()).append("/");
-                }else{
-                    vendorPaymentContent.append(vendorPaymentRelationVOTemp.getPay()).append(vendorPaymentRelationVOTemp.getVendorInvoice());
+                String pay = vendorPaymentRelationVOTemp.getPay();
+                String vendorInvoice = vendorPaymentRelationVOTemp.getVendorInvoice();
+                if(StringUtils.isNotBlank(pay)&&StringUtils.isNotBlank(vendorInvoice)){
+                    if(i!=clientContractRelationVOS.size()-1){
+                        vendorPaymentContent.append(pay).append(vendorInvoice).append("/");
+                    }else{
+                        vendorPaymentContent.append(pay).append(vendorInvoice);
+                    }
                 }
             }
             deliverableVO.setVendorPaymentContent(vendorPaymentContent.toString());

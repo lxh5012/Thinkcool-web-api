@@ -8,7 +8,6 @@ import com.authine.cloudpivot.ext.service.IProjectSummaryService;
 import com.authine.cloudpivot.ext.utils.ThinkoolProjectUtils;
 import com.authine.cloudpivot.ext.vo.PageResult;
 import com.authine.cloudpivot.ext.vo.ProjectSummaryVO;
-import com.authine.cloudpivot.ext.vo.UserVO;
 import com.authine.cloudpivot.web.api.controller.base.BaseController;
 import com.authine.cloudpivot.web.api.handler.CustomizedOrigin;
 import com.authine.cloudpivot.web.api.view.ResponseResult;
@@ -20,8 +19,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
-import java.io.UnsupportedEncodingException;
-import java.net.URLDecoder;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
@@ -29,6 +26,8 @@ import java.util.Objects;
 
 /**
  * 项目管理页面接口
+ *   @author laixh
+ *   @date 2019/09/01
  */
 @Api(value = "项目管理页面接口", tags = "项目管理页面接口")
 @RestController
@@ -39,18 +38,8 @@ import java.util.Objects;
 public class ProjectManageController  extends BaseController {
    @Autowired
    private IProjectSummaryService projectSummaryServiceImpl;
-
    @Autowired
    private DeliverableService deliverableService;
-
-   @ApiOperation(value = "查询用户测试",notes = "查询用户测试")
-   @GetMapping("/queryUser")
-   public ResponseResult<UserVO>  queryUser() throws UnsupportedEncodingException {
-      String str = "http://47.103.123.171/form/detail?workitemId=5e1ee9090d3b4b62a610b1b21e537286&workflowInstanceId=69234693194c4314b5e5c66adc0adf91&return=%2Fworkflow-center%2Fmy-unfinished-workitem";
-      str = URLDecoder.decode(str,"UTF-8");
-      UserVO userVo = projectSummaryServiceImpl.getUserVo();
-      return getOkResponseResult( userVo,"查询成功");
-   }
 
    @ApiOperation(value = "查询projectsummary",notes = "查询projectsummary")
    @PostMapping("/queryProjectSummary")
@@ -113,44 +102,40 @@ public class ProjectManageController  extends BaseController {
       return getOkResponseResult( projectSummaryVO,"获取成功");
    }
 
-   @ApiOperation(value = "查询deliverables",notes = "查询deliverables")
-   @PostMapping("/queryDeliverables")
-   public ResponseResult<PageResult>  queryDeliverables(@RequestBody QueryDeliverable queryDeliverable){
-      ProjectSummaryParam  projectSummaryParam = new ProjectSummaryParam();
-      if(StringUtils.isBlank(queryDeliverable.getProjectSummaryId())){
-         return getErrResponseResult( null,-1l,"项目ID不能为空");
-      }
-      projectSummaryParam.setId(queryDeliverable.getProjectSummaryId());
-      ProjectSummaryVO projectSummaryVO = projectSummaryServiceImpl.getProjectSummaryInfo(projectSummaryParam);
-      if(Objects.isNull(projectSummaryVO)){
-         return getErrResponseResult( null,-1l,"获取项目信息失败");
-      }
-      if(StringUtils.isBlank(projectSummaryVO.getJobCode())){
-         return getErrResponseResult( null,-1l,"项目代码为空");
-      }
-      queryDeliverable.setJobcode(projectSummaryVO.getJobCode());
-      PageResult pageResult = deliverableService.queryDeliverables(queryDeliverable);
-      return getOkResponseResult( pageResult,"获取成功");
-   }
    @ApiOperation(value = "获取projectSummary代办url",notes = "获取projectSummary代办url")
    @PostMapping("/getProjectWorkItemUrl")
    public ResponseResult<Map<String,String> > getProjectWorkItemUrl(@RequestBody ProjectSummaryParam projectSummaryParam){
       String userId = this.getUserId();
       log.info("ProjectManageController|getProjectWorkItemUrl|userId"+userId+"|id|"+projectSummaryParam.getId());
-//      OrganizationFacade organizationFacade = getOrganizationFacade();
-//      UserModel userModel = organizationFacade.getUserByUserId(userId);
-//      if (Objects.isNull(userModel)){
-//         return getErrResponseResult( "",-1l,"用户不存在");
-//      }
       projectSummaryParam.setParticipant(userId);
       ProjectSummaryVO projectSummaryVO = projectSummaryServiceImpl.getWorItemInfoByProjectId(projectSummaryParam);
       if(Objects.isNull(projectSummaryVO)){
-         return getErrResponseResult( null,-1l,"代办任务不存在");
+         return getErrResponseResult( null,-1L,"代办任务不存在");
       }
       String projectWorkItemUrl = ThinkoolProjectUtils.getWoritemUrl(projectSummaryVO.getWorkItemId(),projectSummaryVO.getInstanceId());
       Map<String,String> resultMap = new HashMap<>();
       resultMap.put("formUrl",projectWorkItemUrl);
+      resultMap.put("activityCode",projectSummaryVO.getActivityCode());
       return getOkResponseResult( resultMap,"获取成功");
    }
 
+   @ApiOperation(value = "查询deliverables",notes = "查询deliverables")
+   @PostMapping("/queryDeliverables")
+   public ResponseResult<PageResult>  queryDeliverables(@RequestBody QueryDeliverable queryDeliverable){
+      ProjectSummaryParam projectSummaryParam = new ProjectSummaryParam();
+      if(StringUtils.isBlank(queryDeliverable.getProjectSummaryId())){
+         return getErrResponseResult( null,-1L,"项目ID不能为空");
+      }
+      projectSummaryParam.setId(queryDeliverable.getProjectSummaryId());
+      ProjectSummaryVO projectSummaryVO = projectSummaryServiceImpl.getProjectSummaryInfo(projectSummaryParam);
+      if(Objects.isNull(projectSummaryVO)){
+         return getErrResponseResult( null,-1L,"获取项目信息失败");
+      }
+      if(StringUtils.isBlank(projectSummaryVO.getJobCode())){
+         return getErrResponseResult( null,-1L,"项目代码为空");
+      }
+      queryDeliverable.setJobcode(projectSummaryVO.getJobCode());
+      PageResult pageResult = deliverableService.queryDeliverables(queryDeliverable);
+      return getOkResponseResult( pageResult,"获取成功");
+   }
 }

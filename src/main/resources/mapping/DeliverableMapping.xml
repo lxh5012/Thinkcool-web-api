@@ -45,10 +45,12 @@
               deliverableStatus,
               CASE
               deliverableStatus
-              WHEN 1 THEN
-              '正常'
-              WHEN 0 THEN
-              '已作废'
+              WHEN 'doing' THEN
+              '进行中'
+              WHEN 'done' THEN
+              '已结束'
+              WHEN 'cancel' THEN
+              '已取消'
               ELSE ''
               END deliverableStatusView
               from

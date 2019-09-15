@@ -28,5 +28,5 @@ public class QueryDeliverable extends PageInfo {
     private String projectSummaryId;
     @ApiModelProperty("主键ID")
     private String deliverableId;
-    private int deliverableStatus;
+    private String deliverableStatus;
 }

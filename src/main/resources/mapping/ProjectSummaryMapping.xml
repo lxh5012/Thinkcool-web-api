@@ -24,9 +24,6 @@
         id,ContractLegalEntity,BU,ClientGroup,ClientBrand,ProjectType,ProjectStartDate,ProjectEndDate,JobCode,ProjectName,Remark,ApprovalOpinion,MarginAttachment,
         ProjectExpectedMargin,ProjectMargin,ProjectBudget
     </sql>
-    <select id="getUserVo" resultType="com.authine.cloudpivot.ext.vo.UserVO">
-           SELECT name, userId,username from h_org_user where   name='赖相鸿';
-    </select>
 
     <select id="queryProjectSummary" resultMap="BaseResultMap" parameterType="com.authine.cloudpivot.ext.queryVo.ProjectSummaryParam">
         SELECT
@@ -147,7 +144,8 @@
         SELECT
             t.id,
             workitem.id AS workItemId,
-            instance.id AS instanceId
+            instance.id AS instanceId,
+            workitem.activityCode AS activityCode
         FROM
         i_project_summary t
         LEFT JOIN biz_workflow_instance instance ON t.id = instance.bizObjectId

@@ -46,7 +46,7 @@ public class ProjectSummaryParam extends PageInfo {
 
     @ApiModelProperty("参与者")
     private String participant;
-
+    @Override
     public String toString(){
         StringBuilder sb = new StringBuilder("PageInfo{");
         sb.append("pageNum=").append(super.getPageNum());

@@ -76,7 +76,7 @@ public class DeliverableVO {
     private String formUrl;
 
     @ApiModelProperty("deliverable状态")
-    private Integer deliverableStatus;
+    private String deliverableStatus;
 
     @ApiModelProperty("deliverable状态显示")
     private String deliverableStatusView;

@@ -326,10 +326,14 @@ public class DateUtils {
     }
 
     public static String GetTimeValueFromCST(String strDate){
-        if(strDate.indexOf("CST")==-1)return strDate;
+        if(strDate.indexOf("CST")==-1){
+            return strDate;
+        }
         String result = "";
         String[] arr = strDate.split(" ");
-        if(arr.length<6)return strDate;
+        if(arr.length<6){
+            return strDate;
+        }
         result = arr[5];
         switch(arr[1])
         {

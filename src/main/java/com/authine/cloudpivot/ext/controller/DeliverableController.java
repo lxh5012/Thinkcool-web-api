@@ -3,9 +3,11 @@ package com.authine.cloudpivot.ext.controller;
 import com.authine.cloudpivot.engine.api.model.runtime.AttachmentModel;
 import com.authine.cloudpivot.ext.queryVo.ContractFinVO;
 import com.authine.cloudpivot.ext.queryVo.DeliverableContractParam;
+import com.authine.cloudpivot.ext.queryVo.ProjectSummaryParam;
 import com.authine.cloudpivot.ext.queryVo.QueryDeliverable;
 import com.authine.cloudpivot.ext.service.ClientContractService;
 import com.authine.cloudpivot.ext.service.DeliverableService;
+import com.authine.cloudpivot.ext.service.IProjectSummaryService;
 import com.authine.cloudpivot.ext.vo.*;
 import com.authine.cloudpivot.web.api.controller.base.BaseController;
 import com.authine.cloudpivot.web.api.handler.CustomizedOrigin;
@@ -24,6 +26,9 @@ import java.util.*;
 
 
 /**
+ *   项目管理页面接口
+ *   @author laixh
+ *   @date 2019/09/01
  * Deliverable页面接口
  */
 @Api(value = " Deliverable页面接口", tags = "Deliverable页面接口")
@@ -35,7 +40,8 @@ import java.util.*;
 public class DeliverableController extends BaseController {
    @Autowired
    private DeliverableService deliverableService;
-
+   @Autowired
+   private IProjectSummaryService projectSummaryServiceImpl;
    @Autowired
    private ClientContractService clientContractService;
 
@@ -45,7 +51,25 @@ public class DeliverableController extends BaseController {
       DeliverableVO deliverableVO = deliverableService.getDeliverableList();
       return getOkResponseResult( deliverableVO,"获取成功");
    }
-
+   @ApiOperation(value = "查询deliverables",notes = "查询deliverables")
+   @PostMapping("/queryDeliverables")
+   public ResponseResult<PageResult>  queryDeliverables(@RequestBody QueryDeliverable queryDeliverable){
+      ProjectSummaryParam projectSummaryParam = new ProjectSummaryParam();
+      if(StringUtils.isBlank(queryDeliverable.getProjectSummaryId())){
+         return getErrResponseResult( null,-1L,"项目ID不能为空");
+      }
+      projectSummaryParam.setId(queryDeliverable.getProjectSummaryId());
+      ProjectSummaryVO projectSummaryVO = projectSummaryServiceImpl.getProjectSummaryInfo(projectSummaryParam);
+      if(Objects.isNull(projectSummaryVO)){
+         return getErrResponseResult( null,-1L,"获取项目信息失败");
+      }
+      if(StringUtils.isBlank(projectSummaryVO.getJobCode())){
+         return getErrResponseResult( null,-1L,"项目代码为空");
+      }
+      queryDeliverable.setJobcode(projectSummaryVO.getJobCode());
+      PageResult pageResult = deliverableService.queryDeliverables(queryDeliverable);
+      return getOkResponseResult( pageResult,"获取成功");
+   }
    @ApiOperation(value = "关联客户合同/供应商合同/客户收款/供应商付款",notes = "关联客户合同/供应商合同/客户收款/供应商付款")
    @PostMapping("/addContractRelation")
    public ResponseResult<Integer>  addContractRelation(@RequestBody DeliverableContractParam deliverableContractParam){
@@ -82,7 +106,7 @@ public class DeliverableController extends BaseController {
       String [] deliverableIdArr = deliverableIds.split(",");
       JSONArray clientContractVOS = JSONArray.fromObject(deliverableContractParam.getClientContractVOS());
       log.info("DeliverableController|addClientContractInfo|deliverableIds|"+deliverableIds+"|clientContractVOS|"+clientContractVOS.toString());
-      Map<String, List<ClientContractVO> > deliverableMap = new HashMap<>();
+      Map<String, List<ClientContractVO> > deliverableMap = new HashMap<>(deliverableIdArr.length);
       List<String> contractIds = new ArrayList<>();
       // 通过合同id获取数据
       List<ClientContractVO> clientContractVOListVal = deliverableContractParam.getClientContractVOS();
@@ -160,7 +184,7 @@ public class DeliverableController extends BaseController {
       String [] deliverableIdArr = deliverableIds.split(",");
       JSONArray vendorContractVOS = JSONArray.fromObject(deliverableContractParam.getVendorContractVOS());
       log.info("DeliverableController|addVendorContractInfo|deliverableIds|"+deliverableIds+"|vendorContractVOS|"+vendorContractVOS.toString());
-      Map<String, List<VendorContractVO> > deliverableMap = new HashMap<>();
+      Map<String, List<VendorContractVO> > deliverableMap = new HashMap<>(deliverableIdArr.length);
       for(int i=0;i<deliverableIdArr.length;i++){
          deliverableMap.put(deliverableIdArr[i],deliverableContractParam.getVendorContractVOS());
       }
@@ -224,26 +248,31 @@ public class DeliverableController extends BaseController {
       String [] deliverableIdArr = deliverableIds.split(",");
       JSONArray clientPaymentVOS = JSONArray.fromObject(deliverableContractParam.getClientPaymentVOS());
       log.info("DeliverableController|addClientPaymentInfo|deliverableIds|"+deliverableIds+"|clientPaymentVOS|"+clientPaymentVOS.toString());
-      Map<String, List<ClientPaymentFinVO> > deliverableMap = new HashMap<>();
+      Map<String, List<ClientPaymentFinVO> > deliverableMap = new HashMap<>(deliverableIdArr.length);
       for(int i=0;i<deliverableIdArr.length;i++){
          deliverableMap.put(deliverableIdArr[i],deliverableContractParam.getClientPaymentVOS());
       }
       List<ClientPaymentFinRelationVO> clientPaymentFinRelationVOS = new ArrayList<>();
       ClientPaymentFinRelationVO clientPaymentFinRelationVO = null;
+      Map<String,List<AttachmentModelVO>> clientPaymentAttachmentFile = new HashMap<>();
+      String objectId = null;
       for(Map.Entry<String,List<ClientPaymentFinVO>> map:deliverableMap.entrySet()){
          String deliverableId = map.getKey();
          List<ClientPaymentFinVO> clientPaymentFinVOList = map.getValue();
-         String objectId = null;
          for(ClientPaymentFinVO clientPaymentFinVO:clientPaymentFinVOList){
+            String clientPaymentFinId = clientPaymentFinVO.getId();
             clientPaymentFinRelationVO = new ClientPaymentFinRelationVO();
             BeanUtils.copyProperties(clientPaymentFinVO,clientPaymentFinRelationVO);
             objectId = UUID.randomUUID().toString().toLowerCase().replaceAll("-", "");
             clientPaymentFinRelationVO.setId(objectId);
             clientPaymentFinRelationVO.setParentId(deliverableId);
-            clientPaymentFinRelationVO.setClientPayFinId(clientPaymentFinVO.getId());
+            clientPaymentFinRelationVO.setClientPayFinId(clientPaymentFinId);
             List<ClientPaymentFinRelationVO> clientPaymentFinRelationVOList = deliverableService.getClientPaymentFinVO(clientPaymentFinRelationVO);
             if(clientPaymentFinRelationVOList.size()<1){
                clientPaymentFinRelationVOS.add(clientPaymentFinRelationVO);
+               //获取合同中的附件
+               List<AttachmentModelVO> attachmentModels = deliverableService.getAttachmentS(clientPaymentFinVO.getClientPayId());
+               clientPaymentAttachmentFile.put(clientPaymentFinId,attachmentModels);
             }
          }
       }
@@ -252,6 +281,26 @@ public class DeliverableController extends BaseController {
          returnCode = deliverableService.addClientPaymentInfo(clientPaymentFinRelationVOS);
       }
 
+      //组装附件信息
+      List<AttachmentModelVO> attachmentModelList = new ArrayList<>();
+      for(ClientPaymentFinRelationVO clientPaymentFinRelationVOTemp:clientPaymentFinRelationVOS){
+         List<AttachmentModelVO> attachmentModels = clientPaymentAttachmentFile.get(clientPaymentFinRelationVOTemp.getClientPayFinId());
+         for(AttachmentModel attachmentModel:attachmentModels){
+            AttachmentModelVO attachmentModelTemp = new AttachmentModelVO();
+            BeanUtils.copyProperties(attachmentModel,attachmentModelTemp);
+            objectId = UUID.randomUUID().toString().toLowerCase().replaceAll("-", "");
+            attachmentModelTemp.setId(objectId);
+            attachmentModelTemp.setSchemaCode("ClientPaymentInfo");
+            attachmentModelTemp.setParentSchemaCode("Deliverable");
+            attachmentModelTemp.setBizObjectId(clientPaymentFinRelationVOTemp.getId());
+            attachmentModelTemp.setParentBizObjectId(clientPaymentFinRelationVOTemp.getParentId());
+            attachmentModelTemp.setCreatedBy(StringUtils.isNotBlank(getUserId())?getUserId():"2c9280a26706a73a016706a93ccf002b");
+            attachmentModelList.add(attachmentModelTemp);
+         }
+      }
+      if(attachmentModelList.size()>0){
+         deliverableService.saveAttachment(attachmentModelList);
+      }
 
       return getOkResponseResult( returnCode,"关联客户收款成功");
    }
@@ -263,26 +312,31 @@ public class DeliverableController extends BaseController {
       String [] deliverableIdArr = deliverableIds.split(",");
       JSONArray vendorPaymentVOS = JSONArray.fromObject(deliverableContractParam.getVendorPaymentVOS());
       log.info("DeliverableController|addVendorPaymentInfo|deliverableIds|"+deliverableIds+"|vendorPaymentVOS|"+vendorPaymentVOS.toString());
-      Map<String, List<StagePaymentVO> > deliverableMap = new HashMap<>();
+      Map<String, List<StagePaymentVO> > deliverableMap = new HashMap<>(deliverableIdArr.length);
       for(int i=0;i<deliverableIdArr.length;i++){
          deliverableMap.put(deliverableIdArr[i],deliverableContractParam.getVendorPaymentVOS());
       }
       List<VendorPaymentRelationVO> vendorPaymentRelationVOS = new ArrayList<>();
       VendorPaymentRelationVO vendorPaymentRelationVO = null;
+      Map<String,List<AttachmentModelVO>> vendorPaymentAttachmentFile = new HashMap<>();
+      String objectId = null;
       for(Map.Entry<String,List<StagePaymentVO>> map:deliverableMap.entrySet()){
          String deliverableId = map.getKey();
          List<StagePaymentVO> vendorPaymentVOList = map.getValue();
-         String objectId = null;
          for(StagePaymentVO stagePaymentVO:vendorPaymentVOList){
+            String stagePaymentId = stagePaymentVO.getId();
             vendorPaymentRelationVO = new VendorPaymentRelationVO();
             BeanUtils.copyProperties(stagePaymentVO,vendorPaymentRelationVO);
             objectId = UUID.randomUUID().toString().toLowerCase().replaceAll("-", "");
             vendorPaymentRelationVO.setId(objectId);
-            vendorPaymentRelationVO.setStagePaymentId(stagePaymentVO.getId());
+            vendorPaymentRelationVO.setStagePaymentId(stagePaymentId);
             vendorPaymentRelationVO.setParentId(deliverableId);
             List<VendorPaymentRelationVO> vendorPaymentRelationVOList = deliverableService.getStagePaymentVO(vendorPaymentRelationVO);
             if(vendorPaymentRelationVOList.size()<1){
                vendorPaymentRelationVOS.add(vendorPaymentRelationVO);
+               //获取合同中的附件
+               List<AttachmentModelVO> attachmentModels = deliverableService.getAttachmentS(stagePaymentVO.getVendorPayId());
+               vendorPaymentAttachmentFile.put(stagePaymentId,attachmentModels);
             }
 
          }
@@ -291,7 +345,26 @@ public class DeliverableController extends BaseController {
       if(vendorPaymentRelationVOS.size()>0){
          returnCode = deliverableService.addVendorPaymentInfo(vendorPaymentRelationVOS);
       }
-
+      //组装附件信息
+      List<AttachmentModelVO> attachmentModelList = new ArrayList<>();
+      for(VendorPaymentRelationVO vendorPaymentFinRelationVOTemp:vendorPaymentRelationVOS){
+         List<AttachmentModelVO> attachmentModels = vendorPaymentAttachmentFile.get(vendorPaymentFinRelationVOTemp.getStagePaymentId());
+         for(AttachmentModel attachmentModel:attachmentModels){
+            AttachmentModelVO attachmentModelTemp = new AttachmentModelVO();
+            BeanUtils.copyProperties(attachmentModel,attachmentModelTemp);
+            objectId = UUID.randomUUID().toString().toLowerCase().replaceAll("-", "");
+            attachmentModelTemp.setId(objectId);
+            attachmentModelTemp.setSchemaCode("VendorPaymentInfo");
+            attachmentModelTemp.setParentSchemaCode("Deliverable");
+            attachmentModelTemp.setBizObjectId(vendorPaymentFinRelationVOTemp.getId());
+            attachmentModelTemp.setParentBizObjectId(vendorPaymentFinRelationVOTemp.getParentId());
+            attachmentModelTemp.setCreatedBy(StringUtils.isNotBlank(getUserId())?getUserId():"2c9280a26706a73a016706a93ccf002b");
+            attachmentModelList.add(attachmentModelTemp);
+         }
+      }
+      if(attachmentModelList.size()>0){
+         deliverableService.saveAttachment(attachmentModelList);
+      }
       return getOkResponseResult( returnCode,"关联供应商付款成功");
    }
 

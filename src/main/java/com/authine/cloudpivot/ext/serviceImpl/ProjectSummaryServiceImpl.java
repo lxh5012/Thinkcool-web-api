@@ -16,15 +16,16 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Objects;
-
+/**
+ *
+ *ProjectSummaryServiceImpl
+ * @author laixh
+ * @date 2019/09/01
+ */
 @Service(value="projectSummaryServiceImpl")
 public class ProjectSummaryServiceImpl implements IProjectSummaryService {
     @Autowired
     public ProjectSummaryMapper projectSummaryMapper;
-    @Override
-    public UserVO getUserVo() {
-        return projectSummaryMapper.getUserVo();
-    }
 
     @Override
     public List<ProjectSummaryVO> queryProjectSummary() {
@@ -41,6 +42,7 @@ public class ProjectSummaryServiceImpl implements IProjectSummaryService {
         for(int i=0;i<projectSummaryVOList.size();i++){
             projectSummaryVO = projectSummaryVOList.get(i);
 
+            projectSummaryVO.setProjectApprovalFlag(Boolean.TRUE);
             if(StringUtils.isNotBlank(projectSummaryVO.getJobCode())){
                 //项目审批节点控制
                 projectSummaryVO.setProjectApprovalFlag(Boolean.FALSE);

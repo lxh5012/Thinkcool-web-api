@@ -91,5 +91,8 @@ public class ProjectSummaryVO {
     @ApiModelProperty("填写profitCommercial url")
     private String profitCommercialUrl;
 
+    @ApiModelProperty("活动节点编码")
+    private String activityCode;
+
 
 }
