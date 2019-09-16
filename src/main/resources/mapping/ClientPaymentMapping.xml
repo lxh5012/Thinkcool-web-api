@@ -18,8 +18,9 @@
     </resultMap>
 
     <select id="getClientPaymentList" resultType="com.authine.cloudpivot.ext.vo.ClientPaymentVO">
-           select a.id as bizid,b.id as id,a.Jobcode,a.ProjectName,date_format(b.InvoicingDateClient,'%Y/%m/%d') as InvoicingDateClient ,b.ClientInvoice,b.amountBeforeTax,b.amountAfterTax,date_format(b.ClientPaymentAging,'%Y/%m/%d') as ClientPaymentAging,
-        date_format(b.ClientaymentRemittanceDate,'%Y/%m/%d') as ClientaymentRemittanceDate,date_format(b.ClientPaymentCheckDate,'%Y/%m/%d') as ClientPaymentCheckDate,b.ClientPaymentOverDue from  i_clientpayment a join i_clientpaymentfin b on a.id=b.parentId and
+    select a.id as bizid,b.id as id,a.Jobcode,a.ProjectName,date_format(b.InvoicingDateClient,'%Y/%m/%d') as InvoicingDateClient ,b.ClientInvoice,b.amountBeforeTax,b.amountAfterTax,date_format(b.ClientPaymentAging,'%Y/%m/%d') as ClientPaymentAging,
+        date_format(b.ClientaymentRemittanceDate,'%Y/%m/%d') as ClientaymentRemittanceDate,date_format(b.ClientPaymentCheckDate,'%Y/%m/%d') as ClientPaymentCheckDate,b.ClientPaymentOverDue
+    from  i_clientpayment a join i_clientpaymentfin b on a.id=b.parentId and
     <if test="queryClientPayment.Jobcode !=null and queryClientPayment.Jobcode!='' ">
         a.jobcode like '%${queryClientPayment.Jobcode}%'  and
     </if>
@@ -55,6 +56,7 @@
         b.ClientPaymentOverDue &gt;= ${queryClientPayment.ClientPaymentOverDue}  and
     </if>
     1=1
+    order by a.createdTime desc
     </select>
 
     <select id="getClientPaymentFinList" resultMap="ClientPayBaseResultMap" parameterType="com.authine.cloudpivot.ext.queryVo.QueryClientPayment">
@@ -75,5 +77,6 @@
 	  i_clientpaymentfin clfin
     LEFT JOIN i_clientpayment clpay ON clfin.parentId=clpay.id
     where Jobcode =#{jobcode}
+    order by clpay.createdTime desc
     </select>
 </mapper>
