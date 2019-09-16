@@ -134,6 +134,7 @@ public class ResourceConfig extends ResourceServerConfigurerAdapter {
                     .antMatchers("/api/vendorPaymentController/getvendorPaymentList").permitAll()
                     .antMatchers("/api/deliverableController/*").permitAll()
                     .antMatchers("/api/jobCodeController/*").permitAll()
+                    .antMatchers("/api/runtime/workflow/activate_activity").permitAll()
                     //.antMatchers("/api/**").permitAll()
 
                     //客户端接口测试

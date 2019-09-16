@@ -382,4 +382,12 @@ public class DeliverableController extends BaseController {
       return getOkResponseResult( result,"更新项目状态成功");
    }
 
+   @ApiOperation(value = "查询关联的合同信息",notes = "查询关联的合同信息")
+   @PostMapping("/queryClientContractRelation")
+   public ResponseResult<Integer>  queryClientContractRelation(@RequestBody QueryDeliverable queryDeliverable){
+      log.info("DeliverableController|queryClientContractRelation|"+queryDeliverable.toString());
+      int result = deliverableService.updateDeliverableStatus(queryDeliverable);
+      return getOkResponseResult( result,"更新项目状态成功");
+   }
+
 }
