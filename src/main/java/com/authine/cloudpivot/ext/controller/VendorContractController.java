@@ -1,7 +1,11 @@
 package com.authine.cloudpivot.ext.controller;
 
+import com.authine.cloudpivot.ext.mapper.ClientContractMapper;
+import com.authine.cloudpivot.ext.queryVo.QueryClientContract;
 import com.authine.cloudpivot.ext.queryVo.QueryVendorContract;
+import com.authine.cloudpivot.ext.service.ClientContractService;
 import com.authine.cloudpivot.ext.service.VendorContractService;
+import com.authine.cloudpivot.ext.vo.ClientContractVO;
 import com.authine.cloudpivot.ext.vo.PageResult;
 import com.authine.cloudpivot.ext.vo.TestVO;
 import com.authine.cloudpivot.web.api.controller.base.BaseController;
@@ -18,6 +22,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.validation.constraints.Null;
+import java.util.List;
 import java.util.Random;
 
 
@@ -32,11 +38,27 @@ public class VendorContractController extends BaseController {
     @Autowired
     private VendorContractService vendorContractService;
 
+    @Autowired
+    private ClientContractMapper clientContractMapper;
+
     @ApiOperation(value = "查询 VendorContract 数据列表接口")
     @PostMapping("/getVendorContractList")
     public ResponseResult<PageResult> getVendorContractList(@RequestBody QueryVendorContract queryVendorContract) {
         PageResult list = vendorContractService.getVendorContractList(queryVendorContract);
         return getOkResponseResult(list, "查询成功");
+    }
+
+
+    @ApiOperation(value = "根据供应商合同的jobcode 查询客户合同列表,并判断合同状态是否为已完成")
+    @PostMapping("/getVendorContractStatus")
+    public ResponseResult<Boolean> getVendorContractStatus(@RequestBody QueryClientContract queryClientContract) {
+        List<ClientContractVO> list = clientContractMapper.getClientContractList(queryClientContract);
+        for (int i = 0;i<list.size();i++){
+            if (list.get(i).getClientContractStatus().contains("进行中 In progress")){
+                return getOkResponseResult(true, "客户合同还未结束");
+            }
+        }
+        return getOkResponseResult(false, "客户合同已结束");
     }
 
 
