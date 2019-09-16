@@ -6,8 +6,8 @@
     <select id="queryProjectTask" parameterType="com.authine.cloudpivot.ext.vo.SummaryTaskVO" resultType="com.authine.cloudpivot.ext.vo.SummaryTaskVO">
         SELECT
             t.Jobcode AS jobCode,
-            (SELECT b.`name` from i_ProjectTeamBU b where b.name = t.bu ) as bu,
-            t.ContractLegalEntity AS contractLegalEntity,
+             t.bu as bu,
+             t.ContractLegalEntity AS contractLegalEntity,
             t.ClientGroup AS clientGroup,
             t.ClientBrand AS clientBrand,
             t.ProjectName AS projectName,
@@ -18,7 +18,7 @@
             (SELECT COUNT(1) FROM  i_dispatchsheet dis  WHERE  dis.Jobcode = t.jobCode ) AS taskNum,
             (SELECT	COUNT(1) FROM i_dispatchsheet dis WHERE dis.sequenceStatus = 'COMPLETED' AND dis.Jobcode = t.jobCode) AS finishedNum
         FROM	i_deliverable t
-        where   1=1 and JobCode is not null and LENGTH(JobCode)>0
+        where    JobCode is not null and LENGTH(JobCode)>0
         <if test="bu != null and bu != ''">
             AND  t.bu = #{bu, jdbcType=VARCHAR}
         </if>
@@ -48,16 +48,16 @@
     </select>
 
     <select id="queryDeliverableTask"  parameterType="com.authine.cloudpivot.ext.vo.DeliverableTaskVO" resultType="com.authine.cloudpivot.ext.vo.DeliverableTaskVO">
-       SELECT       t.id ,
+        SELECT       t.id ,
             t.Jobcode as jobCode,
             t.ProjectName AS projectName,
-            (SELECT c.`name` from i_category c where c.id= t.DeliverableCategory ) AS deliverableCategory,
+            t.DeliverableCategory  AS deliverableCategory,
             t.DeliverableDescription AS deliverableDescription,
             t.Quantity as quantity,
             (SELECT count(1) FROM i_DispatchSheet d WHERE d.Jobcode = t.Jobcode
-                AND d.DeliverableDescription = t.id ) AS taskNumber,
-            ( SELECT count(1) FROM i_DispatchSheet d WHERE d.sequenceStatus = 'PROCESSING' and d.Jobcode = t.Jobcode AND d.DeliverableDescription = t.id ) AS unfinishNumber,
-            ( SELECT count(1) FROM i_DispatchSheet d WHERE d.sequenceStatus = 'COMPLETED' and d.Jobcode = t.Jobcode AND d.DeliverableDescription = t.id ) AS finishNumber,
+            AND d.DeliverableDescription = t.deliverableDescription ) AS taskNumber,
+            ( SELECT count(1) FROM i_DispatchSheet d WHERE d.sequenceStatus = 'PROCESSING' and d.Jobcode = t.Jobcode AND d.DeliverableDescription = t.deliverableDescription ) AS unfinishNumber,
+            ( SELECT count(1) FROM i_DispatchSheet d WHERE d.sequenceStatus = 'COMPLETED' and d.Jobcode = t.Jobcode AND d.DeliverableDescription = t.deliverableDescription ) AS finishNumber,
             ( SELECT d.Deadline FROM i_DispatchSheet d WHERE d.Jobcode = t.Jobcode AND d.DeliverableDescription = t.id limit 1) AS deadline
         FROM	i_deliverable t
         where    t.JobCode = #{jobCode, jdbcType=VARCHAR}
@@ -65,9 +65,7 @@
                 and t.DeliverableDescription = #{deliverableDescription, jdbcType=VARCHAR}
             </if>
             <if test="deliverableCategory != null and deliverableCategory != ''">
-              and exists (
-                  SELECT 1 from i_category c where c.`name`= #{deliverableCategory, jdbcType=VARCHAR}
-                )
+                and t.DeliverableCategory = #{deliverableCategory, jdbcType=VARCHAR}
             </if>
             <if test="quantity != null and quantity != ''">
                 and t.Quantity = #{quantity, jdbcType=NUMERIC}
