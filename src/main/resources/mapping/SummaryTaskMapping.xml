@@ -18,34 +18,29 @@
             (SELECT COUNT(1) FROM  i_dispatchsheet dis  WHERE  dis.Jobcode = t.jobCode ) AS taskNum,
             (SELECT	COUNT(1) FROM i_dispatchsheet dis WHERE dis.sequenceStatus = 'COMPLETED' AND dis.Jobcode = t.jobCode) AS finishedNum
         FROM	i_deliverable t
-        where   1=1 and JobCode is not null and JobCode !=''
+        where   1=1 and JobCode is not null and LENGTH(JobCode)>0
         <if test="bu != null and bu != ''">
-            AND  t.bu = (SELECT  b.name from i_ProjectTeamBU b where b.`name`= #{bu, jdbcType=VARCHAR} )
+            AND  t.bu = #{bu, jdbcType=VARCHAR}
         </if>
         <if test="contractLegalEntity != null and contractLegalEntity != ''">
-            AND  t.ContractLegalEntity = #{contractLegalEntity, jdbcType=VARCHAR}
+            AND t.ContractLegalEntity like CONCAT('%',CONCAT(#{contractLegalEntity},'%'))
         </if>
         <if test="clientGroup != null and clientGroup != ''">
-            AND  t.ClientGroup = #{clientGroup, jdbcType=VARCHAR}
+            AND t.ClientGroup like CONCAT('%',CONCAT(#{clientGroup},'%'))
         </if>
         <if test="clientBrand != null and clientBrand != ''">
-            AND  t.ClientBrand = #{clientBrand, jdbcType=VARCHAR}
+            AND t.ClientBrand like CONCAT('%',CONCAT(#{clientBrand},'%'))
         </if>
         <if test="jobCode != null and jobCode != ''">
-            AND t.Jobcode = (select  p.JobCode  from i_project_summary p where  p.JobCode = #{jobCode, jdbcType=VARCHAR})
+            AND t.Jobcode like CONCAT('%',CONCAT(#{jobCode},'%'))
         </if>
         <if test="projectName != null and projectName != ''">
-            AND  t.ProjectName = #{projectName, jdbcType=VARCHAR}
+            AND t.ProjectName like CONCAT('%',CONCAT(#{projectName},'%'))
         </if>
         <if test="projectStartDate != null and projectStartDate != ''">
             AND  t.ProjectStartDate <![CDATA[>=]]>  #{projectStartDate, jdbcType=VARCHAR}
         </if>
-<!--        <if test="projectStartDateEnd != null and projectStartDateEnd != ''">-->
-<!--            AND  t.ProjectStartDate <![CDATA[<=]]>  #{projectStartDateEnd, jdbcType=DATE}-->
-<!--        </if>-->
-<!--        <if test="projectEndDateBegin != null and projectEndDateBegin != ''">-->
-<!--            AND  t.ProjectEndDate <![CDATA[=<]]>  #{projectEndDate, jdbcType=DATE}-->
-<!--        </if>-->
+
         <if test="projectEndDate != null and projectEndDate!= ''">
             AND  t.ProjectEndDate <![CDATA[<=]]>  #{projectEndDate, jdbcType=VARCHAR}
         </if>
@@ -125,10 +120,11 @@
             and t.Quantity = #{quantity, jdbcType=NUMERIC}
         </if>
         <if test="taskDistributorUserName != null and taskDistributorUserName != ''">
-            and t.TaskDistributor like '%'#{taskDistributorUserName, jdbcType=VARCHAR}'%'
+            and t.TaskDistributor like CONCAT('%',CONCAT(#{taskDistributorUserName, jdbcType=VARCHAR},'%'))
         </if>
         <if test="taskOwnerUserName != null and taskOwnerUserName != ''">
-            and t.Taskowner like '%'#{taskOwnerUserName, jdbcType=VARCHAR}'%'
+            and t.Taskowner like CONCAT('%',CONCAT(#{taskOwnerUserName, jdbcType=VARCHAR},'%'))
+
         </if>
     </select>
 
@@ -149,8 +145,11 @@
                 t.id AS workflowInstanceId,
                 w.id AS workItemId
             FROM i_DispatchSheet d, biz_workitem w  ,biz_workflow_instance t
-            WHERE d.id = t.bizObjectId  and t.id = w.instanceId
-                 AND w.activityCode = 'Activity3'
+            WHERE d.id = t.bizObjectId  and t.id = w.instanceId and  d.Jobcode is not null and LENGTH(Jobcode)>0
+        <if test="activityCode != null and activityCode != ''">
+                AND w.activityCode = #{activityCode,jdbcType=VARCHAR}
+            </if>
+
             <if test="bu != null and bu != ''">
                 and d.ProjectTeamBU = #{bu, jdbcType=VARCHAR}
             </if>

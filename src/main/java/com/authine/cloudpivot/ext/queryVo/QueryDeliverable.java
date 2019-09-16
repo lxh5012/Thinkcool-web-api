@@ -9,24 +9,24 @@ import lombok.Setter;
 @Getter
 public class QueryDeliverable extends PageInfo {
 
-
-    //项目代码
+    @ApiModelProperty("项目代码")
     private String Jobcode;
-    //项目名称
+    @ApiModelProperty("项目名称")
     private String ProjectName;
-    //交付描述
+    @ApiModelProperty("交付描述")
     private String DeliverableDescription;
-    //交付品类
+    @ApiModelProperty("交付品类")
     private String DeliverableCategory;
-    //客户价格(税前)
+    @ApiModelProperty("客户价格(税前)")
     private String ClientPrice;
-    //单位成本 (税前)
+    @ApiModelProperty("单位成本 (税前)")
     private String UnitCost;
-    //数量
+    @ApiModelProperty("数量")
     private String Quantity;
-
+    @ApiModelProperty("projectSummary主键ID")
     private String projectSummaryId;
     @ApiModelProperty("主键ID")
     private String deliverableId;
+    @ApiModelProperty("deliverable状态")
     private String deliverableStatus;
 }

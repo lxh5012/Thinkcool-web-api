@@ -11,7 +11,7 @@ import java.util.List;
 
 @Repository
 public interface DeliverableMapper {
-    public DeliverableVO getDeliverableList();
+    public DeliverableVO getDeliverableList(QueryDeliverable queryDeliverable);
 
     public List<DeliverableVO> queryDeliverables(QueryDeliverable queryDeliverable);
 

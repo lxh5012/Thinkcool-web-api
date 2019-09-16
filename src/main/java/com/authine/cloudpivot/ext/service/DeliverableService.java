@@ -9,7 +9,7 @@ import org.apache.ibatis.annotations.Param;
 import java.util.List;
 
 public interface DeliverableService {
-    public DeliverableVO getDeliverableList();
+    public DeliverableVO getDeliverableList(QueryDeliverable queryDeliverable);
 
     public PageResult queryDeliverables(QueryDeliverable queryDeliverable);
 

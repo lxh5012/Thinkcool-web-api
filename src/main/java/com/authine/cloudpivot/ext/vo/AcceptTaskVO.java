@@ -75,6 +75,9 @@ public class AcceptTaskVO {
     @ApiModelProperty("表单名称")
     private String formName;
 
+    @ApiModelProperty("活动节点")
+    private String activityCode;
+
 
 
 }

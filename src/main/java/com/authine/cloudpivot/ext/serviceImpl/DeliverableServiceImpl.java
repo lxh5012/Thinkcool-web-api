@@ -29,9 +29,9 @@ public class DeliverableServiceImpl implements DeliverableService {
     @Autowired
     private DeliverableService deliverableService;
     @Override
-    public DeliverableVO getDeliverableList() {
-        DeliverableVO list = deliverableMapper.getDeliverableList();
-        return list;
+    public DeliverableVO getDeliverableList(QueryDeliverable queryDeliverable) {
+        DeliverableVO deliverableVO = deliverableMapper.getDeliverableList(queryDeliverable);
+        return deliverableVO;
     }
 
     @Override

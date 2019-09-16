@@ -8,6 +8,7 @@ import com.authine.cloudpivot.web.api.controller.base.BaseController;
 import com.authine.cloudpivot.web.api.view.ResponseResult;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -92,6 +93,9 @@ public class ThinkCoolFormListController extends BaseController {
         String userId = this.getUserId();
         acceptTaskVO.setUserId(userId);
         log.info("接单管理接口，当前登录的用户ID为： {}", userId);
+        if(StringUtils.isNotBlank(acceptTaskVO.getActivityCode())){
+            acceptTaskVO.setActivityCode("Activity3");
+        }
         if (checkParam(acceptTaskVO, acceptTaskVO.getFormName(), acceptTaskVO.getPage(), acceptTaskVO.getPageSize())) {
             return getErrResponseResult(null, ErrCode.ORG_USER_NONEXISTENT.getErrCode(), "FormName/Page/PageSize/UserId不能为null");
         }

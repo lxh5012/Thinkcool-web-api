@@ -22,6 +22,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import java.math.BigDecimal;
 import java.util.*;
 
 
@@ -46,9 +47,14 @@ public class DeliverableController extends BaseController {
    private ClientContractService clientContractService;
 
    @ApiOperation(value = "查询deliverable",notes = "查询deliverable")
-   @GetMapping("/getDeliverableList")
-   public ResponseResult<DeliverableVO>  getDeliverableList(){
-      DeliverableVO deliverableVO = deliverableService.getDeliverableList();
+   @PostMapping("/getDeliverableList")
+   public ResponseResult<DeliverableVO>  getDeliverableList(@RequestBody QueryDeliverable queryDeliverable){
+      DeliverableVO deliverableVO = deliverableService.getDeliverableList(queryDeliverable);
+      if(Objects.isNull(deliverableVO)){
+         deliverableVO = new DeliverableVO();
+         deliverableVO.setSumClientPrice( BigDecimal.ZERO);
+         deliverableVO.setSumUnitCost( BigDecimal.ZERO);
+      }
       return getOkResponseResult( deliverableVO,"获取成功");
    }
    @ApiOperation(value = "查询deliverables",notes = "查询deliverables")
