@@ -1,5 +1,7 @@
 package com.authine.cloudpivot.ext.utils;
 
+import java.text.DecimalFormat;
+
 public class Test {
 
     /**
@@ -21,11 +23,35 @@ public class Test {
 
     public static void main(String[] args) {
         String equipmentNo = Test.getGenerationCoding("SYXH19930604", "");
-        System.out.println("生成设备编号：" + equipmentNo);
+        //System.out.println("生成设备编号：" + equipmentNo);
 
-        String a = "123";
+        String a = "1";
         String b = "456";
         String c = a + b;
-        System.out.println(c);
+
+
+        Integer integer1 = 64;
+        DecimalFormat decimalFormat1 = new DecimalFormat("0");
+        String str1 = decimalFormat1.format(integer1);
+        String string1 = String.valueOf(str1);
+        int i1 = string1.length();
+        String str11 = string1.substring(i1-1,i1);
+
+
+        DecimalFormat decimalFormat2 = new DecimalFormat("00");
+        String str2 = decimalFormat2.format(integer1);
+        String string2 = String.valueOf(str2);
+        int i2 = string2.length();
+        String str22 = string1.substring(i2-2,i2);
+
+        DecimalFormat decimalFormat3 = new DecimalFormat("000");
+        String str3 = decimalFormat3.format(integer1);
+        String string3 = String.valueOf(str3);
+        int i3 = string3.length();
+        String str33 = string3.substring(i3-3,i3);
+
+        System.out.println(str11);
+        System.out.println(str22);
+        System.out.println(str33);
     }
 }

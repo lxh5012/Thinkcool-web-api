@@ -93,7 +93,7 @@ public class ThinkCoolFormListController extends BaseController {
         String userId = this.getUserId();
         acceptTaskVO.setUserId(userId);
         log.info("接单管理接口，当前登录的用户ID为： {}", userId);
-        if(StringUtils.isNotBlank(acceptTaskVO.getActivityCode())){
+        if(StringUtils.isBlank(acceptTaskVO.getActivityCode())){
             acceptTaskVO.setActivityCode("Activity3");
         }
         if (checkParam(acceptTaskVO, acceptTaskVO.getFormName(), acceptTaskVO.getPage(), acceptTaskVO.getPageSize())) {

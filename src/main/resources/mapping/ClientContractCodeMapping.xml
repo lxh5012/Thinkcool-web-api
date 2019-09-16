@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.authine.cloudpivot.ext.mapper.ClientContractCodeMapper">
+
+
+    <select id="getContractCode1" resultType="com.authine.cloudpivot.ext.vo.ClientContractCodeVO">
+        SELECT MAX(id)+1 as id  FROM sh_clientcontractcode1
+    </select>
+    <insert id="insertBizObjectid1" keyProperty="id" useGeneratedKeys="true" parameterType="com.authine.cloudpivot.ext.vo.ClientContractCodeVO">
+        insert into sh_clientcontractcode1(bizobjectid) value (#{bizobjectid})
+    </insert>
+
+    <select id="getContractCode2" resultType="com.authine.cloudpivot.ext.vo.ClientContractCodeVO">
+        SELECT MAX(id)+1 as id  FROM sh_clientcontractcode2
+    </select>
+    <insert id="insertBizObjectid2" keyProperty="id" useGeneratedKeys="true" parameterType="com.authine.cloudpivot.ext.vo.ClientContractCodeVO">
+        insert into sh_clientcontractcode2(bizobjectid) value (#{bizobjectid})
+    </insert>
+
+    <select id="getContractCode3" resultType="com.authine.cloudpivot.ext.vo.ClientContractCodeVO">
+        SELECT MAX(id)+1 as id  FROM sh_clientcontractcode3
+    </select>
+    <insert id="insertBizObjectid3" keyProperty="id" useGeneratedKeys="true" parameterType="com.authine.cloudpivot.ext.vo.ClientContractCodeVO">
+        insert into sh_clientcontractcode3(bizobjectid) value (#{bizobjectid})
+    </insert>
+
+
+
+</mapper>
