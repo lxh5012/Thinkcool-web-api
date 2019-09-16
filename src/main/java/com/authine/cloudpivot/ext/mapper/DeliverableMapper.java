@@ -1,6 +1,7 @@
 package com.authine.cloudpivot.ext.mapper;
 
 import com.authine.cloudpivot.engine.api.model.runtime.AttachmentModel;
+import com.authine.cloudpivot.ext.queryVo.AtivateActivityVO;
 import com.authine.cloudpivot.ext.queryVo.DeliverableContractParam;
 import com.authine.cloudpivot.ext.queryVo.QueryDeliverable;
 import com.authine.cloudpivot.ext.vo.*;
@@ -40,4 +41,6 @@ public interface DeliverableMapper {
     public  List<AttachmentModelVO> getAttachmentS(@Param("bizObjectId") String bizObjectId);
 
     public int saveAttachment(List<AttachmentModelVO> attachmentModelList);
+
+    public AtivateActivityVO getAtivateActivityInfo(QueryDeliverable queryDeliverable);
 }

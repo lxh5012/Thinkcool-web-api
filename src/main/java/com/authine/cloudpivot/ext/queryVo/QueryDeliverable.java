@@ -29,4 +29,7 @@ public class QueryDeliverable extends PageInfo {
     private String deliverableId;
     @ApiModelProperty("deliverable状态")
     private String deliverableStatus;
+    @ApiModelProperty("参与者")
+    private String participant;
+
 }

@@ -4,6 +4,7 @@ import com.authine.cloudpivot.engine.api.model.runtime.AttachmentModel;
 import com.authine.cloudpivot.ext.PageUtils;
 import com.authine.cloudpivot.ext.mapper.ClientPaymentMapper;
 import com.authine.cloudpivot.ext.mapper.DeliverableMapper;
+import com.authine.cloudpivot.ext.queryVo.AtivateActivityVO;
 import com.authine.cloudpivot.ext.queryVo.DeliverableContractParam;
 import com.authine.cloudpivot.ext.queryVo.QueryClientPayment;
 import com.authine.cloudpivot.ext.queryVo.QueryDeliverable;
@@ -183,6 +184,11 @@ public class DeliverableServiceImpl implements DeliverableService {
     @Override
     public int saveAttachment(List<AttachmentModelVO> attachmentModelList) {
         return deliverableMapper.saveAttachment(attachmentModelList);
+    }
+
+    @Override
+    public AtivateActivityVO getAtivateActivityInfo(QueryDeliverable queryDeliverable) {
+        return deliverableMapper.getAtivateActivityInfo(queryDeliverable);
     }
 
 

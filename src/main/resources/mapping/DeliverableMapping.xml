@@ -231,4 +231,17 @@
         #{attachment.schemaCode},now(),#{attachment.createdBy})
         </foreach>
     </insert>
+
+    <select id="getAtivateActivityInfo" parameterType="com.authine.cloudpivot.ext.queryVo.QueryDeliverable" resultType="com.authine.cloudpivot.ext.queryVo.AtivateActivityVO">
+        SELECT
+            workitem.activityCode activityCode,
+            instance.id workflowInstanceId
+        FROM
+            biz_workflow_instance instance
+        LEFT JOIN biz_workitem_finished workitem ON instance.id = workitem.instanceId
+        WHERE
+            instance.bizObjectId = #{deliverableId}
+        AND workitem.participant = #{participant}
+
+    </select>
 </mapper>

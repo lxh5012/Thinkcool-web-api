@@ -1,10 +1,7 @@
 package com.authine.cloudpivot.ext.controller;
 
 import com.authine.cloudpivot.engine.api.model.runtime.AttachmentModel;
-import com.authine.cloudpivot.ext.queryVo.ContractFinVO;
-import com.authine.cloudpivot.ext.queryVo.DeliverableContractParam;
-import com.authine.cloudpivot.ext.queryVo.ProjectSummaryParam;
-import com.authine.cloudpivot.ext.queryVo.QueryDeliverable;
+import com.authine.cloudpivot.ext.queryVo.*;
 import com.authine.cloudpivot.ext.service.ClientContractService;
 import com.authine.cloudpivot.ext.service.DeliverableService;
 import com.authine.cloudpivot.ext.service.IProjectSummaryService;
@@ -12,6 +9,7 @@ import com.authine.cloudpivot.ext.vo.*;
 import com.authine.cloudpivot.web.api.controller.base.BaseController;
 import com.authine.cloudpivot.web.api.handler.CustomizedOrigin;
 import com.authine.cloudpivot.web.api.view.ResponseResult;
+import com.google.gson.JsonObject;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
@@ -388,6 +386,23 @@ public class DeliverableController extends BaseController {
       log.info("DeliverableController|queryClientContractRelation|"+queryDeliverable.toString());
       int result = deliverableService.updateDeliverableStatus(queryDeliverable);
       return getOkResponseResult( result,"更新项目状态成功");
+   }
+
+
+   @ApiOperation(value = "获取激活节点信息",notes = "获取激活节点信息")
+   @PostMapping("/getAtivateActivity")
+   public ResponseResult<AtivateActivityVO>  getAtivateActivityInfo(@RequestBody QueryDeliverable queryDeliverable){
+      log.info("DeliverableController|getAtivateActivityInfo|");
+      String userId = this.getUserId();
+      if(StringUtils.isBlank(userId)){
+         userId ="2c93208b6c9e0bc6016ca80e12071e1c";
+      }
+      queryDeliverable.setParticipant(userId);
+      AtivateActivityVO activityVO = deliverableService.getAtivateActivityInfo(queryDeliverable);
+      if (Objects.isNull(activityVO)){
+         return getErrResponseResult(null, -1L,"不存在要激活的节点信息");
+      }
+      return getOkResponseResult( activityVO,"获取激活节点信息成功");
    }
 
 }
