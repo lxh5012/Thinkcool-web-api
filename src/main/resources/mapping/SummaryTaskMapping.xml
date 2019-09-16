@@ -49,8 +49,7 @@
 
     <select id="queryDeliverableTask"  parameterType="com.authine.cloudpivot.ext.vo.DeliverableTaskVO" resultType="com.authine.cloudpivot.ext.vo.DeliverableTaskVO">
        SELECT       t.id ,
-            t.Jobcode as jobId,
-            (select p.JobCode from i_project_summary p where p.id =  t.Jobcode) AS jobCode,
+            t.Jobcode as jobCode,
             t.ProjectName AS projectName,
             (SELECT c.`name` from i_category c where c.id= t.DeliverableCategory ) AS deliverableCategory,
             t.DeliverableDescription AS deliverableDescription,
@@ -88,17 +87,17 @@
 
     <select id="queryTaskDetial"  parameterType="com.authine.cloudpivot.ext.vo.TaskDetialVO" resultType="com.authine.cloudpivot.ext.vo.TaskDetialVO">
         SELECT
-        t.Jobcode AS jobCode,
-        (SELECT c.`name` FROM i_category c WHERE c.name = t.DeliverableCategory ) AS deliverableCategory,
-        (SELECT d.DeliverableDescription FROM i_deliverable d WHERE d.DeliverableDescription = t.DeliverableDescription ) AS deliverableDescription,
-        t.TaskDistributor AS taskDistributors,
-        t.Taskowner AS taskOwners,
-        t.Quantity AS quantity,
-        t.sequenceStatus AS taskStatus,
-        t.attachmentUrl AS attachmentUrl,
-        ( SELECT w.id FROM biz_workitem w,biz_workflow_instance i WHERE w.instanceId = t.workflowInstanceId
-        AND t.id = i.bizObjectId AND w.activityCode = 'Activity6' ) AS workItemId,
-        t.workflowInstanceId AS workflowInstanceId
+            t.Jobcode AS jobCode,
+            t.DeliverableCategory AS deliverableCategory,
+            t.DeliverableDescription  AS deliverableDescription,
+            t.TaskDistributor AS taskDistributors,
+            t.Taskowner AS taskOwners,
+            t.Quantity AS quantity,
+            t.sequenceStatus AS taskStatus,
+            t.attachmentUrl AS attachmentUrl,
+            ( SELECT w.id FROM biz_workitem w,biz_workflow_instance i WHERE w.instanceId = t.workflowInstanceId
+            AND t.id = i.bizObjectId AND w.activityCode = 'Activity6' ) AS workItemId,
+            t.workflowInstanceId AS workflowInstanceId
         FROM i_DispatchSheet t
         WHERE (t.sequenceStatus ='COMPLETED' OR
              EXISTS (SELECT 1 FROM biz_workitem w WHERE w.instanceId = t.workflowInstanceId
@@ -127,34 +126,31 @@
     </select>
 
     <select id="acceptTaskList"  parameterType="com.authine.cloudpivot.ext.vo.AcceptTaskVO" resultType="com.authine.cloudpivot.ext.vo.AcceptTaskVO">
-            SELECT
-                d.ProjectTeamBU AS bu,
-                d.Jobcode AS jobCode,
-                d.ProjectName AS projectName,
-                d.DeliverableDescription AS deliverableDescriptionId,
-                (SELECT t.DeliverableDescription FROM i_deliverable t WHERE t.id = d.DeliverableDescription ) AS deliverableDescription,
-                d.DeliverableCategory AS deliverableCategoryId,
-                (SELECT c.`name` FROM i_category c WHERE c.id = d.DeliverableCategory ) AS deliverableCategory,
-                d.TaskDistributor AS taskDistributors,
-                d.TaskRequirement AS taskRequirement,
-                d.Quantity AS quantity,
-                d.Deadline AS deadline,
-                t.id AS workflowInstanceId,
-                w.id AS workItemId
+        SELECT
+            d.ProjectTeamBU AS bu,
+            d.Jobcode AS jobCode,
+            d.ProjectName AS projectName,
+            d.DeliverableDescription AS deliverableDescription,
+            d.DeliverableCategory AS deliverableCategory,
+            d.TaskDistributor AS taskDistributors,
+            d.TaskRequirement AS taskRequirement,
+            d.Quantity AS quantity,
+            d.Deadline AS deadline,
+            t.id AS workflowInstanceId,
+            w.id AS workItemId
             FROM i_DispatchSheet d, biz_workitem w  ,biz_workflow_instance t
-            WHERE d.id = t.bizObjectId  and t.id = w.instanceId and  d.Jobcode is not null and LENGTH(Jobcode)>0
-
+        WHERE d.id = t.bizObjectId  and t.id = w.instanceId and  d.Jobcode is not null and LENGTH(Jobcode)>0
             <if test="activityCode != null and activityCode != ''">
                 AND w.activityCode = #{activityCode,jdbcType=VARCHAR}
             </if>
             <if test="bu != null and bu != ''">
-                AND d.ProjectTeamBU like CONCAT('%',CONCAT(#{bu},'%'))
+                AND d.ProjectTeamBU like CONCAT('%',CONCAT(#{bu, jdbcType=VARCHAR},'%'))
             </if>
             <if test="jobCode != null and jobCode != ''">
-                AND d.Jobcode like CONCAT('%',CONCAT(#{jobCode},'%'))
+                AND d.Jobcode like CONCAT('%',CONCAT(#{jobCode, jdbcType=VARCHAR},'%'))
             </if>
             <if test="projectName != null and projectName != ''">
-                AND d.ProjectName like CONCAT('%',CONCAT(#{projectName},'%'))
+                AND d.ProjectName like CONCAT('%',CONCAT(#{projectName, jdbcType=VARCHAR},'%'))
             </if>
             <if test="deliverableDescription != null and deliverableDescription != ''">
                 and (SELECT t.DeliverableDescription FROM i_deliverable t WHERE t.id = d.DeliverableDescription )  = #{deliverableDescription, jdbcType=VARCHAR}
