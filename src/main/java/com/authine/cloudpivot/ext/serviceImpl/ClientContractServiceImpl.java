@@ -7,6 +7,7 @@ import com.authine.cloudpivot.ext.service.ClientContractService;
 import com.authine.cloudpivot.ext.utils.ThinkoolProjectUtils;
 import com.authine.cloudpivot.ext.vo.ClientContractVO;
 import com.authine.cloudpivot.ext.vo.PageResult;
+import com.authine.cloudpivot.ext.vo.SelectVO;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -49,6 +50,11 @@ public class ClientContractServiceImpl implements ClientContractService {
     @Override
     public List<ClientContractVO> getClientContractById(List<String> ids) {
         return clientContractMapper.getClientContractById(ids);
+    }
+
+    @Override
+    public List<SelectVO> getClientContractCodeList(QueryClientContract queryClientContract) {
+        return clientContractMapper.getClientContractCodeList(queryClientContract);
     }
 
 

@@ -5,9 +5,7 @@ import com.authine.cloudpivot.ext.queryVo.QueryClientContract;
 import com.authine.cloudpivot.ext.queryVo.QueryVendorContract;
 import com.authine.cloudpivot.ext.service.ClientContractService;
 import com.authine.cloudpivot.ext.service.VendorContractService;
-import com.authine.cloudpivot.ext.vo.ClientContractVO;
-import com.authine.cloudpivot.ext.vo.PageResult;
-import com.authine.cloudpivot.ext.vo.TestVO;
+import com.authine.cloudpivot.ext.vo.*;
 import com.authine.cloudpivot.web.api.controller.base.BaseController;
 import com.authine.cloudpivot.web.api.handler.CustomizedOrigin;
 import com.authine.cloudpivot.web.api.view.ResponseResult;
@@ -37,6 +35,8 @@ public class VendorContractController extends BaseController {
 
     @Autowired
     private VendorContractService vendorContractService;
+    @Autowired
+    private ClientContractService clientContractService;
 
     @Autowired
     private ClientContractMapper clientContractMapper;
@@ -51,14 +51,15 @@ public class VendorContractController extends BaseController {
 
     @ApiOperation(value = "根据供应商合同的jobcode 查询客户合同列表,并判断合同状态是否为已完成")
     @PostMapping("/getVendorContractStatus")
-    public ResponseResult<Boolean> getVendorContractStatus(@RequestBody QueryClientContract queryClientContract) {
+    public ResponseResult<String> getVendorContractStatus(@RequestBody QueryClientContract queryClientContract) {
+
         List<ClientContractVO> list = clientContractMapper.getClientContractList(queryClientContract);
         for (int i = 0;i<list.size();i++){
             if (list.get(i).getClientContractStatus().contains("进行中 In progress")){
-                return getOkResponseResult(true, "客户合同还未结束");
+                return getOkResponseResult("False", "客户合同还未结束");
             }
         }
-        return getOkResponseResult(false, "客户合同已结束");
+        return getOkResponseResult("True", "客户合同已结束");
     }
 
 
@@ -109,6 +110,12 @@ public class VendorContractController extends BaseController {
             return getOkResponseResult(stringBuffer.toString(), "传入参数异常，编码生成失败");
         }
     }
-
+    @ApiOperation(value = "获取供应商客户合同代码", notes = "获取供应商客户合同代码，根据jobcode查询")
+    @PostMapping("/getVendoeContractCode")
+    public ResponseResult<List<SelectVO>> getVendorContractCodeList(@RequestBody QueryVendorContract queryVendorContract) {
+        log.info("|ClientContractController|getVendorContractCodeList|jobcode|"+queryVendorContract.getJobcode());
+        List<SelectVO> clientContractVOS = vendorContractService.getVendorContractCodeList(queryVendorContract);
+        return getOkResponseResult(clientContractVOS, "获取供应商客户合同代码列表成功");
+    }
 
 }

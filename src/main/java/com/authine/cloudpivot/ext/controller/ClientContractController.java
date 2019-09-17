@@ -1,8 +1,12 @@
 package com.authine.cloudpivot.ext.controller;
 
+import com.alibaba.fastjson.JSONObject;
 import com.authine.cloudpivot.ext.queryVo.QueryClientContract;
+import com.authine.cloudpivot.ext.queryVo.QueryClientContractCode;
 import com.authine.cloudpivot.ext.service.ClientContractService;
+import com.authine.cloudpivot.ext.vo.ClientContractVO;
 import com.authine.cloudpivot.ext.vo.PageResult;
+import com.authine.cloudpivot.ext.vo.SelectVO;
 import com.authine.cloudpivot.ext.vo.TestVO;
 import com.authine.cloudpivot.web.api.controller.base.BaseController;
 import com.authine.cloudpivot.web.api.handler.CustomizedOrigin;
@@ -18,6 +22,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.List;
 import java.util.Random;
 
 
@@ -87,6 +92,14 @@ public class ClientContractController extends BaseController {
             return getOkResponseResult(stringBuffer.toString(), "传入参数异常，编码生成失败");
         }
 
+    }
+
+    @ApiOperation(value = "获取客户合同代码", notes = "获取客户合同代码，根据jobcode查询")
+    @PostMapping("/getClientContractCode")
+    public ResponseResult<List<SelectVO>> getClientContractCodeList(@RequestBody QueryClientContract queryClientContract) {
+        log.info("|ClientContractController|getClientContractCodeList|jobcode|"+queryClientContract.getJobcode());
+        List<SelectVO> clientContractVOS = clientContractService.getClientContractCodeList(queryClientContract);
+        return getOkResponseResult(clientContractVOS, "获取客户合同代码");
     }
 
 

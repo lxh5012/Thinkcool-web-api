@@ -6,6 +6,7 @@ import com.authine.cloudpivot.ext.queryVo.QueryVendorContract;
 import com.authine.cloudpivot.ext.service.VendorContractService;
 import com.authine.cloudpivot.ext.utils.ThinkoolProjectUtils;
 import com.authine.cloudpivot.ext.vo.PageResult;
+import com.authine.cloudpivot.ext.vo.SelectVO;
 import com.authine.cloudpivot.ext.vo.VendorContractVO;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
@@ -44,6 +45,11 @@ public class VendorContractServiceImpl implements VendorContractService {
         PageResult pageResult = PageUtils.getPageResult(vendorContractVOPageInfo);
         return pageResult;
 
+    }
+
+    @Override
+    public List<SelectVO> getVendorContractCodeList(QueryVendorContract queryVendorContract) {
+        return vendorContractMapper.getVendorContractCodeList(queryVendorContract);
     }
 
 
