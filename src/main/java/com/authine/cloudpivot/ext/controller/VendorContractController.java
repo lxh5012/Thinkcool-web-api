@@ -5,9 +5,7 @@ import com.authine.cloudpivot.ext.queryVo.QueryClientContract;
 import com.authine.cloudpivot.ext.queryVo.QueryVendorContract;
 import com.authine.cloudpivot.ext.service.ClientContractService;
 import com.authine.cloudpivot.ext.service.VendorContractService;
-import com.authine.cloudpivot.ext.vo.ClientContractVO;
-import com.authine.cloudpivot.ext.vo.PageResult;
-import com.authine.cloudpivot.ext.vo.TestVO;
+import com.authine.cloudpivot.ext.vo.*;
 import com.authine.cloudpivot.web.api.controller.base.BaseController;
 import com.authine.cloudpivot.web.api.handler.CustomizedOrigin;
 import com.authine.cloudpivot.web.api.view.ResponseResult;
@@ -112,6 +110,12 @@ public class VendorContractController extends BaseController {
             return getOkResponseResult(stringBuffer.toString(), "传入参数异常，编码生成失败");
         }
     }
-
+    @ApiOperation(value = "获取供应商客户合同代码", notes = "获取供应商客户合同代码，根据jobcode查询")
+    @PostMapping("/getVendoeContractCode")
+    public ResponseResult<List<SelectVO>> getVendorContractCodeList(@RequestBody QueryVendorContract queryVendorContract) {
+        log.info("|ClientContractController|getVendorContractCodeList|jobcode|"+queryVendorContract.getJobcode());
+        List<SelectVO> clientContractVOS = vendorContractService.getVendorContractCodeList(queryVendorContract);
+        return getOkResponseResult(clientContractVOS, "获取供应商客户合同代码列表成功");
+    }
 
 }

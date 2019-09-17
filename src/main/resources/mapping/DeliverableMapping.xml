@@ -240,9 +240,9 @@
             biz_workflow_instance instance
         LEFT JOIN biz_workitem_finished workitem ON instance.id = workitem.instanceId
         WHERE
-        workitem.activityCode='Activity5'
-        AND instance.bizObjectId = #{deliverableId}
+        instance.bizObjectId = #{deliverableId}
         AND workitem.participant = #{participant}
+        LIMIT 1
 
     </select>
 </mapper>

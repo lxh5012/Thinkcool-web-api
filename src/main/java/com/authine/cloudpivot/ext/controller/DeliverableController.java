@@ -392,12 +392,12 @@ public class DeliverableController extends BaseController {
    @ApiOperation(value = "获取激活节点信息",notes = "获取激活节点信息")
    @PostMapping("/getAtivateActivity")
    public ResponseResult<AtivateActivityVO>  getAtivateActivityInfo(@RequestBody QueryDeliverable queryDeliverable){
-      log.info("DeliverableController|getAtivateActivityInfo|");
       String userId = this.getUserId();
       if(StringUtils.isBlank(userId)){
          userId ="2c93208b6c9e0bc6016ca80e12071e1c";
       }
       queryDeliverable.setParticipant(userId);
+      log.info("DeliverableController|getAtivateActivityInfo|deliverableId|"+queryDeliverable.getDeliverableId()+"|userId|"+userId);
       AtivateActivityVO activityVO = deliverableService.getAtivateActivityInfo(queryDeliverable);
       if (Objects.isNull(activityVO)){
          return getErrResponseResult(null, -1L,"不存在要激活的节点信息");
