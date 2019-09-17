@@ -51,6 +51,9 @@ public class DeliverableVO {
     @ApiModelProperty("单位总成本")
     private BigDecimal sumUnitCost;
 
+    @ApiModelProperty("总成本(税前)")
+    private BigDecimal sumCost;
+
     @ApiModelProperty("供应商税")
     private BigDecimal venforTax;
 

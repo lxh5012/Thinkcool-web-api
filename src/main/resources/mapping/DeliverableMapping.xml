@@ -22,7 +22,7 @@
 
     </resultMap>
     <select id="getDeliverableList" resultType="com.authine.cloudpivot.ext.vo.DeliverableVO">
-        SELECT ROUND(SUM(ClientPrice),2) as sumClientPrice,ROUND(SUM(UnitCost),2) as sumUnitCost
+        SELECT ROUND(SUM(ClientPrice),2) as sumClientPrice,ROUND(SUM(UnitCost),2) as sumUnitCost,ROUND(SUM(Cost),2) as sumCost
         from i_deliverable
         where Jobcode=#{Jobcode}
     </select>
