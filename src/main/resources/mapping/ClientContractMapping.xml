@@ -87,7 +87,14 @@
 		</foreach>
 	</select>
 
+	<select id="getClientContractCodeList" resultType="com.authine.cloudpivot.ext.vo.SelectVO" parameterType="com.authine.cloudpivot.ext.queryVo.QueryClientContract">
+		select
+		    clientcontract.id id,
+			clientcontract.ClientContractCode name
+		from i_clientcontract clientcontract
+		where clientcontract.Jobcode =#{jobcode}
 
+	</select>
 
 
 </mapper>

@@ -56,7 +56,13 @@
 	</select>
 
 
-
+	<select id="getVendorContractCodeList" resultType="com.authine.cloudpivot.ext.vo.SelectVO" parameterType="com.authine.cloudpivot.ext.queryVo.QueryVendorContract">
+		SELECT
+		id,
+		VendorContractCode name
+		FROM i_vendorcontract
+		WHERE Jobcode=#{jobcode}
+	</select>
 
 
 
