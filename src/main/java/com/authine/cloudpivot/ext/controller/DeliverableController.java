@@ -52,6 +52,7 @@ public class DeliverableController extends BaseController {
          deliverableVO = new DeliverableVO();
          deliverableVO.setSumClientPrice( BigDecimal.ZERO);
          deliverableVO.setSumUnitCost( BigDecimal.ZERO);
+         deliverableVO.setSumCost( BigDecimal.ZERO);
       }
       return getOkResponseResult( deliverableVO,"获取成功");
    }
