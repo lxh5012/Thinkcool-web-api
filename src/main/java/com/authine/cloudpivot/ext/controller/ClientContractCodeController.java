@@ -33,8 +33,8 @@ public class ClientContractCodeController extends BaseController {
     private ClientContractCodeService clientContractCodeService;
 
     @ApiOperation(value = "生成JobCode编码", notes = "生成JobCode编码")
-    @GetMapping("/getJobCode")
-    public ResponseResult<String> getJobCode(@RequestBody TestVO testVO) {
+    @PostMapping("/getClientContractCode")
+    public ResponseResult<String> getClientContractCode(@RequestBody TestVO testVO) {
 
         StringBuffer stringBuffer = new StringBuffer();
         ClientContractCodeVO clientContractCodeVO3 = clientContractCodeService.getContractCode3();

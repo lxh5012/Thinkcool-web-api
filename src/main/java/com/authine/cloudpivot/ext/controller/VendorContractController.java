@@ -58,10 +58,10 @@ public class VendorContractController extends BaseController {
         List<ClientContractVO> list = clientContractMapper.getClientContractList(queryClientContract);
         for (int i = 0;i<list.size();i++){
             if (list.get(i).getClientContractStatus().contains("进行中 In progress")){
-                return getOkResponseResult(true, "客户合同还未结束");
+                return getOkResponseResult(false, "客户合同还未结束");
             }
         }
-        return getOkResponseResult(false, "客户合同已结束");
+        return getOkResponseResult(true, "客户合同已结束");
     }
 
 
