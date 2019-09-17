@@ -31,22 +31,29 @@ public class Test {
 
 
         Integer integer1 = 64;
-        DecimalFormat decimalFormat1 = new DecimalFormat("0");
+        DecimalFormat decimalFormat1 = new DecimalFormat("00000");
         String str1 = decimalFormat1.format(integer1);
+        System.out.println("str1的值为:::::::"+str1);
         String string1 = String.valueOf(str1);
+        System.out.println("string1的值为:::::::"+string1);
         int i1 = string1.length();
         String str11 = string1.substring(i1-1,i1);
 
-
-        DecimalFormat decimalFormat2 = new DecimalFormat("00");
-        String str2 = decimalFormat2.format(integer1);
+        Integer integer2 = 64;
+        DecimalFormat decimalFormat2 = new DecimalFormat("00000");
+        String str2 = decimalFormat2.format(integer2);
+        System.out.println("str2的值为:::::::"+str2);
         String string2 = String.valueOf(str2);
+        System.out.println("string2的值为:::::::"+string2);
         int i2 = string2.length();
-        String str22 = string1.substring(i2-2,i2);
+        String str22 = string2.substring(i2-2,i2);
 
-        DecimalFormat decimalFormat3 = new DecimalFormat("000");
-        String str3 = decimalFormat3.format(integer1);
+        Integer integer3 = 64;
+        DecimalFormat decimalFormat3 = new DecimalFormat("00000");
+        String str3 = decimalFormat3.format(integer3);
+        System.out.println("str3的值为:::::::"+str3);
         String string3 = String.valueOf(str3);
+        System.out.println("string3的值为:::::::"+string3);
         int i3 = string3.length();
         String str33 = string3.substring(i3-3,i3);
 
