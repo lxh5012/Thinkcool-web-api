@@ -51,15 +51,15 @@ public class VendorContractController extends BaseController {
 
     @ApiOperation(value = "根据供应商合同的jobcode 查询客户合同列表,并判断合同状态是否为已完成")
     @PostMapping("/getVendorContractStatus")
-    public ResponseResult<Boolean> getVendorContractStatus(@RequestBody QueryClientContract queryClientContract) {
+    public ResponseResult<String> getVendorContractStatus(@RequestBody QueryClientContract queryClientContract) {
 
         List<ClientContractVO> list = clientContractMapper.getClientContractList(queryClientContract);
         for (int i = 0;i<list.size();i++){
             if (list.get(i).getClientContractStatus().contains("进行中 In progress")){
-                return getOkResponseResult(false, "客户合同还未结束");
+                return getOkResponseResult("False", "客户合同还未结束");
             }
         }
-        return getOkResponseResult(true, "客户合同已结束");
+        return getOkResponseResult("True", "客户合同已结束");
     }
 
 
