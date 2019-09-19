@@ -53,7 +53,7 @@ public class VendorContractCodeController extends BaseController {
 
         try {
             if (StringUtils.isNotBlank(testVO.getJobCode()) && StringUtils.isNotBlank(testVO.getContractType())) {
-                if (testVO.getContractType().equals("客户补充合同")) {
+                if (testVO.getContractType().equals("供应商补充合同")) {
                     //获取ID,取ID的后一位,后两位数
                     VendorContractCodeVO vendorContractCodeVO1 = vendorContractCodeService.getContractCode1();
                     Integer integer1 = vendorContractCodeVO1.getId();
@@ -68,7 +68,7 @@ public class VendorContractCodeController extends BaseController {
                     stringBuffer.append(testVO.getJobCode());
                     stringBuffer.append("A");
                     stringBuffer.append(str11);
-                } else if (testVO.getContractType().equals("客户订单(适用于订单等同合同)")) {
+                } else if (testVO.getContractType().equals("供应商订单(适用于订单等同合同)")) {
                     //获取ID,取ID的后一位,后两位数
                     VendorContractCodeVO vendorContractCodeVO2 = vendorContractCodeService.getContractCode2();
                     Integer integer2 = vendorContractCodeVO2.getId();
